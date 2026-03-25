@@ -1,0 +1,68 @@
+{
+  "landing": {
+    "hero": {
+      "base": "Base",
+      "template": "Template",
+      "title": "El estándar para tu",
+      "titleHighlight": "Arquitectura Moderna",
+      "subtitle": "Una base de código diseñada para escalar, optimizada para rendimiento y enfocada en una experiencia de usuario fenomenal.",
+      "live": "v1.0 disponible"
+    },
+    "buttons": {
+      "getStarted": "Comenzar",
+      "github": "GitHub"
+    },
+    "cards": {
+      "dashboard": {
+        "title": "Panel",
+        "authorized": "Ir al Panel"
+      },
+      "settings": {
+        "signin": "Iniciar Sesión"
+      }
+    },
+    "auth": {
+      "loggedIn": "Sesión iniciada como {name}"
+    },
+    "features": {
+      "title": "Todo lo que necesitas",
+      "subtitle": "Herramientas modernas para construir aplicaciones excepcionales",
+      "performance": {
+        "title": "Rendimiento",
+        "desc": "Optimizado para velocidad con métricas Core Web Vitals excepcionales"
+      },
+      "auth": {
+        "title": "Autenticación",
+        "desc": "Sistema seguro con múltiples proveedores y gestión de sesiones"
+      },
+      "i18n": {
+        "title": "Internacionalización",
+        "desc": "Soporte multiidioma integrado para alcanzar usuarios globales"
+      },
+      "themes": {
+        "title": "Temas",
+        "desc": "Múltiples paletas de colores y modo claro/oscuro"
+      },
+      "typescript": {
+        "title": "TypeScript",
+        "desc": "Tipado estricto para mejor DX y menos errores"
+      },
+      "components": {
+        "title": "Componentes",
+        "desc": "UI accesible y reutilizable construida sobre Radix UI"
+      }
+    },
+    "techStack": {
+      "title": "Stack",
+      "subtitle": "Construido con tecnología moderna"
+    },
+    "cta": {
+      "title": "¿Listo para comenzar?",
+      "subtitle": "Clona el repositorio y empieza a construir en minutos.",
+      "docs": "Documentación"
+    },
+    "footer": {
+      "copyright": "© {year} Base Template"
+    }
+  }
+}

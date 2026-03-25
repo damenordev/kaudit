@@ -1,0 +1,8 @@
+import { z } from 'zod'
+
+export const [formName]Schema = z.object({
+  email: z.email('Invalid email address'),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+})
+
+export type T[FormName]Form = z.infer<typeof [formName]Schema>

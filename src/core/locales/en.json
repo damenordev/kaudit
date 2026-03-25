@@ -1,0 +1,34 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "dataTable": {
+      "noResultsTitle": "No results found",
+      "noResultsDescription": "Try adjusting your filters or search terms",
+      "rowsPerPage": "Rows per page",
+      "pageOf": "Page {current} of {total}",
+      "rowsSelected": "{selected} of {total} selected",
+      "reset": "Reset",
+      "tableView": "Table",
+      "gridView": "Grid",
+      "goToFirstPage": "Go to first page",
+      "goToPreviousPage": "Go to previous page",
+      "goToNextPage": "Go to next page",
+      "goToLastPage": "Go to last page"
+    }
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "signOut": "Sign out"
+  },
+  "metadata": {
+    "title": "Base Template",
+    "description": "Next.js base template with auth, i18n, and theme"
+  }
+}

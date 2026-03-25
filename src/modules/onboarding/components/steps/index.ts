@@ -1,0 +1,6 @@
+export { WelcomeStep, type IWelcomeStepProps } from './welcome-step'
+export { GeneralStep, type IGeneralStepProps } from './general-step'
+export { AppearanceStep, type IAppearanceStepProps } from './appearance-step'
+export { TypographyStep } from './typography-step'
+export { ProfileStep, type IProfileStepProps } from './profile-step'
+export { CompleteStep } from './complete-step'

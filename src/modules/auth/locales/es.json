@@ -1,0 +1,36 @@
+{
+  "auth": {
+    "brandName": "Base Template",
+    "signIn": {
+      "title": "Iniciar sesión",
+      "description": "Ingresa tus credenciales para continuar",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "signUpLink": "Regístrate",
+      "quote": "Construye aplicaciones increíbles más rápido con una base sólida y un diseño excepcional desde el primer día.",
+      "quoteAuthor": "El equipo de desarrollo"
+    },
+    "signUp": {
+      "title": "Crear cuenta",
+      "description": "Completa el formulario para registrarte",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "signInLink": "Inicia sesión",
+      "quote": "Una base de código diseñada para escalar, optimizada para rendimiento y enfocada en una experiencia de usuario fenomenal.",
+      "quoteAuthor": "El equipo de ingeniería"
+    },
+    "fields": {
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre"
+    },
+    "errors": {
+      "invalidCredentials": "Credenciales inválidas",
+      "emailTaken": "Email ya registrado",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    }
+  }
+}

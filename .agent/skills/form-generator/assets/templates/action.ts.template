@@ -1,0 +1,14 @@
+'use server'
+
+import { [formName]Schema, type T[FormName]Form } from '../schemas/[form-name].schema'
+import type { ActionResponse } from '@/core/form'
+
+export async function [formName]Action(data: T[FormName]Form): Promise<ActionResponse> {
+  try {
+    const validated = [formName]Schema.parse(data)
+
+    return { success: true }
+  } catch (error) {
+    return { success: false, error: 'An unexpected error occurred' }
+  }
+}

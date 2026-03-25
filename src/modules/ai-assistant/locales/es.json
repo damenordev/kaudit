@@ -1,0 +1,39 @@
+{
+  "aiAssistant": {
+    "title": "Asistente IA",
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar",
+    "hint": "Presiona Enter para enviar, Shift+Enter para nueva línea",
+    "welcome": "¿En qué puedo ayudarte hoy?",
+    "welcomeHint": "Soy tu asistente inteligente. Pregúntame lo que necesites, desde optimizar código hasta resolver dudas técnicas.",
+    "thinking": "Pensando...",
+    "loading": "Cargando...",
+    "openPanel": "Abrir Asistente IA",
+    "close": "Cerrar",
+    "actionsMenuLabel": "Abrir acciones de adjuntos",
+    "messageInputLabel": "Entrada del mensaje",
+    "search": "Buscar",
+    "searchModels": "Buscar modelos...",
+    "noModelsFound": "No se encontraron modelos.",
+    "suggestions": {
+      "s1": "¿Cuáles son las últimas tendencias en IA?",
+      "s2": "Explica cómo funciona el machine learning",
+      "s3": "Mejores prácticas para desarrollo React",
+      "s4": "Ayúdame a optimizar mi código"
+    },
+    "tools": {
+      "searchBooks": "Buscando libros",
+      "getReadingStats": "Obteniendo estadísticas",
+      "getBookRecommendation": "Obteniendo recomendaciones",
+      "noResult": "Sin resultados",
+      "more": "más",
+      "stats": {
+        "total": "Total de libros",
+        "owned": "En propiedad",
+        "reading": "Leyendo",
+        "finished": "Terminados",
+        "wishlist": "Lista de deseos"
+      }
+    }
+  }
+}

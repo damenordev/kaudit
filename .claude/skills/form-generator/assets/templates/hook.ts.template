@@ -1,0 +1,22 @@
+'use client'
+
+import { useForm } from '@/core/form'
+import { [formName]Action } from '../../services/[module].actions'
+import { [formName]Schema, type T[FormName]Form } from './[form-name].schema'
+
+export function use[FormName]Form() {
+  const form = useForm<T[FormName]Form>({
+    defaultValues: {
+      email: '',
+      name: '',
+    },
+    validators: {
+      onBlur: [formName]Schema,
+    },
+    onSubmit: async ({ value }) => {
+      return [formName]Action(value)
+    },
+  })
+
+  return { form }
+}

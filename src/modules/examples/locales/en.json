@@ -1,0 +1,33 @@
+{
+  "users": {
+    "pageTitle": "Users Example",
+    "pageDescription": "Users table with server-side pagination, nuqs filtering, and view toggle",
+    "search": "Search",
+    "searchPlaceholder": "Search by name, email or role...",
+    "table": {
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "createdAt": "Created"
+    },
+    "bulkActions": {
+      "export": "Export ({count})",
+      "delete": "Delete ({count})",
+      "exportSuccess": "{count} users exported successfully",
+      "deleteSuccess": "{count} users deleted successfully"
+    },
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "user": "User"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    }
+  }
+}

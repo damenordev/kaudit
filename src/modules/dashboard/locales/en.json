@@ -1,0 +1,81 @@
+{
+  "dashboard": {
+    "nav": {
+      "platform": "Platform",
+      "dashboard": "Dashboard",
+      "overview": "Overview",
+      "settings": "Settings",
+      "users": "Users",
+      "editor": "Editor Demo",
+      "kanban": "Kanban",
+      "aiChat": "AI Chat"
+    },
+    "breadcrumbs": {
+      "dashboard": "Dashboard",
+      "overview": "Overview",
+      "settings": "Settings",
+      "users": "Users"
+    },
+    "userMenu": {
+      "language": "Language",
+      "signOut": "Sign out"
+    },
+    "user": {
+      "fallbackName": "User"
+    },
+    "editor": {
+      "toolbar": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "strike": "Strikethrough",
+        "code": "Code",
+        "heading1": "Heading 1",
+        "heading2": "Heading 2",
+        "heading3": "Heading 3",
+        "bulletList": "Bullet List",
+        "orderedList": "Numbered List",
+        "blockquote": "Blockquote",
+        "codeBlock": "Code Block",
+        "horizontalRule": "Horizontal Rule",
+        "link": "Link",
+        "image": "Image",
+        "table": "Table",
+        "undo": "Undo",
+        "redo": "Redo",
+        "ariaLabel": "Editor toolbar"
+      },
+      "imageDialog": {
+        "title": "Insert Image",
+        "description": "Provide the image URL or upload a file.",
+        "urlLabel": "Image URL",
+        "urlPlaceholder": "https://...",
+        "cancel": "Cancel",
+        "insert": "Insert",
+        "uploadLabel": "or upload file"
+      },
+      "linkDialog": {
+        "title": "Add Link",
+        "description": "Provide the URL for the link.",
+        "urlLabel": "Link URL",
+        "urlPlaceholder": "https://...",
+        "cancel": "Cancel",
+        "apply": "Apply"
+      }
+    },
+    "overview": {
+      "title": "Dashboard",
+      "description": "Real-time system monitoring and critical metrics.",
+      "totalUsers": "Total Users",
+      "revenue": "Revenue",
+      "activeNodes": "Active Nodes",
+      "uptime": "Uptime",
+      "trafficAnalysis": "Traffic Analysis",
+      "trafficDescription": "Real-time throughput metrics",
+      "complianceScore": "Compliance Score",
+      "complianceDescription": "Security protocols validated. No critical incidents recorded.",
+      "securityLevel": "Security Level",
+      "infrastructureEvents": "Infrastructure Events",
+      "viewFullAudit": "View Full Audit"
+    }
+  }
+}

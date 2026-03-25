@@ -1,0 +1,21 @@
+'use client'
+
+import { use[FormName]Form } from './use-[form-name]'
+
+export function [FormName]Form() {
+  const { form } = use[FormName]Form()
+
+  return (
+    <form.AppForm>
+      <form.AppField name="email">
+        {(field) => <field.TextField label="Email" placeholder="Enter your email" />}
+      </form.AppField>
+
+      <form.AppField name="name">
+        {(field) => <field.TextField label="Name" placeholder="Enter your name" />}
+      </form.AppField>
+
+      <form.SubscribeButton>Submit</form.SubscribeButton>
+    </form.AppForm>
+  )
+}

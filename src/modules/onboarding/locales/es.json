@@ -1,0 +1,57 @@
+{
+  "onboarding": {
+    "welcome": {
+      "title": "¡Bienvenido!",
+      "description": "Vamos a configurar tu espacio de trabajo. Esto solo tomará un minuto y siempre podrás cambiar estas configuraciones más tarde.",
+      "getStarted": "Comenzar",
+      "takesMinutes": "Toma menos de 2 minutos"
+    },
+    "general": {
+      "title": "Configuración General",
+      "description": "Configura tus preferencias de idioma, zona horaria y formato de fecha.",
+      "language": "Idioma",
+      "languageDescription": "Selecciona tu idioma preferido para la interfaz",
+      "timezone": "Zona Horaria",
+      "timezoneDescription": "Establece tu zona horaria local para timestamps precisos",
+      "dateFormat": "Formato de Fecha",
+      "dateFormatDescription": "Elige cómo se muestran las fechas"
+    },
+    "appearance": {
+      "title": "Apariencia",
+      "description": "Personaliza el aspecto visual de tu espacio de trabajo.",
+      "theme": "Tema",
+      "themeDescription": "Elige entre tema claro, oscuro o del sistema",
+      "radius": "Radio de Bordes",
+      "radiusDescription": "Ajusta el redondeo de los elementos de la interfaz",
+      "sidebar": "Estilo del Sidebar",
+      "sidebarDescription": "Selecciona la apariencia preferida del sidebar",
+      "sidebarVariants": {
+        "sidebar": "Sidebar",
+        "inset": "Inset",
+        "floating": "Flotante"
+      }
+    },
+    "typography": {
+      "title": "Tipografía",
+      "description": "Selecciona tu estilo de fuente preferido para la interfaz.",
+      "font": "Familia de Fuente",
+      "fontDescription": "Elige la fuente que mejor se adapte a tu lectura"
+    },
+    "profile": {
+      "title": "Tu Perfil",
+      "description": "Cuéntanos un poco sobre ti. Siempre podrás actualizar esto más tarde.",
+      "yourInfo": "Información Personal",
+      "yourInfoDescription": "Actualiza tus datos personales"
+    },
+    "complete": {
+      "title": "¡Todo Listo!",
+      "description": "Tu espacio de trabajo ha sido configurado. Siempre podrás cambiar estas configuraciones desde la página de Ajustes.",
+      "goToDashboard": "Ir al Dashboard"
+    },
+    "navigation": {
+      "back": "Atrás",
+      "next": "Siguiente",
+      "skip": "Saltar"
+    }
+  }
+}

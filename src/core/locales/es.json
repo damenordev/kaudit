@@ -1,0 +1,34 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "dataTable": {
+      "noResultsTitle": "Sin resultados",
+      "noResultsDescription": "Intenta ajust los filtros o términos",
+      "rowsPerPage": "Filas por página",
+      "pageOf": "Página {current} de {total}",
+      "rowsSelected": "{selected} de {total} seleccionados",
+      "reset": "Restablecer",
+      "tableView": "Tabla",
+      "gridView": "Cuadrícul",
+      "goToFirstPage": "Ir a la primera página",
+      "goToPreviousPage": "Ir a la página anterior",
+      "goToNextPage": "Ir a la siguiente página",
+      "goToLastPage": "Ir a la última página"
+    }
+  },
+  "navigation": {
+    "dashboard": "Panel",
+    "settings": "Configuración",
+    "signOut": "Cerrar sesión"
+  },
+  "metadata": {
+    "title": "Base Template",
+    "description": "Plantilla base de Next.js con autenticación, i18n y temas"
+  }
+}

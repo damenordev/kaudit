@@ -1,0 +1,68 @@
+{
+  "landing": {
+    "hero": {
+      "base": "Base",
+      "template": "Template",
+      "title": "The standard for your",
+      "titleHighlight": "Modern Architecture",
+      "subtitle": "A codebase designed to scale, optimized for performance, and focused on a phenomenal user experience.",
+      "live": "v1.0 available"
+    },
+    "buttons": {
+      "getStarted": "Get Started",
+      "github": "GitHub"
+    },
+    "cards": {
+      "dashboard": {
+        "title": "Dashboard",
+        "authorized": "Go to Dashboard"
+      },
+      "settings": {
+        "signin": "Sign In"
+      }
+    },
+    "auth": {
+      "loggedIn": "Logged in as {name}"
+    },
+    "features": {
+      "title": "Everything you need",
+      "subtitle": "Modern tools to build exceptional applications",
+      "performance": {
+        "title": "Performance",
+        "desc": "Optimized for speed with exceptional Core Web Vitals metrics"
+      },
+      "auth": {
+        "title": "Authentication",
+        "desc": "Secure system with multiple providers and session management"
+      },
+      "i18n": {
+        "title": "Internationalization",
+        "desc": "Built-in multi-language support to reach global users"
+      },
+      "themes": {
+        "title": "Themes",
+        "desc": "Multiple color palettes and light/dark mode"
+      },
+      "typescript": {
+        "title": "TypeScript",
+        "desc": "Strict typing for better DX and fewer bugs"
+      },
+      "components": {
+        "title": "Components",
+        "desc": "Accessible, reusable UI built on Radix UI"
+      }
+    },
+    "techStack": {
+      "title": "Stack",
+      "subtitle": "Built with modern technology"
+    },
+    "cta": {
+      "title": "Ready to get started?",
+      "subtitle": "Clone the repository and start building in minutes.",
+      "docs": "Documentation"
+    },
+    "footer": {
+      "copyright": "© {year} Base Template"
+    }
+  }
+}

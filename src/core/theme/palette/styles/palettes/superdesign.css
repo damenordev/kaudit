@@ -1,0 +1,66 @@
+.superdesign {
+  /* Superdesign Theme - Deep Dark with Red Noir Accents */
+
+  /* Base */
+  --background: oklch(0.15 0.02 0); /* #050505 approx - extremely dark neutral */
+  --foreground: oklch(1 0 0); /* #FFFFFF */
+
+  /* Card */
+  --card: oklch(0.2 0 0); /* #111111 approx */
+  --card-foreground: oklch(1 0 0);
+
+  /* Primary - #FF4500 (Orange Red) */
+  /* OKLCH approx for #FF4500: L=0.64, C=0.22, H=36 */
+  --primary: oklch(0.64 0.22 36);
+  --primary-foreground: oklch(0 0 0); /* Black text on bright red/orange */
+
+  /* Secondary */
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(1 0 0);
+
+  /* Muted */
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.7 0 0); /* #A1A1AA approx */
+
+  /* Accent */
+  --accent: oklch(0.25 0 0);
+  --accent-foreground: oklch(1 0 0);
+
+  /* Destructive */
+  --destructive: oklch(0.4 0.15 25);
+  --destructive-foreground: oklch(1 0 0);
+
+  /* Border & Input */
+  --border: oklch(0.3 0 0); /* White/20 approx */
+  --input: oklch(0.3 0 0);
+  --ring: oklch(0.64 0.22 36); /* Match primary */
+
+  /* Charts - Keeping standard dark mode charts or customizing if needed */
+  --chart-1: oklch(0.64 0.22 36); /* Primary Red */
+  --chart-2: oklch(0.9 0 0); /* White */
+  --chart-3: oklch(0.5 0 0); /* Grey */
+  --chart-4: oklch(0.7 0.1 36);
+  --chart-5: oklch(0.8 0.1 36);
+}
+
+.superdesign-dark {
+  /* Inherits same values as .superdesign since it is inherently dark */
+  /* Redefining vars here ensures it works if class is applied directly */
+  --background: oklch(0.15 0.02 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.2 0 0);
+  --card-foreground: oklch(1 0 0);
+  --primary: oklch(0.64 0.22 36);
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.25 0 0);
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.4 0.15 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.3 0 0);
+  --input: oklch(0.3 0 0);
+  --ring: oklch(0.64 0.22 36);
+}

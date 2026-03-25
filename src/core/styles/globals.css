@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@source "../../../node_modules/streamdown/dist/*.js";
+@source "../../../node_modules/@streamdown/**/*.js";
+
+/* Theme palettes */
+@import '../theme/palette/styles/base.css';
+@import '../theme/palette/styles/palettes/amethyst.css';
+@import '../theme/palette/styles/palettes/canvas.css';
+@import '../theme/palette/styles/palettes/citrus.css';
+@import '../theme/palette/styles/palettes/forest.css';
+@import '../theme/palette/styles/palettes/santa-fe.css';
+@import '../theme/palette/styles/palettes/spooky.css';
+@import '../theme/palette/styles/palettes/underground.css';
+@import '../theme/palette/styles/palettes/superdesign.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Scrollbar Styles */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: var(--muted-foreground);
+    background-clip: padding-box;
+    border: 1px solid transparent;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary);
+  }
+}
+
+/* Landing page animations */
+@keyframes gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}
