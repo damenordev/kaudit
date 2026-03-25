@@ -7,7 +7,7 @@ export async function getSidebarState() {
 
   const variantCookie = cookieStore.get(SIDEBAR_VARIANT_COOKIE_NAME)?.value
   const defaultVariant = (
-    variantCookie && ['inset', 'sidebar', 'floating'].includes(variantCookie) ? variantCookie : 'sidebar'
+    variantCookie && ['inset', 'sidebar', 'floating'].includes(variantCookie) ? variantCookie : 'inset'
   ) as TSidebarVariant
 
   return { defaultOpen, defaultVariant }

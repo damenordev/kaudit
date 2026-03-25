@@ -15,7 +15,7 @@ export const ALL_PALETTES = [...DASHBOARD_PALETTES, ...PUBLIC_PALETTES] as const
 
 /** Base palette name (no -dark suffix). */
 export type TThemePaletteBase = (typeof ALL_PALETTES)[number]
-export const DEFAULT_THEME_PALETTE: TThemePaletteBase = 'citrus'
+export const DEFAULT_THEME_PALETTE: TThemePalette = 'citrus-dark'
 export const PALETTE_COOKIE_NAME = 'theme-palette'
 
 /** Full theme class names (base + base-dark for each palette). */
