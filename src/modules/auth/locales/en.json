@@ -1,36 +1,36 @@
 {
   "auth": {
-    "brandName": "Base Template",
+    "brandName": "KAudit",
     "signIn": {
-      "title": "Sign In",
-      "description": "Enter your credentials to continue",
-      "submit": "Sign In",
-      "noAccount": "Don't have an account?",
-      "signUpLink": "Sign up",
-      "quote": "Build incredible applications faster with a solid foundation and exceptional design from day one.",
-      "quoteAuthor": "The development team"
+      "title": "System Access",
+      "description": "Authenticate to initiate neural audit sessions.",
+      "submit": "Initialize Sequence",
+      "noAccount": "No credentials?",
+      "signUpLink": "Request Access",
+      "quote": "Audit GitHub repositories in seconds using advanced artificial intelligence. The new era of static analysis.",
+      "quoteAuthor": "KAudit Core"
     },
     "signUp": {
-      "title": "Create Account",
-      "description": "Complete the form to register",
-      "submit": "Create Account",
-      "hasAccount": "Already have an account?",
-      "signInLink": "Sign in",
-      "quote": "A codebase designed to scale, optimized for performance, and focused on a phenomenal user experience.",
-      "quoteAuthor": "The engineering team"
+      "title": "Agent Registration",
+      "description": "Establish your credentials for the KAudit platform.",
+      "submit": "Initialize Profile",
+      "hasAccount": "Protocol active?",
+      "signInLink": "Access",
+      "quote": "Join the neural network. Discover vulnerabilities, optimize architecture, and secure your code before deployment.",
+      "quoteAuthor": "KAudit Core"
     },
     "fields": {
-      "email": "Email",
-      "emailPlaceholder": "you@email.com",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "name": "Name",
-      "namePlaceholder": "Your name"
+      "email": "Identifier (Email)",
+      "emailPlaceholder": "agent@kaudit.dev",
+      "password": "Access Key",
+      "confirmPassword": "Verify Key",
+      "name": "Designation (Name)",
+      "namePlaceholder": "Your name or alias"
     },
     "errors": {
-      "invalidCredentials": "Invalid credentials",
-      "emailTaken": "Email already registered",
-      "passwordMismatch": "Passwords do not match"
+      "invalidCredentials": "Authentication failure",
+      "emailTaken": "Identifier in use",
+      "passwordMismatch": "Signature mismatch"
     }
   }
 }
