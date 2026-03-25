@@ -2,14 +2,14 @@ import { type Column } from '@tanstack/react-table'
 import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, EyeOffIcon } from 'lucide-react'
 
 import { cn } from '@/core/utils/cn.utils'
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/core/ui/overlays/dropdown-menu'
+} from '@/core/ui/dropdown-menu'
 
 import type { IDataTableTranslations } from './data-table.types'
 

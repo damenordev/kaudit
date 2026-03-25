@@ -2,7 +2,7 @@
 
 import type { HTMLAttributes, ReactNode } from 'react'
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useMemo, useState } from 'react'

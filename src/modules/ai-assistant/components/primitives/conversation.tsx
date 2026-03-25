@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import { cn } from '@/core/utils/cn.utils'
 import { ArrowDownIcon, DownloadIcon } from 'lucide-react'
 import { useCallback } from 'react'

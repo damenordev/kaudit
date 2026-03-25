@@ -3,8 +3,8 @@
 import type { Tool } from 'ai'
 import type { ComponentProps } from 'react'
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/core/ui/utilities/accordion'
-import { Badge } from '@/core/ui/primitives/badge'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/core/ui/accordion'
+import { Badge } from '@/core/ui/badge'
 import { cn } from '@/core/utils/cn.utils'
 import { BotIcon } from 'lucide-react'
 import { memo } from 'react'

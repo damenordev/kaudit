@@ -3,8 +3,8 @@
 import type { ComponentProps } from 'react'
 
 import { useControllableState } from '@radix-ui/react-use-controllable-state'
-import { Button } from '@/core/ui/primitives/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Button } from '@/core/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { AlertTriangleIcon, CheckIcon, ChevronDownIcon, CopyIcon } from 'lucide-react'
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'

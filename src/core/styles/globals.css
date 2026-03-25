@@ -6,15 +6,14 @@
 @source "../../../node_modules/@streamdown/**/*.js";
 
 /* Theme palettes */
-@import '../theme/palette/styles/base.css';
-@import '../theme/palette/styles/palettes/amethyst.css';
-@import '../theme/palette/styles/palettes/canvas.css';
-@import '../theme/palette/styles/palettes/citrus.css';
-@import '../theme/palette/styles/palettes/forest.css';
-@import '../theme/palette/styles/palettes/santa-fe.css';
-@import '../theme/palette/styles/palettes/spooky.css';
-@import '../theme/palette/styles/palettes/underground.css';
-@import '../theme/palette/styles/palettes/superdesign.css';
+@import './theme/base.css';
+@import './theme/palettes/amethyst.css';
+@import './theme/palettes/canvas.css';
+@import './theme/palettes/citrus.css';
+@import './theme/palettes/forest.css';
+@import './theme/palettes/santa-fe.css';
+@import './theme/palettes/spooky.css';
+@import './theme/palettes/underground.css';
 
 @custom-variant dark (&:is(.dark *));
 

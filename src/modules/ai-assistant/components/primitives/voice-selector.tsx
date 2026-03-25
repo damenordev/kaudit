@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from 'react'
 
 import { useControllableState } from '@radix-ui/react-use-controllable-state'
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import {
   Command,
   CommandDialog,
@@ -14,9 +14,9 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@/core/ui/primitives/command'
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/core/ui/overlays/dialog'
-import { Spinner } from '@/core/ui/primitives/spinner'
+} from '@/core/ui/command'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/core/ui/dialog'
+import { Spinner } from '@/core/ui/spinner'
 import { cn } from '@/core/utils/cn.utils'
 import {
   CircleSmallIcon,

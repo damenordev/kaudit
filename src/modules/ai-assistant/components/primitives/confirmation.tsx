@@ -3,8 +3,8 @@
 import type { ToolUIPart } from 'ai'
 import type { ComponentProps, ReactNode } from 'react'
 
-import { Alert, AlertDescription } from '@/core/ui/feedback/alert'
-import { Button } from '@/core/ui/primitives/button'
+import { Alert, AlertDescription } from '@/core/ui/alert'
+import { Button } from '@/core/ui/button'
 import { cn } from '@/core/utils/cn.utils'
 import { createContext, useContext } from 'react'
 

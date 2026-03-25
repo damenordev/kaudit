@@ -2,7 +2,7 @@
 
 import type { HTMLAttributes } from 'react'
 
-import { Badge } from '@/core/ui/primitives/badge'
+import { Badge } from '@/core/ui/badge'
 import { cn } from '@/core/utils/cn.utils'
 import { ArrowRightIcon, MinusIcon, PackageIcon, PlusIcon } from 'lucide-react'
 import { createContext, useContext } from 'react'

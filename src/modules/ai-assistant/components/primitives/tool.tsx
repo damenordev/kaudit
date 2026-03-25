@@ -3,8 +3,8 @@
 import type { DynamicToolUIPart, ToolUIPart } from 'ai'
 import type { ComponentProps, ReactNode } from 'react'
 
-import { Badge } from '@/core/ui/primitives/badge'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Badge } from '@/core/ui/badge'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { CheckCircleIcon, ChevronDownIcon, CircleIcon, ClockIcon, WrenchIcon, XCircleIcon } from 'lucide-react'
 import { isValidElement } from 'react'

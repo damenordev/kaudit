@@ -4,8 +4,8 @@ import type { Cell, Header, HeaderGroup, Row } from '@tanstack/react-table'
 import { flexRender } from '@tanstack/react-table'
 import { XIcon } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/core/ui/data-display/table'
+import { Button } from '@/core/ui/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/core/ui/table'
 
 import type { IDataTableProps } from './data-table.types'
 import { DataTableToolbar } from './data-table-toolbar'

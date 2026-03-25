@@ -1,11 +1,11 @@
 'use client'
 
-import type { CarouselApi } from '@/core/ui/primitives/carousel'
+import type { CarouselApi } from '@/core/ui/carousel'
 import type { ComponentProps } from 'react'
 
-import { Badge } from '@/core/ui/primitives/badge'
-import { Carousel, CarouselContent, CarouselItem } from '@/core/ui/primitives/carousel'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/primitives/hover-card'
+import { Badge } from '@/core/ui/badge'
+import { Carousel, CarouselContent, CarouselItem } from '@/core/ui/carousel'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/hover-card'
 import { cn } from '@/core/utils/cn.utils'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'

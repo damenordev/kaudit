@@ -4,7 +4,7 @@
  * @module utils/date/format-date
  */
 
-import { defaultLocale, type TLocale } from '@/core/i18n'
+import { defaultLocale, type TLocale } from '@/core/lib/i18n'
 
 /**
  * Pre-configured date formatters for each locale.

@@ -6,7 +6,7 @@ import { parseAsInteger, parseAsString, useQueryState } from 'nuqs'
 import { DownloadIcon, Trash2Icon } from 'lucide-react'
 
 import { DataTable, type IDataTableFilterConfig, type IDataTableTranslations } from '@/core/ui/data-table'
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 
 import { columns } from './columns'
 import { UserCard } from './user-card'

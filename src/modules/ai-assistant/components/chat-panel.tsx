@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { MessageSquare, X } from 'lucide-react'
 import { cn } from '@/core/utils/cn.utils'
-import { Button } from '@/core/ui/primitives/button'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/core/ui/overlays/sheet'
+import { Button } from '@/core/ui/button'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/core/ui/sheet'
 
 import { ChatView } from './chat-view'
 

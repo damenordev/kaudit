@@ -2,13 +2,7 @@
 
 import type { ComponentProps } from 'react'
 
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-  InputGroupText,
-} from '@/core/ui/primitives/input-group'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from '@/core/ui/input-group'
 import { cn } from '@/core/utils/cn.utils'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'

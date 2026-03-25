@@ -1,5 +1,5 @@
-import { Badge } from '@/core/ui/primitives/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/core/ui/primitives/card'
+import { Badge } from '@/core/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/core/ui/card'
 import { type IUser } from '../../types/user.types'
 
 export interface IUserCardProps {

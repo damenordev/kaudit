@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/core/ui/overlays/dropdown-menu'
+} from '@/core/ui/dropdown-menu'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronDownIcon, ExternalLinkIcon, MessageCircleIcon } from 'lucide-react'
 import { createContext, useContext } from 'react'

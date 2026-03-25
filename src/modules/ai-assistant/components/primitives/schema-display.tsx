@@ -2,8 +2,8 @@
 
 import type { ComponentProps, HTMLAttributes } from 'react'
 
-import { Badge } from '@/core/ui/primitives/badge'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Badge } from '@/core/ui/badge'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronRightIcon } from 'lucide-react'
 import { createContext, useContext, useMemo } from 'react'

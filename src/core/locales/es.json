@@ -30,5 +30,245 @@
   "metadata": {
     "title": "Base Template",
     "description": "Plantilla base de Next.js con autenticación, i18n y temas"
+  },
+  "settings": {
+    "tabs": {
+      "general": "General",
+      "appearance": "Apariencia",
+      "typography": "Tipografia",
+      "profile": "Perfil"
+    },
+    "general": {
+      "title": "Idioma",
+      "description": "Idioma de la aplicacion",
+      "timezone": "Zona Horaria",
+      "timezoneDescription": "Establece tu zona horaria local",
+      "dateFormat": "Formato de Fecha",
+      "dateFormatDescription": "Como se muestran las fechas",
+      "dateFormats": {
+        "PP": { "label": "Estandar", "description": "Formato localizado con texto" },
+        "dd/MM/yyyy": { "label": "Europeo", "description": "Dia / Mes / Ano" },
+        "MM/dd/yyyy": { "label": "Americano", "description": "Mes / Dia / Ano" },
+        "yyyy-MM-dd": { "label": "ISO", "description": "Ano - Mes - Dia" }
+      }
+    },
+    "appearance": {
+      "title": "Tema y Colores",
+      "description": "Paleta de colores e identidad visual",
+      "mode": {
+        "title": "Modo",
+        "light": "Claro",
+        "dark": "Oscuro"
+      },
+      "accent": "Acento Visual",
+      "themeLabels": {
+        "amethyst": "Amatista",
+        "canvas": "Lienzo",
+        "citrus": "Citrico",
+        "forest": "Bosque",
+        "santa-fe": "Santa Fe",
+        "spooky": "Spooky",
+        "underground": "Underground"
+      },
+      "radius": "Geometria",
+      "radiusDescription": "Redondeo y forma de los elementos",
+      "radiusGroups": {
+        "none": { "label": "Cuadrado", "description": "0px" },
+        "sm": { "label": "Sutil", "description": "4px" },
+        "md": { "label": "Estandar", "description": "8px" },
+        "lg": { "label": "Redondeado", "description": "12px" },
+        "xl": { "label": "Suave", "description": "16px" }
+      },
+      "layout": {
+        "title": "Navegacion",
+        "description": "Configura la estructura del panel lateral",
+        "variants": {
+          "sidebar": "Clasico",
+          "inset": "Inset",
+          "floating": "Flotante"
+        }
+      }
+    },
+    "typography": {
+      "title": "Tipografia",
+      "description": "Elige la fuente de la aplicacion",
+      "fonts": {
+        "modern": { "label": "Moderno", "description": "Inter / Lora / Geist Mono" },
+        "technical": { "label": "Tecnico", "description": "Geist Sans / Lora / Geist Mono" },
+        "elegant": { "label": "Elegante", "description": "Lora / Lora / Geist Mono" },
+        "soft": { "label": "Suave", "description": "Outfit / Lora / Geist Mono" }
+      }
+    },
+    "profile": {
+      "avatar": {
+        "title": "Foto de Perfil",
+        "description": "Actualiza tu foto de perfil",
+        "formats": "JPG, PNG o WebP",
+        "maxSize": "Max 2MB",
+        "success": "Avatar actualizado correctamente",
+        "error": "Error al subir el avatar"
+      },
+      "personal": {
+        "title": "Informacion Personal",
+        "description": "Tus datos basicos de perfil",
+        "fields": {
+          "name": "Nombre Completo",
+          "bio": "Biografia",
+          "bioDescription": "Una breve descripcion sobre ti",
+          "phone": "Telefono",
+          "location": "Ubicacion"
+        },
+        "success": "Perfil actualizado correctamente",
+        "error": "Error al actualizar el perfil",
+        "save": "Guardar Cambios"
+      },
+      "social": {
+        "title": "Redes Sociales",
+        "description": "Conecta tus perfiles sociales",
+        "fields": {
+          "twitter": "Twitter / X",
+          "linkedin": "LinkedIn",
+          "github": "GitHub",
+          "website": "Sitio Web"
+        },
+        "success": "Redes sociales actualizadas",
+        "error": "Error al actualizar redes sociales",
+        "save": "Guardar Enlaces"
+      },
+      "notifications": {
+        "title": "Preferencias de Notificacion",
+        "description": "Elige como quieres ser notificado",
+        "fields": {
+          "emailNotifications": "Notificaciones por Email",
+          "emailNotificationsDesc": "Recibir notificaciones por correo",
+          "pushNotifications": "Notificaciones Push",
+          "pushNotificationsDesc": "Recibir notificaciones push en el navegador",
+          "marketingEmails": "Emails de Marketing",
+          "marketingEmailsDesc": "Recibir noticias y contenido promocional"
+        },
+        "success": "Preferencias actualizadas",
+        "error": "Error al actualizar preferencias",
+        "save": "Guardar Preferencias"
+      },
+      "privacy": {
+        "title": "Configuracion de Privacidad",
+        "description": "Controla la visibilidad de tu perfil",
+        "fields": {
+          "profileVisibility": "Visibilidad del Perfil",
+          "visibilityPublic": "Publico",
+          "visibilityPrivate": "Privado",
+          "visibilityContacts": "Solo Contactos",
+          "showEmail": "Mostrar email en el perfil",
+          "showPhone": "Mostrar telefono en el perfil"
+        },
+        "success": "Configuracion de privacidad actualizada",
+        "error": "Error al actualizar privacidad",
+        "save": "Guardar Configuracion"
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "Gestiona la seguridad de tu cuenta",
+        "changePassword": {
+          "currentPassword": "Contrasena Actual",
+          "newPassword": "Nueva Contrasena",
+          "confirmPassword": "Confirmar Nueva Contrasena",
+          "submit": "Actualizar Contrasena",
+          "success": "Contrasena cambiada correctamente",
+          "error": "Error al cambiar la contrasena"
+        }
+      },
+      "danger": {
+        "title": "Zona de Peligro",
+        "description": "Acciones irreversibles y destructivas",
+        "deleteAccount": {
+          "trigger": "Eliminar Cuenta",
+          "confirmTitle": "Estas absolutamente seguro?",
+          "confirmDescription": "Esta accion no se puede deshacer. Esto eliminara permanentemente tu cuenta y borrara tus datos de nuestros servidores.",
+          "confirmLabel": "Escribe 'DELETE' para confirmar",
+          "cancel": "Cancelar",
+          "confirm": "Eliminar Cuenta",
+          "error": "Error al eliminar la cuenta"
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "platform": "Plataforma",
+      "dashboard": "Panel",
+      "overview": "Resumen",
+      "settings": "Configuración",
+      "users": "Usuarios",
+      "editor": "Demo Editor",
+      "kanban": "Kanban",
+      "aiChat": "Chat IA"
+    },
+    "breadcrumbs": {
+      "dashboard": "Panel",
+      "overview": "Resumen",
+      "settings": "Configuración",
+      "users": "Usuarios"
+    },
+    "userMenu": {
+      "language": "Idioma",
+      "signOut": "Cerrar sesión"
+    },
+    "user": {
+      "fallbackName": "Usuario"
+    },
+    "editor": {
+      "toolbar": {
+        "bold": "Negrita",
+        "italic": "Cursiva",
+        "strike": "Tachado",
+        "code": "Código",
+        "heading1": "Título 1",
+        "heading2": "Título 2",
+        "heading3": "Título 3",
+        "bulletList": "Lista de viñetas",
+        "orderedList": "Lista numerada",
+        "blockquote": "Cita",
+        "codeBlock": "Bloque de código",
+        "horizontalRule": "Línea horizontal",
+        "link": "Enlace",
+        "image": "Imagen",
+        "table": "Tabla",
+        "undo": "Deshacer",
+        "redo": "Rehacer",
+        "ariaLabel": "Barra de herramientas del editor"
+      },
+      "imageDialog": {
+        "title": "Insertar Imagen",
+        "description": "Especifica la URL de la imagen o sube un archivo.",
+        "urlLabel": "URL de la imagen",
+        "urlPlaceholder": "https://...",
+        "cancel": "Cancelar",
+        "insert": "Insertar",
+        "uploadLabel": "o subir archivo"
+      },
+      "linkDialog": {
+        "title": "Añadir Enlace",
+        "description": "Especifica la URL para el enlace.",
+        "urlLabel": "URL del enlace",
+        "urlPlaceholder": "https://...",
+        "cancel": "Cancelar",
+        "apply": "Aplicar"
+      }
+    },
+    "overview": {
+      "title": "Panel de Control",
+      "description": "Monitorización de sistemas y métricas críticas en tiempo real.",
+      "totalUsers": "Total Usuarios",
+      "revenue": "Ingresos",
+      "activeNodes": "Nodos Activos",
+      "uptime": "Tiempo de Actividad",
+      "trafficAnalysis": "Análisis de Tráfico",
+      "trafficDescription": "Métricas de rendimiento en tiempo real",
+      "complianceScore": "Puntuación de Cumplimiento",
+      "complianceDescription": "Protocolos de seguridad validados. Sin incidencias críticas registradas.",
+      "securityLevel": "Nivel de Seguridad",
+      "infrastructureEvents": "Eventos de Infraestructura",
+      "viewFullAudit": "Ver Auditoría Completa"
+    }
   }
 }

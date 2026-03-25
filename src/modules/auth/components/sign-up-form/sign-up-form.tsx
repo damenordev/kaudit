@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { FormSubscribeButton } from '@/core/form'
+import { FormSubscribeButton } from '@/core/ui/form'
 import { useSignUpForm } from './use-sign-up-form'
 
 export function SignUpForm() {

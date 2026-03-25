@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { boolean, text, timestamp } from 'drizzle-orm/pg-core'
 
-import { createTable } from '@/core/db'
+import { createTable } from '@/core/lib/db'
 
 export const user = createTable('user', {
   id: text('id').primaryKey(),

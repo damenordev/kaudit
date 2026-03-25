@@ -1,6 +1,6 @@
 import type { Table } from '@tanstack/react-table'
 
-import { Input } from '@/core/ui/primitives/input'
+import { Input } from '@/core/ui/input'
 
 import type { IDataTableFilterConfig, IDataTableTranslations } from '../data-table.types'
 import { DataTableFacetedFilter } from '../data-table-faceted-filter'

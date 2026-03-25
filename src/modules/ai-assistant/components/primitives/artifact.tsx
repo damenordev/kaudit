@@ -3,8 +3,8 @@
 import type { LucideIcon } from 'lucide-react'
 import type { ComponentProps, HTMLAttributes } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/overlays/tooltip'
+import { Button } from '@/core/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/tooltip'
 import { cn } from '@/core/utils/cn.utils'
 import { XIcon } from 'lucide-react'
 

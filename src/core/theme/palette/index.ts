@@ -1,6 +1,0 @@
-export * from './palette.config'
-export * from './utils'
-export * from './components/palette-provider'
-export * from './components/palette-switcher'
-export * from './components/palette-card'
-export * from './components/theme-mode-toggle'

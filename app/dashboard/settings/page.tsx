@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server'
 
-import { SettingsView } from '@/core/settings'
+import { SettingsView } from '@/core/components/settings'
 
 export default async function SettingsPage() {
   const t = await getTranslations('dashboard.nav')

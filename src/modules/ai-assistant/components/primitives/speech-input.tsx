@@ -2,8 +2,8 @@
 
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Spinner } from '@/core/ui/primitives/spinner'
+import { Button } from '@/core/ui/button'
+import { Spinner } from '@/core/ui/spinner'
 import { cn } from '@/core/utils/cn.utils'
 import { MicIcon, SquareIcon } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'

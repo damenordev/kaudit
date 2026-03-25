@@ -2,9 +2,9 @@
 
 import type { ComponentProps, HTMLAttributes } from 'react'
 
-import { Badge } from '@/core/ui/primitives/badge'
-import { Button } from '@/core/ui/primitives/button'
-import { Switch } from '@/core/ui/primitives/switch'
+import { Badge } from '@/core/ui/badge'
+import { Button } from '@/core/ui/button'
+import { Switch } from '@/core/ui/switch'
 import { cn } from '@/core/utils/cn.utils'
 import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'

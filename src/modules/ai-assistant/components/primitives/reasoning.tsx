@@ -3,7 +3,7 @@
 import type { ComponentProps, ReactNode } from 'react'
 
 import { useControllableState } from '@radix-ui/react-use-controllable-state'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { cjk } from '@streamdown/cjk'
 import { code } from '@streamdown/code'
@@ -184,7 +184,7 @@ export const ReasoningContent = memo(({ className, children, ...props }: Reasoni
     )}
     {...props}
   >
-    <Streamdown plugins={streamdownPlugins} {...props}>
+    <Streamdown plugins={streamdownPlugins}>
       {children}
     </Streamdown>
   </CollapsibleContent>

@@ -2,7 +2,7 @@ import './src/env.js'
 import createNextIntlPlugin from 'next-intl/plugin'
 import { withSentryConfig } from '@sentry/nextjs'
 
-const withNextIntl = createNextIntlPlugin('./src/core/i18n/i18n.request.ts')
+const withNextIntl = createNextIntlPlugin('./src/core/lib/i18n/i18n.request.ts')
 
 /** @type {import("next").NextConfig} */
 const config = {

@@ -1,5 +1,0 @@
-export * from './app-theme-provider'
-export * from './font'
-export * from './palette'
-export * from './radius'
-export * from './types'

@@ -2,7 +2,7 @@
 
 import type { ComponentProps, HTMLAttributes } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import { cn } from '@/core/utils/cn.utils'
 import Ansi from 'ansi-to-react'
 import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from 'lucide-react'

@@ -2,9 +2,9 @@
 
 import type { ComponentProps, HTMLAttributes } from 'react'
 
-import { Avatar, AvatarFallback } from '@/core/ui/primitives/avatar'
-import { Button } from '@/core/ui/primitives/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Avatar, AvatarFallback } from '@/core/ui/avatar'
+import { Button } from '@/core/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { CheckIcon, CopyIcon, FileIcon, GitCommitIcon, MinusIcon, PlusIcon } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'

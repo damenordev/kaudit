@@ -3,8 +3,8 @@
 import type { ComponentProps, CSSProperties, HTMLAttributes } from 'react'
 import type { BundledLanguage, BundledTheme, HighlighterGeneric, ThemedToken } from 'shiki'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/forms/select'
+import { Button } from '@/core/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/select'
 import { cn } from '@/core/utils/cn.utils'
 import { CheckIcon, CopyIcon } from 'lucide-react'
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'

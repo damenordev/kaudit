@@ -11,9 +11,9 @@ import {
   KanbanItem,
   KanbanItemDragHandle,
   KanbanOverlay,
-} from '@/core/kanban'
+} from '@/core/ui/kanban'
 
-import { Badge } from '@/core/ui/primitives/badge'
+import { Badge } from '@/core/ui/badge'
 import { cn } from '@/core/utils/cn.utils'
 import { Button } from '@/core/ui'
 import { GripVertical, Trash2 } from 'lucide-react'

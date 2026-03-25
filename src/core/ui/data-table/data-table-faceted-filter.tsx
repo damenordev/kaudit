@@ -2,8 +2,8 @@ import { type Column } from '@tanstack/react-table'
 import { CheckIcon, PlusCircleIcon } from 'lucide-react'
 
 import { cn } from '@/core/utils/cn.utils'
-import { Badge } from '@/core/ui/primitives/badge'
-import { Button } from '@/core/ui/primitives/button'
+import { Badge } from '@/core/ui/badge'
+import { Button } from '@/core/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -12,9 +12,9 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/core/ui/primitives/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/overlays/popover'
-import { Separator } from '@/core/ui/primitives/separator'
+} from '@/core/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/popover'
+import { Separator } from '@/core/ui/separator'
 
 import type { IDataTableFilterOption, IDataTableTranslations } from './data-table.types'
 

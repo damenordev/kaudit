@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/core/ui/primitives/card'
-import { Badge } from '@/core/ui/primitives/badge'
-import { Avatar, AvatarFallback } from '@/core/ui/primitives/avatar'
-import { Separator } from '@/core/ui/primitives/separator'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/core/ui/card'
+import { Badge } from '@/core/ui/badge'
+import { Avatar, AvatarFallback } from '@/core/ui/avatar'
+import { Separator } from '@/core/ui/separator'
 import { Users, Activity, CheckCircle2, Zap, Clock, TrendingUp, Cpu, LayoutGrid, ArrowUpRight } from 'lucide-react'
 import { cn } from '@/core/utils/cn.utils'
 

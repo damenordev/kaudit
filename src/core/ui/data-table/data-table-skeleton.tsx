@@ -1,4 +1,4 @@
-import { Skeleton } from '@/core/ui/primitives/skeleton'
+import { Skeleton } from '@/core/ui/skeleton'
 
 export interface IDataTableSkeletonProps {
   /** Número de filas skeleton a mostrar. @default 5 */

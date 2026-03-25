@@ -4,7 +4,7 @@
  * @module utils/date/format-relative-date
  */
 
-import { defaultLocale, type TLocale } from '@/core/i18n'
+import { defaultLocale, type TLocale } from '@/core/lib/i18n'
 
 /**
  * Relative time formatters for each locale.

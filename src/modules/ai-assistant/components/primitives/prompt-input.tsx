@@ -23,18 +23,13 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/core/ui/primitives/command'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/core/ui/overlays/dropdown-menu'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/primitives/hover-card'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/core/ui/primitives/input-group'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/forms/select'
-import { Spinner } from '@/core/ui/primitives/spinner'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/core/ui/overlays/tooltip'
+} from '@/core/ui/command'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/core/ui/dropdown-menu'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/hover-card'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@/core/ui/input-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/select'
+import { Spinner } from '@/core/ui/spinner'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/core/ui/tooltip'
 import { cn } from '@/core/utils/cn.utils'
 import { CornerDownLeftIcon, ImageIcon, PlusIcon, SquareIcon, XIcon } from 'lucide-react'
 import { nanoid } from 'nanoid'

@@ -1,8 +1,8 @@
 import { LayoutGridIcon, TableIcon } from 'lucide-react'
 
 import { cn } from '@/core/utils/cn.utils'
-import { Button } from '@/core/ui/primitives/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/core/ui/overlays/tooltip'
+import { Button } from '@/core/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/core/ui/tooltip'
 
 import type { IDataTableTranslations, TDataTableViewMode } from './data-table.types'
 

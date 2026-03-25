@@ -1,17 +1,13 @@
 import '@/core/styles/globals.css'
 
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-
-import { Agentation } from 'agentation'
-
-import { I18nProvider, getLocale } from '@/core/i18n'
-import { AppThemeProvider } from '@/core/theme'
-import { getThemeConfig } from '@/core/theme/server'
-import { fontVariables } from '@/core/theme/font'
-import { Toaster } from '@/core/ui/feedback/sonner'
+import { I18nProvider } from '@/core/components/i18n-provider'
+import { AppThemeProvider } from '@/core/components/theme/app-theme-provider'
+import { getThemeConfig } from '@/core/lib/theme'
+import { fontVariables } from '@/core/styles/theme/fonts'
+import { Toaster } from '@/core/ui/sonner'
 
 import { getTranslations } from 'next-intl/server'
-import AgentationProvider from './agentation-provider'
 
 export async function generateMetadata() {
   const t = await getTranslations('metadata')
@@ -24,11 +20,10 @@ export async function generateMetadata() {
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const themeConfig = await getThemeConfig()
-  const locale = await getLocale()
 
   return (
     <html
-      lang={locale}
+      lang="en"
       className={`${fontVariables} font-${themeConfig.themeFontGroup} ${themeConfig.themePalette} ${themeConfig.isDark ? 'dark' : ''}`}
       data-theme={themeConfig.themePalette}
       style={{ '--radius': `${themeConfig.themeRadius}rem` } as React.CSSProperties}
@@ -36,7 +31,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     >
       <body>
         <I18nProvider>
-          {/* <AgentationProvider /> */}
           <AppThemeProvider config={themeConfig}>
             <NuqsAdapter>{children}</NuqsAdapter>
           </AppThemeProvider>

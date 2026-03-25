@@ -1,14 +1,6 @@
 import type { ComponentProps } from 'react'
 
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/core/ui/primitives/card'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/core/ui/card'
 import { cn } from '@/core/utils/cn.utils'
 import { Handle, Position } from '@xyflow/react'
 

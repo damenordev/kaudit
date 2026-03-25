@@ -2,10 +2,10 @@
 
 import type { ComponentProps, ReactNode } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
-import { Input } from '@/core/ui/primitives/input'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/overlays/tooltip'
+import { Button } from '@/core/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
+import { Input } from '@/core/ui/input'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/tooltip'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronDownIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useMemo, useState } from 'react'

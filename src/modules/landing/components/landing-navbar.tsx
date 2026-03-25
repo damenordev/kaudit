@@ -2,9 +2,9 @@ import Link from 'next/link'
 
 import { Sparkles } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { LocaleSwitcher } from '@/core/settings/components/locale-switcher'
-import { LandingThemeToggle } from '@/core/theme/palette/components/landing-theme-toggle'
+import { Button } from '@/core/ui/button'
+import { LocaleSwitcher } from '@/core/components/settings/locale-switcher'
+import { LandingThemeToggle } from '@/core/components/theme/palette/landing-theme-toggle'
 import { GitHubIcon } from './icons'
 import { cn } from '@/core/utils/cn.utils'
 

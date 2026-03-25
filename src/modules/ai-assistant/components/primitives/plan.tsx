@@ -2,17 +2,9 @@
 
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/core/ui/primitives/card'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Button } from '@/core/ui/button'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/core/ui/card'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronsUpDownIcon } from 'lucide-react'
 import { createContext, useContext } from 'react'

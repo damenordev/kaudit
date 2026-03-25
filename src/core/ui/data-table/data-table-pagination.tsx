@@ -1,8 +1,8 @@
 import type { Table } from '@tanstack/react-table'
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/forms/select'
+import { Button } from '@/core/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/select'
 
 import type { IDataTableTranslations } from './data-table.types'
 import { getPageOfText, getRowsSelectedText } from './utils'

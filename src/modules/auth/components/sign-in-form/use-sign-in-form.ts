@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { sileo } from 'sileo'
 import { useTranslations } from 'next-intl'
 
-import { useForm } from '@/core/form'
+import { useForm } from '@/core/ui/form'
 import { authClient } from '@/modules/auth/lib'
 import { signInSchema, type TSignInForm } from './sign-in.schema'
 

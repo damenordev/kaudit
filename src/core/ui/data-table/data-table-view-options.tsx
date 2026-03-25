@@ -2,14 +2,14 @@ import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { type Table } from '@tanstack/react-table'
 import { Settings2Icon } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from '@/core/ui/overlays/dropdown-menu'
+} from '@/core/ui/dropdown-menu'
 
 import type { IDataTableTranslations } from './data-table.types'
 

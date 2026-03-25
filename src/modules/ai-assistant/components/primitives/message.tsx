@@ -3,9 +3,9 @@
 import type { UIMessage } from 'ai'
 import type { ComponentProps, HTMLAttributes, ReactElement } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { ButtonGroup, ButtonGroupText } from '@/core/ui/primitives/button-group'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/overlays/tooltip'
+import { Button } from '@/core/ui/button'
+import { ButtonGroup, ButtonGroupText } from '@/core/ui/button-group'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/core/ui/tooltip'
 import { cn } from '@/core/utils/cn.utils'
 import { cjk } from '@streamdown/cjk'
 import { createCodePlugin } from '@streamdown/code'

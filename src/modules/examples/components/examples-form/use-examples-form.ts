@@ -1,6 +1,6 @@
 'use client'
 
-import { useForm } from '@/core/form'
+import { useForm } from '@/core/ui/form'
 import { createExamplesAction } from '../../actions/examples.actions'
 import { examplesSchema, type TExamplesForm } from './examples.schema'
 

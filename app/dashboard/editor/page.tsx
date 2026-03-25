@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { Editor } from '@/core/ui/primitives/editor'
-import type { TOutputFormat } from '@/core/ui/primitives/editor/editor.types'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/forms/select'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/core/ui/overlays/sheet'
+import { Button } from '@/core/ui/button'
+import { Editor } from '@/core/ui/editor'
+import type { TOutputFormat } from '@/core/ui/editor/editor.types'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/select'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/core/ui/sheet'
 
 export default function EditorDemoPage() {
   const [content, setContent] = useState(

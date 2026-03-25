@@ -10,8 +10,8 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@/core/ui/primitives/command'
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/core/ui/overlays/dialog'
+} from '@/core/ui/command'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/core/ui/dialog'
 import { cn } from '@/core/utils/cn.utils'
 
 export type ModelSelectorProps = ComponentProps<typeof Dialog>

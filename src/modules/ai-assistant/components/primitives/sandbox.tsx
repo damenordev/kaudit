@@ -3,8 +3,8 @@
 import type { ToolUIPart } from 'ai'
 import type { ComponentProps } from 'react'
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/ui/navigation/tabs'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/ui/tabs'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronDownIcon, Code } from 'lucide-react'
 

@@ -3,9 +3,9 @@
 import type { LanguageModelUsage } from 'ai'
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/primitives/hover-card'
-import { Progress } from '@/core/ui/feedback/progress'
+import { Button } from '@/core/ui/button'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/hover-card'
+import { Progress } from '@/core/ui/progress'
 import { cn } from '@/core/utils/cn.utils'
 import { createContext, useContext, useMemo } from 'react'
 import { getUsage } from 'tokenlens'

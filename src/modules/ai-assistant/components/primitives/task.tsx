@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from 'react'
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/utilities/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/core/ui/collapsible'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronDownIcon, SearchIcon } from 'lucide-react'
 

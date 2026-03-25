@@ -3,8 +3,8 @@
 import type { Experimental_SpeechResult as SpeechResult } from 'ai'
 import type { ComponentProps, CSSProperties } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { ButtonGroup, ButtonGroupText } from '@/core/ui/primitives/button-group'
+import { Button } from '@/core/ui/button'
+import { ButtonGroup, ButtonGroupText } from '@/core/ui/button-group'
 import { cn } from '@/core/utils/cn.utils'
 import {
   MediaControlBar,

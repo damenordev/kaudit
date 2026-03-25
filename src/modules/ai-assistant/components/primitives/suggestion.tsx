@@ -2,8 +2,8 @@
 
 import type { ComponentProps } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { ScrollArea, ScrollBar } from '@/core/ui/data-display/scroll-area'
+import { Button } from '@/core/ui/button'
+import { ScrollArea, ScrollBar } from '@/core/ui/scroll-area'
 import { cn } from '@/core/utils/cn.utils'
 import { useCallback } from 'react'
 

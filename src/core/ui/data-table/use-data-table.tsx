@@ -22,7 +22,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { Checkbox } from '@/core/ui/primitives/checkbox'
+import { Checkbox } from '@/core/ui/checkbox'
 
 import type { IDataTableTranslations, TDataTableViewMode } from './data-table.types'
 import { getDefaultPaginationState } from './utils'

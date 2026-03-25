@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { ArrowRight, Sparkles, Terminal } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 import { cn } from '@/core/utils/cn.utils'
 
 export interface ILandingHeroProps {

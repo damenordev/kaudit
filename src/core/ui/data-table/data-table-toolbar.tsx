@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import type { Table } from '@tanstack/react-table'
 import { XIcon } from 'lucide-react'
 
-import { Button } from '@/core/ui/primitives/button'
+import { Button } from '@/core/ui/button'
 
 import type { IDataTableFilterConfig, IDataTableTranslations, TDataTableViewMode } from './data-table.types'
 import { DataTableViewOptions } from './data-table-view-options'

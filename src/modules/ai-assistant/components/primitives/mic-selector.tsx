@@ -3,9 +3,9 @@
 import type { ComponentProps, ReactNode } from 'react'
 
 import { useControllableState } from '@radix-ui/react-use-controllable-state'
-import { Button } from '@/core/ui/primitives/button'
-import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/core/ui/primitives/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/overlays/popover'
+import { Button } from '@/core/ui/button'
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/core/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/popover'
 import { cn } from '@/core/utils/cn.utils'
 import { ChevronsUpDownIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'

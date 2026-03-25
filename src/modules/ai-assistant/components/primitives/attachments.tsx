@@ -3,8 +3,8 @@
 import type { FileUIPart, SourceDocumentUIPart } from 'ai'
 import type { ComponentProps, HTMLAttributes, ReactNode } from 'react'
 
-import { Button } from '@/core/ui/primitives/button'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/primitives/hover-card'
+import { Button } from '@/core/ui/button'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/core/ui/hover-card'
 import { cn } from '@/core/utils/cn.utils'
 import { FileTextIcon, GlobeIcon, ImageIcon, Music2Icon, PaperclipIcon, VideoIcon, XIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useMemo } from 'react'
