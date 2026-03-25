@@ -9,6 +9,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     REQUESTY_API_KEY: z.string(),
     OPENROUTER_API_KEY: z.string(),
+    SENTRY_DSN: z.string().url().optional(),
   },
 
   client: {},
@@ -20,6 +21,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     REQUESTY_API_KEY: process.env.REQUESTY_API_KEY,
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
+    SENTRY_DSN: process.env.SENTRY_DSN,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,
