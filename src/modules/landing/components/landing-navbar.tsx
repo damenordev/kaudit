@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Sparkles } from 'lucide-react'
 
 import { Button } from '@/core/ui/primitives/button'
-import { LocaleSwitcher } from '@/modules/settings/components/locale-switcher'
+import { LocaleSwitcher } from '@/core/settings/components/locale-switcher'
 import { LandingThemeToggle } from '@/core/theme/palette/components/landing-theme-toggle'
 import { GitHubIcon } from './icons'
 import { cn } from '@/core/utils/cn.utils'

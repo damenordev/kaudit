@@ -11,7 +11,7 @@ import {
   KanbanItem,
   KanbanItemDragHandle,
   KanbanOverlay,
-} from '@/modules/kanban'
+} from '@/core/kanban'
 
 import { Badge } from '@/core/ui/primitives/badge'
 import { cn } from '@/core/utils/cn.utils'

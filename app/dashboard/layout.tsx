@@ -2,8 +2,7 @@ import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 
 import { getSession } from '@/modules/auth/services'
-import { checkOnboardingStatus } from '@/modules/onboarding/server'
-import { AppSidebar, SidebarProvider, SidebarInset, SidebarTrigger } from '@/modules/dashboard'
+import { AppSidebar, SidebarProvider, SidebarInset, SidebarTrigger } from '@/core/dashboard'
 import { DynamicBreadcrumbs } from '@/core/ui/navigation'
 import { Separator } from '@/core/ui/primitives/separator'
 import { getSidebarState } from '@/core/ui/navigation/sidebar.server'
@@ -14,11 +13,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const t = await getTranslations('dashboard')
 
   if (!session) redirect(routesConfig.auth.signIn)
-
-  const isOnboardingCompleted = await checkOnboardingStatus(session.user.id)
-  if (!isOnboardingCompleted) {
-    redirect(routesConfig.onboarding)
-  }
 
   const user = {
     name: session.user?.name || t('user.fallbackName'),

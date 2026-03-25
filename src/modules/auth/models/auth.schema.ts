@@ -2,7 +2,6 @@ import { relations } from 'drizzle-orm'
 import { boolean, text, timestamp } from 'drizzle-orm/pg-core'
 
 import { createTable } from '@/core/db'
-import { userProfile } from '@/modules/settings/models/profile.schema'
 
 export const user = createTable('user', {
   id: text('id').primaryKey(),
@@ -12,7 +11,6 @@ export const user = createTable('user', {
     .$defaultFn(() => false)
     .notNull(),
   image: text('image'),
-  onboardingCompletedAt: timestamp('onboarding_completed_at'),
   createdAt: timestamp('created_at')
     .$defaultFn(() => new Date())
     .notNull(),
@@ -61,13 +59,9 @@ export const verification = createTable('verification', {
   updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
 })
 
-export const userRelations = relations(user, ({ many, one }) => ({
+export const userRelations = relations(user, ({ many }) => ({
   account: many(account),
   session: many(session),
-  profile: one(userProfile, {
-    fields: [user.id],
-    references: [userProfile.userId],
-  }),
 }))
 
 export const accountRelations = relations(account, ({ one }) => ({

@@ -16,7 +16,6 @@ export const routesConfig = {
     signIn: '/signin',
     signUp: '/signup',
   },
-  onboarding: '/onboarding',
   /** Rutas del dashboard */
   dashboard: {
     root: '/dashboard',
