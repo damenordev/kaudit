@@ -1,10 +1,10 @@
 {
-  "name": "base",
+  "name": "kaudit",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "config": {
-    "dbTablePrefix": "base_"
+    "dbTablePrefix": "kaudit_"
   },
   "scripts": {
     "dev": "next dev --turbopack",

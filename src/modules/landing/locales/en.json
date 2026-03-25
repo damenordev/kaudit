@@ -1,11 +1,11 @@
 {
   "landing": {
     "hero": {
-      "base": "Base",
-      "template": "Template",
+      "base": "K",
+      "template": "Audit",
       "title": "The standard for your",
       "titleHighlight": "Modern Architecture",
-      "subtitle": "A codebase designed to scale, optimized for performance, and focused on a phenomenal user experience.",
+      "subtitle": "An AI-powered codebase auditor designed to scale, optimized for performance, and focused on a phenomenal user experience.",
       "live": "v1.0 available"
     },
     "buttons": {
@@ -62,7 +62,7 @@
       "docs": "Documentation"
     },
     "footer": {
-      "copyright": "© {year} Base Template"
+      "copyright": "© {year} KAudit"
     }
   }
 }

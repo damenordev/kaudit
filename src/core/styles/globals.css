@@ -2,10 +2,6 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
-@source "../../../node_modules/streamdown/dist/*.js";
-@source "../../../node_modules/@streamdown/**/*.js";
-
-/* Theme palettes */
 @import './theme/base.css';
 @import './theme/palettes/amethyst.css';
 @import './theme/palettes/canvas.css';
@@ -14,6 +10,9 @@
 @import './theme/palettes/santa-fe.css';
 @import './theme/palettes/spooky.css';
 @import './theme/palettes/underground.css';
+
+@source "../../../node_modules/streamdown/dist/*.js";
+@source "../../../node_modules/@streamdown/**/*.js";
 
 @custom-variant dark (&:is(.dark *));
 

@@ -25,11 +25,11 @@ export function LandingNavbar({ session, labels, className }: ILandingNavbarProp
       <nav className="mx-auto max-w-6xl px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="group flex items-center gap-3 transition-opacity hover:opacity-80">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <Sparkles className="h-4 w-4 text-primary-foreground" />
+          <Link href="/" className="group flex items-center gap-1 transition-opacity hover:opacity-80">
+            <div className="flex size-11 items-center justify-center rounded-lg overflow-hidden">
+              <img src="/logo.png" alt="KAudit Logo" className="h-full w-full object-contain p-1" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">
+            <span className="text-4xl font-semibold tracking-tight leading-none">
               {labels.base}
               <span className="text-primary">{labels.template}</span>
             </span>

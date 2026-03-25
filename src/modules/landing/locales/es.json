@@ -1,11 +1,11 @@
 {
   "landing": {
     "hero": {
-      "base": "Base",
-      "template": "Template",
+      "base": "K",
+      "template": "Audit",
       "title": "El estándar para tu",
       "titleHighlight": "Arquitectura Moderna",
-      "subtitle": "Una base de código diseñada para escalar, optimizada para rendimiento y enfocada en una experiencia de usuario fenomenal.",
+      "subtitle": "Un auditor de código potenciado por IA diseñado para escalar, optimizado para rendimiento y enfocado en una experiencia de usuario fenomenal.",
       "live": "v1.0 disponible"
     },
     "buttons": {
@@ -62,7 +62,7 @@
       "docs": "Documentación"
     },
     "footer": {
-      "copyright": "© {year} Base Template"
+      "copyright": "© {year} KAudit"
     }
   }
 }

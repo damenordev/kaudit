@@ -1,4 +1,4 @@
-# ⚡ Next.js Base Template
+# ⚡ KAudit
 
 Un template moderno y completo para construir aplicaciones Next.js de producción con las mejores prácticas y tecnologías actuales.
 

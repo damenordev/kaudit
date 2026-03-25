@@ -19,7 +19,7 @@ export function LandingFooter({ labels, className }: ILandingFooterProps) {
     <footer className={cn('border-t border-border/50 py-6', className)}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-primary" />
+          <img src="/logo.png" alt="KAudit Logo" className="h-5 w-5 object-contain" />
           <span className="text-sm font-medium">{labels.brand}</span>
         </div>
 
