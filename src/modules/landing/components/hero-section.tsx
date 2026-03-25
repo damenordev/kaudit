@@ -1,3 +1,6 @@
+import Link from 'next/link'
+import { ArrowRight, FileText } from 'lucide-react'
+import { Button } from '@/core/ui/button'
 import { ShuffleText } from './shuffle-text'
 
 export function HeroSection() {
@@ -19,21 +22,30 @@ export function HeroSection() {
       />
       <div className="absolute inset-0 z-10 pointer-events-none bg-linear-to-t from-black via-black/20 to-transparent" />
 
-      <div className="relative z-20 w-full px-8 md:px-16 pb-16">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-8">
-          <div className="w-full md:w-3/4">
-            <ShuffleText as="h3" text="Un breve viaje a" className="text-primary font-mono text-2xl mb-2" />
-            <ShuffleText
-              as="h1"
-              text="La Fusión de IA y Auditoría"
-              className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9]"
-            />
-          </div>
-          <div className="hidden md:block">
-            <div className="w-24 lg:w-32">
-              <img src="/logo.png" alt="Logo" className="w-full h-auto object-contain" />
-            </div>
-          </div>
+      <div className="relative z-20 w-full p-6 md:p-24">
+        <div className="flex flex-col gap-3 max-w-4xl">
+          <ShuffleText as="h3" text="Un breve viaje a" className="text-primary font-mono text-2xl " />
+          <ShuffleText
+            as="h1"
+            text="La Fusión de IA y Auditoría"
+            className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9]"
+          />
+        </div>
+
+        <div className="flex items-center gap-4 animate-in fade-in slide-in-from-bottom-5 duration-3000 fill-mode-forwards mt-8">
+          <Button asChild size="lg">
+            <Link href="/dashboard">
+              Comenzar Auditoría
+              <ArrowRight />
+            </Link>
+          </Button>
+
+          <Button asChild variant="outline" size="lg">
+            <Link href="/docs">
+              <FileText />
+              Documentación
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

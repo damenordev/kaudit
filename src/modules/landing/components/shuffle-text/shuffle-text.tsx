@@ -18,11 +18,7 @@ export function ShuffleText({
   const { containerRef } = useShuffleText(text, triggerOnScroll)
 
   return (
-    <Component
-      ref={containerRef}
-      className={`block opacity-0 ${className}`.trim()}
-      {...props}
-    >
+    <Component ref={containerRef} className={`block opacity-0 ${className}`.trim()} {...props}>
       {text}
     </Component>
   )
