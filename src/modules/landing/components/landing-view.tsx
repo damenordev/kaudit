@@ -8,7 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ReactLenis, useLenis } from '@studio-freight/react-lenis'
 import { MdArrowOutward } from 'react-icons/md'
 
-import { Marquee, ShuffleText, GeometricBackground, Navbar, ProgressBar, Footer, AmbientBackground } from './index'
+import { Marquee, ShuffleText, GeometricBackground, Navbar, ProgressBar, Footer } from './index'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -110,7 +110,7 @@ export function LandingView({ session, labels }: ILandingViewProps) {
 
         if (i > 0) {
           gsap.set(img, { clipPath: 'inset(100% 0% 0% 0%)' })
-          
+
           gsap.to(img, {
             clipPath: 'inset(0% 0% 0% 0%)',
             ease: 'none',
@@ -119,12 +119,13 @@ export function LandingView({ session, labels }: ILandingViewProps) {
               start: 'top bottom',
               end: 'top top',
               scrub: true,
-            }
+            },
           })
         }
 
         if (imgElement) {
-          gsap.fromTo(imgElement, 
+          gsap.fromTo(
+            imgElement,
             { scale: 2 },
             {
               scale: 1,
@@ -134,7 +135,7 @@ export function LandingView({ session, labels }: ILandingViewProps) {
                 start: 'top bottom',
                 end: 'top top',
                 scrub: true,
-              }
+              },
             }
           )
         }
@@ -159,7 +160,7 @@ export function LandingView({ session, labels }: ILandingViewProps) {
         end: () => `+=${window.innerHeight * projects.length}`,
         pin: true,
         scrub: 1,
-        onUpdate: (self) => {
+        onUpdate: self => {
           const progress = self.progress * (projects.length - 1)
           const currentSlide = Math.floor(progress)
           const slideProgress = progress - currentSlide
@@ -170,18 +171,18 @@ export function LandingView({ session, labels }: ILandingViewProps) {
             } else if (index === currentSlide) {
               const p = slideProgress * 100
               gsap.set(slide, { clipPath: `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)` })
-              
+
               if (projects[index + 1]) {
                 const nextP = (1 - slideProgress) * 100
-                gsap.set(projects[index + 1], { 
-                  clipPath: `polygon(0% ${nextP}%, 100% ${nextP}%, 100% 100%, 0% 100%)` 
+                gsap.set(projects[index + 1], {
+                  clipPath: `polygon(0% ${nextP}%, 100% ${nextP}%, 100% 100%, 0% 100%)`,
                 })
               }
             } else if (index > currentSlide + 1) {
               gsap.set(slide, { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' })
             }
           })
-        }
+        },
       })
 
       if (projects[0]) {
@@ -211,7 +212,6 @@ export function LandingView({ session, labels }: ILandingViewProps) {
     >
       <ProgressBar />
       <Navbar />
-      <AmbientBackground />
 
       <div className="relative z-10 overflow-x-hidden" ref={container}>
         <section className="relative w-screen h-screen overflow-hidden flex items-end">
@@ -242,12 +242,8 @@ export function LandingView({ session, labels }: ILandingViewProps) {
                 />
               </div>
               <div className="hidden md:block">
-                <div className="w-24 lg:w-32 animate-pulse">
-                  <img
-                    src="/images/home/hero-abstract-icon.png"
-                    alt="Abstract Icon"
-                    className="w-full h-auto object-contain"
-                  />
+                <div className="w-24 lg:w-32">
+                  <img src="/logo.png" alt="Logo" className="w-full h-auto object-contain" />
                 </div>
               </div>
             </div>
@@ -477,7 +473,7 @@ export function LandingView({ session, labels }: ILandingViewProps) {
         </section>
 
         <section className="carousel relative w-full h-screen bg-background overflow-hidden" id="carousel">
-            {carouselItems.map(item => (
+          {carouselItems.map(item => (
             <div
               key={item.id}
               className="project absolute top-0 left-0 w-full h-[100svh]"

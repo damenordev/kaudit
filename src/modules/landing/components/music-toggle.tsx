@@ -12,7 +12,7 @@ export function MusicToggle() {
   const containerRef: MutableRefObject<HTMLDivElement | null> = useRef(null)
 
   useEffect(() => {
-    import('lottie-web').then((lottieModule) => {
+    import('lottie-web').then(lottieModule => {
       setLottie(lottieModule.default)
     })
   }, [])
@@ -31,7 +31,8 @@ export function MusicToggle() {
     lottieRef.current = animation
 
     if (typeof window !== 'undefined') {
-      audioRef.current = new Audio('/demoted.mp3')
+      audioRef.current = new Audio('/audio.mp3')
+      audioRef.current.volume = 0.15
     }
 
     return () => {
@@ -58,8 +59,8 @@ export function MusicToggle() {
 
   return (
     <div className="music-toggle" style={{ cursor: 'pointer' }}>
-      <div 
-        className="music-toggle-btn w-[100px] h-[40px] bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center gap-2 transition-colors" 
+      <div
+        className="music-toggle-btn w-[100px] h-[40px] bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center gap-2 transition-colors"
         onClick={toggleMusic}
       >
         <div ref={containerRef} className="sound-bars" style={{ width: '20px', height: '20px' }} />
