@@ -50,11 +50,6 @@ export const getDashboardConfig = (t: (key: string) => string): IDashboardConfig
           icon: <Users />,
         },
         {
-          title: t('nav.kanban'),
-          url: routesConfig.dashboard.kanban,
-          icon: <KanbanSquare />,
-        },
-        {
           title: t('nav.aiChat'),
           url: routesConfig.dashboard.aiChat,
           icon: <MessageSquare />,

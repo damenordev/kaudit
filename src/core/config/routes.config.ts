@@ -21,7 +21,6 @@ export const routesConfig = {
     root: '/dashboard',
     settings: '/dashboard/settings',
     users: '/dashboard/examples/users',
-    kanban: '/dashboard/kanban',
     aiChat: '/dashboard/ai-chat',
   },
 } as const
