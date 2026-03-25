@@ -1,12 +1,16 @@
-import type { ReactNode } from 'react'
-import { KanbanSquare, LayoutDashboard, MessageSquare, Settings, Users } from 'lucide-react'
+import { KanbanSquare, LayoutDashboard, MessageSquare, Users } from 'lucide-react'
 
-import { routesConfig } from '@/core/config/routes.config'
+import { routesConfig } from './routes.config'
+
+export const SIDEBAR_STATE_COOKIE_NAME = 'sidebar:state'
+export const SIDEBAR_VARIANT_COOKIE_NAME = 'sidebar:variant'
+export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
+export type TSidebarVariant = 'sidebar' | 'floating' | 'inset'
 
 export interface INavItem {
   title: string
   url: string
-  icon?: ReactNode
+  icon?: React.ReactNode
   isActive?: boolean
   items?: {
     title: string
@@ -44,11 +48,6 @@ export const getDashboardConfig = (t: (key: string) => string): IDashboardConfig
           title: t('nav.users'),
           url: routesConfig.dashboard.users,
           icon: <Users />,
-        },
-        {
-          title: t('nav.editor'),
-          url: routesConfig.dashboard.editor,
-          icon: <LayoutDashboard />,
         },
         {
           title: t('nav.kanban'),

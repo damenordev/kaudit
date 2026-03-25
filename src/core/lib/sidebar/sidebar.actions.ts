@@ -1,11 +1,8 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import {
-  SIDEBAR_VARIANT_COOKIE_NAME,
-  SIDEBAR_COOKIE_MAX_AGE,
-  type TSidebarVariant,
-} from './sidebar.constants'
+
+import { SIDEBAR_VARIANT_COOKIE_NAME, SIDEBAR_COOKIE_MAX_AGE, type TSidebarVariant } from '@/core/config/sidebar.config'
 
 export async function setSidebarVariantAction(variant: TSidebarVariant): Promise<void> {
   const cookieStore = await cookies()

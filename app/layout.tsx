@@ -6,16 +6,16 @@ import { AppThemeProvider } from '@/core/components/theme/app-theme-provider'
 import { getThemeConfig } from '@/core/lib/theme'
 import { fontVariables } from '@/core/styles/theme/fonts'
 import { Toaster } from '@/core/ui/sonner'
+import { getMetadata } from '@/core/config/metadata.config'
 
 import { getTranslations } from 'next-intl/server'
 
 export async function generateMetadata() {
   const t = await getTranslations('metadata')
-  return {
+  return getMetadata({
     title: t('title'),
     description: t('description'),
-    icons: [{ rel: 'icon', url: '/logo.png' }],
-  }
+  })
 }
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

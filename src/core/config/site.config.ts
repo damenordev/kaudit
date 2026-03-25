@@ -11,13 +11,10 @@
  * ```
  */
 export const siteConfig = {
-  name: 'Base Template',
-  shortDescription: 'Next.js Template',
-  description: 'A modern Next.js template with authentication, i18n, and more.',
-  url: 'https://example.com',
-  links: {
-    github: 'https://github.com/example/base-template',
-  },
+  name: 'KAudit',
+  shortDescription: 'GitHub Auditor',
+  description: 'Analiza y audita repositorios de GitHub con inteligencia artificial.',
+  url: 'https://kaudit.dev',
 }
 
 export type TSiteConfig = typeof siteConfig

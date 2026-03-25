@@ -1,5 +1,9 @@
 import { cookies } from 'next/headers'
-import { SIDEBAR_STATE_COOKIE_NAME, SIDEBAR_VARIANT_COOKIE_NAME, type TSidebarVariant } from './sidebar.constants'
+import {
+  SIDEBAR_STATE_COOKIE_NAME,
+  SIDEBAR_VARIANT_COOKIE_NAME,
+  type TSidebarVariant,
+} from '@/core/config/sidebar.config'
 
 export async function getSidebarState() {
   const cookieStore = await cookies()

@@ -6,7 +6,7 @@ import { AppSidebar } from '@/core/components/dashboard/app-sidebar'
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/core/ui/sidebar'
 import { DynamicBreadcrumbs } from '@/core/ui/dynamic-breadcrumbs'
 import { Separator } from '@/core/ui/separator'
-import { getSidebarState } from '@/core/ui/sidebar.server'
+import { getSidebarState } from '@/core/lib/sidebar'
 import { routesConfig } from '@/core/config/routes.config'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {

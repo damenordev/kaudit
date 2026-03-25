@@ -18,7 +18,7 @@ import {
   SIDEBAR_COOKIE_MAX_AGE,
   SIDEBAR_VARIANT_COOKIE_NAME,
   type TSidebarVariant,
-} from './sidebar.constants'
+} from '@/core/config/sidebar.config'
 
 const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
