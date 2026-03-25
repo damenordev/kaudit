@@ -1,24 +1,10 @@
 'use client'
-
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import SplitType from 'split-type'
 
-export interface IShuffleTextProps {
-  text: string
-  as?: React.ElementType
-  className?: string
-  triggerOnScroll?: boolean
-}
-
-export function ShuffleText({
-  text,
-  as: Component = 'div',
-  className = '',
-  triggerOnScroll = false,
-  ...props
-}: IShuffleTextProps) {
+export function useShuffleText(text: string, triggerOnScroll: boolean) {
   const containerRef = useRef<HTMLElement>(null)
   const [isDesktop, setIsDesktop] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -77,7 +63,6 @@ export function ShuffleText({
         line.style.width = '100%'
       })
 
-      // Crucial: Show container ONLY after chars are hidden
       gsap.set(containerRef.current, { opacity: 1 })
     }
 
@@ -127,13 +112,5 @@ export function ShuffleText({
     }
   }, [text, triggerOnScroll, isDesktop, mounted])
 
-  return (
-    <Component
-      ref={containerRef}
-      className={`block opacity-0 ${className}`.trim()}
-      {...props}
-    >
-      {text}
-    </Component>
-  )
+  return { containerRef }
 }

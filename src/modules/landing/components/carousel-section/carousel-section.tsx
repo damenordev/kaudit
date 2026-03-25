@@ -1,3 +1,4 @@
+'use client'
 import { useRef } from 'react'
 import Link from 'next/link'
 import { CAROUSEL_ITEMS } from '../../constants/landing.constants'

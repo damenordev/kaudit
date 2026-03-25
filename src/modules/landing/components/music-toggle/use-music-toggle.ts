@@ -1,10 +1,8 @@
 'use client'
-
 import { useEffect, useRef, useState, type MutableRefObject } from 'react'
-import dynamic from 'next/dynamic'
 import type { AnimationItem, LottiePlayer } from 'lottie-web'
 
-export function MusicToggle() {
+export function useMusicToggle() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [lottie, setLottie] = useState<LottiePlayer | null>(null)
   const audioRef: MutableRefObject<HTMLAudioElement | null> = useRef(null)
@@ -57,15 +55,5 @@ export function MusicToggle() {
     setIsPlaying(!isPlaying)
   }
 
-  return (
-    <div className="music-toggle" style={{ cursor: 'pointer' }}>
-      <div
-        className="music-toggle-btn w-[100px] h-[40px] bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center gap-2 transition-colors"
-        onClick={toggleMusic}
-      >
-        <div ref={containerRef} className="sound-bars" style={{ width: '20px', height: '20px' }} />
-        <p className="uppercase text-sm font-mono tracking-widest text-foreground">{isPlaying ? 'on' : 'off'}</p>
-      </div>
-    </div>
-  )
+  return { isPlaying, containerRef, toggleMusic }
 }

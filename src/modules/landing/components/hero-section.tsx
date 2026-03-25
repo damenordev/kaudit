@@ -1,4 +1,4 @@
-import { ShuffleText } from '../shuffle-text'
+import { ShuffleText } from './shuffle-text'
 
 export function HeroSection() {
   return (
@@ -17,7 +17,7 @@ export function HeroSection() {
           animation: 'pan-overlay 22s infinite linear',
         }}
       />
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-t from-black via-black/20 to-transparent" />
+      <div className="absolute inset-0 z-10 pointer-events-none bg-linear-to-t from-black via-black/20 to-transparent" />
 
       <div className="relative z-20 w-full px-8 md:px-16 pb-16">
         <div className="flex flex-col md:flex-row justify-between items-end gap-8">

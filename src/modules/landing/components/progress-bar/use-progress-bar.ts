@@ -1,10 +1,9 @@
 'use client'
-
 import { useEffect, useRef } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import gsap from 'gsap'
 
-export function ProgressBar() {
+export function useProgressBar() {
   const progressRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -13,6 +12,7 @@ export function ProgressBar() {
 
   useEffect(() => {
     const progressBar = progressRef.current
+    if (!progressBar) return
 
     if (isFirstLoadRef.current) {
       const windowHeight = window.innerHeight
@@ -71,10 +71,5 @@ export function ProgressBar() {
     handleRouteChange()
   }, [pathname, searchParams])
 
-  return (
-    <div 
-      ref={progressRef} 
-      className="fixed top-0 left-0 w-full h-[7px] bg-foreground z-[10000] will-change-transform scale-x-0 origin-left mix-blend-difference"
-    />
-  )
+  return { progressRef }
 }

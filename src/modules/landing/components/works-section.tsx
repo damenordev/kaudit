@@ -1,4 +1,4 @@
-import { ShuffleText } from '../shuffle-text'
+import { ShuffleText } from './shuffle-text'
 
 export function WorksSection() {
   return (

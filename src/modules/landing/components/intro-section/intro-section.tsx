@@ -1,3 +1,4 @@
+'use client'
 import { useRef } from 'react'
 import { GeometricBackground } from '../geometric-background'
 import { Marquee } from '../marquee'

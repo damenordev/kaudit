@@ -1,60 +1,17 @@
 'use client'
-
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import { useNavbar } from './use-navbar'
 
-const MusicToggle = dynamic(() => import('./music-toggle').then(m => m.MusicToggle), {
+const MusicToggle = dynamic(() => import('../music-toggle').then(m => m.MusicToggle), {
   ssr: false,
 })
 
 export function Navbar() {
-  const [time, setTime] = useState('')
-  const pathname = usePathname()
-  const router = useRouter()
-  const isHomePage = pathname === '/'
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date()
-      const timeString = now.toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true,
-      })
-      setTime(timeString)
-    }
-
-    updateTime()
-    const interval = setInterval(updateTime, 1000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const handleNavigation = (event: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    event.preventDefault()
-
-    if (isHomePage) {
-      // @ts-ignore
-      const lenis = window.lenis
-      if (lenis) {
-        const element = document.getElementById(sectionId)
-        if (element) {
-          lenis.scrollTo(element, {
-            offset: 0,
-            immediate: false,
-            duration: 1.5,
-          })
-        }
-      }
-    } else {
-      router.push(`/#${sectionId}`)
-    }
-  }
+  const { time, handleNavigation } = useNavbar()
 
   return (
-    <div className="fixed top-0 left-0 w-full px-4 md:px-16 py-4 md:py-8 z-[100000000] mix-blend-difference flex flex-row gap-8 items-start">
+    <div className="fixed top-0 left-0 w-full px-4 md:px-16 py-4 md:py-8 z-100000000 mix-blend-difference flex flex-row gap-8 items-start">
       <div className="flex-1 flex gap-8">
         <div className="flex-1">
           <Link href="/">
