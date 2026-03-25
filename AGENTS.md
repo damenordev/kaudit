@@ -21,6 +21,7 @@
 | `.queries.ts`   | Lecturas DB                 | `user.queries.ts`   |
 | `.types.ts`     | Definiciones TS             | `user.types.ts`     |
 | `.constants.ts` | Constantes del módulo       | `user.constants.ts` |
+| `.config.ts`    | Configuración del módulo    | `sidebar.config.ts` |
 | `.service.ts`   | Lógica de negocio           | `auth.service.ts`   |
 
 ### Código
