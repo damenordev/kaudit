@@ -10,6 +10,9 @@ export const env = createEnv({
     REQUESTY_API_KEY: z.string(),
     OPENROUTER_API_KEY: z.string(),
     SENTRY_DSN: z.string().url().optional(),
+    // Inngest - opcional, solo requerido cuando se usa Inngest
+    INNGEST_EVENT_KEY: z.string().optional(),
+    INNGEST_SIGNING_KEY: z.string().optional(),
   },
 
   client: {},
@@ -22,6 +25,8 @@ export const env = createEnv({
     REQUESTY_API_KEY: process.env.REQUESTY_API_KEY,
     OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
     SENTRY_DSN: process.env.SENTRY_DSN,
+    INNGEST_EVENT_KEY: process.env.INNGEST_EVENT_KEY,
+    INNGEST_SIGNING_KEY: process.env.INNGEST_SIGNING_KEY,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

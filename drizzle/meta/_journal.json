@@ -8,6 +8,13 @@
       "when": 1774407572485,
       "tag": "0000_gray_deathbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1774460428353,
+      "tag": "0001_parallel_butterfly",
+      "breakpoints": true
     }
   ]
 }
