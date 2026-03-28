@@ -201,7 +201,8 @@
       "users": "Users",
       "editor": "Editor Demo",
       "kanban": "Kanban",
-      "aiChat": "AI Chat"
+      "aiChat": "AI Chat",
+      "audits": "Audits"
     },
     "breadcrumbs": {
       "dashboard": "Dashboard",
@@ -269,6 +270,47 @@
       "securityLevel": "Security Level",
       "infrastructureEvents": "Infrastructure Events",
       "viewFullAudit": "View Full Audit"
+    },
+    "audits": {
+      "pageTitle": "Audits",
+      "pageDescription": "View and manage your code audits",
+      "noAudits": "No audits found",
+      "noAuditsDescription": "Start your first audit from the CLI",
+      "table": {
+        "date": "Date",
+        "repository": "Repository",
+        "status": "Status",
+        "prUrl": "PR",
+        "actions": "Actions",
+        "viewDetails": "View"
+      },
+      "detail": {
+        "repository": "Repository",
+        "branch": "Branch",
+        "targetBranch": "Target",
+        "createdAt": "Created",
+        "viewPR": "View Pull Request",
+        "validation": {
+          "title": "Validation Results",
+          "noIssues": "No issues detected",
+          "issuesFound": "Issues found",
+          "line": "Line",
+          "suggestion": "Suggestion"
+        },
+        "content": {
+          "title": "Generated Content",
+          "noContent": "No content generated yet"
+        },
+        "error": {
+          "title": "Error",
+          "prefix": "Audit failed"
+        },
+        "notFound": {
+          "title": "Audit Not Found",
+          "description": "The audit you're looking for doesn't exist or has been deleted.",
+          "backToList": "Back to Audits"
+        }
+      }
     }
   }
 }

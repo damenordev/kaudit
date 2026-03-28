@@ -14,197 +14,210 @@
 
 ---
 
-## Fase 1: Infraestructura Base
+## Fase 1: Infraestructura Base ✅
 
 ### 1.1 Configurar Inngest
 
-- [ ] Instalar dependencias: `pnpm add inngest`
-- [ ] Instalar CLI: `pnpm add -D inngest-cli`
-- [ ] Crear `src/core/lib/inngest/client.ts` - Cliente Inngest
-- [ ] Crear `src/core/lib/inngest/index.ts` - Entry point para funciones
-- [ ] Crear `app/api/inngest/route.ts` - Webhook handler
-- [ ] Añadir variables en `src/env.js`: `INNGEST_EVENT_KEY`, `INNGEST_SIGNING_KEY`
-- [ ] Añadir script en `package.json`: `"inngest:dev": "inngest-cli dev"`
-- [ ] Actualizar `.env.example` con nuevas variables
+- [x] Instalar dependencias: `pnpm add inngest`
+- [x] Instalar CLI: `pnpm add -D inngest-cli`
+- [x] Crear `src/core/lib/inngest/client.ts` - Cliente Inngest
+- [x] Crear `src/core/lib/inngest/index.ts` - Entry point para funciones
+- [x] Crear `app/api/inngest/route.ts` - Webhook handler
+- [x] Añadir variables en `src/env.js`: `INNGEST_EVENT_KEY`, `INNGEST_SIGNING_KEY`
+- [x] Añadir script en `package.json`: `"dev:inngest": "npx --ignore-scripts=false inngest-cli@latest dev"`
+- [x] Actualizar `.env.example` con nuevas variables
 
 ### 1.2 Schema de Base de Datos - Auditorías
 
-- [ ] Crear `src/modules/audit/models/audit.schema.ts`
-  - [ ] Campo `id` (uuid, primary key)
-  - [ ] Campo `userId` (foreign key a user)
-  - [ ] Campo `repoUrl` (text)
-  - [ ] Campo `branchName` (text)
-  - [ ] Campo `targetBranch` (text, default: 'main')
-  - [ ] Campo `gitDiff` (text)
-  - [ ] Campo `gitDiffHash` (text, para caché)
-  - [ ] Campo `status` (enum: pending, validating, generating, creating_pr, completed, blocked, failed)
-  - [ ] Campo `validationResult` (jsonb)
-  - [ ] Campo `generatedContent` (jsonb)
-  - [ ] Campo `prUrl` (text, nullable)
-  - [ ] Campo `errorMessage` (text, nullable)
-  - [ ] Campos `createdAt`, `updatedAt` (timestamps)
-- [ ] Crear `src/modules/audit/models/index.ts` - Exportaciones
-- [ ] Ejecutar `pnpm db:generate`
-- [ ] Ejecutar `pnpm db:migrate`
+- [x] Crear `src/modules/audit/models/audit.schema.ts`
+  - [x] Campo `id` (uuid, primary key)
+  - [x] Campo `userId` (foreign key a user)
+  - [x] Campo `repoUrl` (text)
+  - [x] Campo `branchName` (text)
+  - [x] Campo `targetBranch` (text, default: 'main')
+  - [x] Campo `gitDiff` (text)
+  - [x] Campo `gitDiffHash` (text, para caché)
+  - [x] Campo `status` (enum: pending, processing, validating, generating, completed, failed)
+  - [x] Campo `validationResult` (jsonb)
+  - [x] Campo `generatedContent` (jsonb)
+  - [x] Campo `prUrl` (text, nullable)
+  - [x] Campo `errorMessage` (text, nullable)
+  - [x] Campos `createdAt`, `updatedAt` (timestamps)
+- [x] Crear `src/modules/audit/models/index.ts` - Exportaciones
+- [x] Ejecutar `pnpm db:generate`
+- [x] Ejecutar `pnpm db:push` (aplicado via push)
 
 ---
 
-## Fase 2: Motor de Auditoría (Backend)
+## Fase 2: Motor de Auditoría (Backend) ✅
 
 ### 2.1 Servicio de Validación de Seguridad (Step 1)
 
-- [ ] Crear `src/modules/audit/lib/prompts/validation.prompt.ts`
-  - [ ] Prompt para detectar API Keys expuestas
-  - [ ] Prompt para detectar SQL Injection
-  - [ ] Prompt para detectar XSS
-  - [ ] Prompt para detectar secrets en código
-  - [ ] Prompt para detectar lógica peligrosa
-- [ ] Crear `src/modules/audit/types/validation.types.ts`
-  - [ ] Interface `IValidationIssue`
-  - [ ] Interface `IValidationResult`
-  - [ ] Type `TValidationSeverity`
-- [ ] Crear `src/modules/audit/services/validation.service.ts`
-  - [ ] Función `validateGitDiff(gitDiff: string): Promise<IValidationResult>`
-  - [ ] Usar modelo rápido (gpt-4o-mini vía Requesty/OpenRouter)
-  - [ ] Retornar estructura tipada
+- [x] Crear `src/modules/audit/lib/prompts/validation.prompt.ts`
+  - [x] Prompt para detectar API Keys expuestas
+  - [x] Prompt para detectar SQL Injection
+  - [x] Prompt para detectar XSS
+  - [x] Prompt para detectar secrets en código
+  - [x] Prompt para detectar lógica peligrosa
+- [x] Crear `src/modules/audit/types/validation.types.ts`
+  - [x] Interface `IValidationIssue`
+  - [x] Interface `IValidationResult`
+  - [x] Type `TValidationSeverity`
+- [x] Crear `src/modules/audit/services/validation.service.ts`
+  - [x] Función `validateGitDiff(gitDiff: string): Promise<IValidationResult>`
+  - [x] Usar modelo rápido (gpt-4o-mini vía Requesty/OpenRouter)
+  - [x] Retornar estructura tipada
 
 ### 2.2 Servicio de Generación de Descripción (Step 2)
 
-- [ ] Crear `src/modules/audit/lib/prompts/generation.prompt.ts`
-  - [ ] Prompt para generar Markdown profesional
-  - [ ] Secciones: Resumen, Cambios Detallados, Sugerencias, Checklist
-- [ ] Crear `src/modules/audit/types/generation.types.ts`
-  - [ ] Interface `IGeneratedContent`
-  - [ ] Interface `IPrDescription`
-- [ ] Crear `src/modules/audit/services/generation.service.ts`
-  - [ ] Función `generatePrDescription(gitDiff: string, validationResult: IValidationResult): Promise<IGeneratedContent>`
-  - [ ] Usar modelo preciso (claude-3.5-sonnet vía OpenRouter)
+- [x] Crear `src/modules/audit/lib/prompts/generation.prompt.ts`
+  - [x] Prompt para generar Markdown profesional
+  - [x] Secciones: Resumen, Cambios Detallados, Sugerencias, Checklist
+- [x] Crear `src/modules/audit/types/generation.types.ts`
+  - [x] Interface `IGeneratedContent`
+  - [x] Interface `IPrDescription`
+- [x] Crear `src/modules/audit/services/generation.service.ts`
+  - [x] Función `generatePrDescription(gitDiff: string, validationResult: IValidationResult): Promise<IGeneratedContent>`
+  - [x] Usar modelo preciso (claude-3.5-sonnet vía OpenRouter)
 
 ### 2.3 Servicio de Integración GitHub (Step 3)
 
-- [ ] Instalar dependencia: `pnpm add octokit`
-- [ ] Crear `src/modules/github/types/github.types.ts`
-  - [ ] Interface `IGitHubPrOptions`
-  - [ ] Interface `IGitHubPrResult`
-- [ ] Crear `src/modules/github/lib/github-client.ts`
-  - [ ] Función `getGitHubClient(): Octokit`
-  - [ ] Manejo de autenticación (Token o GitHub App)
-- [ ] Crear `src/modules/github/services/github.service.ts`
-  - [ ] Función `createPullRequest(options: IGitHubPrOptions): Promise<IGitHubPrResult>`
-  - [ ] Función `addPrComment(prNumber: number, comment: string): Promise<void>`
-- [ ] Añadir variables en `src/env.js`: `GITHUB_TOKEN`
-- [ ] Actualizar `.env.example`
+- [x] Instalar dependencia: `pnpm add octokit`
+- [x] Crear `src/modules/github/types/github.types.ts`
+  - [x] Interface `IGitHubPrOptions`
+  - [x] Interface `IGitHubPrResult`
+- [x] Crear `src/modules/github/lib/github-client.ts`
+  - [x] Función `getGitHubClient(): Octokit`
+  - [x] Manejo de autenticación (Token o GitHub App)
+- [x] Crear `src/modules/github/services/github.service.ts`
+  - [x] Función `createPullRequest(options: IGitHubPrOptions): Promise<IGitHubPrResult>`
+  - [x] Función `addPrComment(prNumber: number, comment: string): Promise<void>`
+- [x] Añadir variables en `src/env.js`: `GITHUB_TOKEN`
+- [x] Actualizar `.env.example`
 
 ---
 
-## Fase 3: Inngest Workflow
+## Fase 3: Inngest Workflow ✅
 
 ### 3.1 Definir Eventos y Tipos
 
-- [ ] Crear `src/modules/audit/inngest/events.ts`
-  - [ ] Evento `audit/started`
-  - [ ] Evento `audit/validation-completed`
-  - [ ] Evento `audit/content-generated`
-  - [ ] Evento `audit/pr-created`
-  - [ ] Evento `audit/blocked`
-  - [ ] Evento `audit/failed`
+- [x] Eventos definidos en `src/core/lib/inngest/client.ts`
+  - [x] Evento `audit/created`
+  - [x] Evento `audit/processing`
+  - [x] Evento `audit/completed`
+  - [x] Evento `audit/failed`
 
-### 3.2 Crear Función Inngest con Steps
+### 3.2 DB Queries
 
-- [ ] Crear `src/modules/audit/inngest/audit.workflow.ts`
-  - [ ] Step 1: `validate-security`
-    - [ ] Llamar `validation.service.validateGitDiff()`
-    - [ ] Si falla, actualizar status a `blocked` y terminar
-    - [ ] Si pasa, continuar a Step 2
-  - [ ] Step 2: `generate-content`
-    - [ ] Llamar `generation.service.generatePrDescription()`
-    - [ ] Guardar contenido generado en DB
-  - [ ] Step 3: `create-pr`
-    - [ ] Llamar `github.service.createPullRequest()`
-    - [ ] Actualizar status a `completed`
-    - [ ] Guardar PR URL en DB
-- [ ] Crear `src/modules/audit/inngest/index.ts`
-  - [ ] Exportar todas las funciones Inngest
-- [ ] Registrar funciones en `src/core/lib/inngest/index.ts`
+- [x] Crear `src/modules/audit/queries/audit.queries.ts`
+  - [x] Función `createAudit(data): Promise<Audit>`
+  - [x] Función `getAuditById(id): Promise<Audit | null>`
+  - [x] Función `updateAuditStatus(id, status, data?): Promise<Audit>`
+  - [x] Función `getAuditByDiffHash(hash): Promise<Audit | null>`
+- [x] Crear `src/modules/audit/queries/index.ts`
+
+### 3.3 Schema Updates
+
+- [x] Añadir estado `blocked` al enum de status
+- [x] Actualizar tipos jsonb con interfaces específicas
+
+### 3.4 Crear Función Inngest con Steps
+
+- [x] Crear `src/modules/audit/inngest/process-audit.workflow.ts`
+  - [x] Step 1: `validate-security`
+    - [x] Llamar `validation.service.validateGitDiff()`
+    - [x] Si falla, actualizar status a `blocked` y terminar
+    - [x] Si pasa, continuar a Step 2
+  - [x] Step 2: `generate-content`
+    - [x] Llamar `generation.service.generatePrDescription()`
+    - [x] Guardar contenido generado en DB
+  - [x] Step 3: `create-pr`
+    - [x] Llamar `github.service.createPullRequest()`
+    - [x] Actualizar status a `completed`
+    - [x] Guardar PR URL en DB
+- [x] Crear `src/modules/audit/inngest/index.ts`
+  - [x] Exportar todas las funciones Inngest
+- [x] Registrar funciones en `src/core/lib/inngest/index.ts`
 
 ---
 
-## Fase 4: API Endpoints
+## Fase 4: API Endpoints ✅
 
 ### 4.1 Endpoint de Inicio de Auditoría
 
-- [ ] Crear `src/modules/audit/types/api.types.ts`
-  - [ ] Interface `IAuditStartRequest`
-  - [ ] Interface `IAuditStartResponse`
-- [ ] Crear `src/modules/audit/queries/audit.queries.ts`
-  - [ ] Función `createAudit(data): Promise<Audit>`
-  - [ ] Función `getAuditById(id): Promise<Audit | null>`
-  - [ ] Función `updateAuditStatus(id, status, data?): Promise<Audit>`
-- [ ] Crear `app/api/audit/start/route.ts`
-  - [ ] Validar autenticación
-  - [ ] Validar body con Zod
-  - [ ] Crear registro en DB
-  - [ ] Emitir evento Inngest `audit/started`
-  - [ ] Retornar `{ auditId, status: "pending" }`
+- [x] Crear `src/modules/audit/types/api.types.ts`
+  - [x] Interface `IAuditStartRequest`
+  - [x] Interface `IAuditStartResponse`
+- [x] Crear `src/modules/audit/queries/audit.queries.ts`
+  - [x] Función `createAudit(data): Promise<Audit>`
+  - [x] Función `getAuditById(id): Promise<Audit | null>`
+  - [x] Función `updateAuditStatus(id, status, data?): Promise<Audit>`
+  - [x] Función `listAudits(userId, options): Promise<IAuditListResponse>`
+- [x] Crear `app/api/audit/start/route.ts`
+  - [x] Validar autenticación
+  - [x] Validar body con Zod
+  - [x] Crear registro en DB
+  - [x] Emitir evento Inngest `audit/created`
+  - [x] Retornar `{ auditId, status: "pending" }`
 
 ### 4.2 Endpoint de Estado de Auditoría
 
-- [ ] Crear `app/api/audit/[id]/status/route.ts`
-  - [ ] Validar autenticación
-  - [ ] Obtener audit de DB
-  - [ ] Retornar estado completo
+- [x] Crear `app/api/audit/[id]/status/route.ts`
+  - [x] Validar autenticación
+  - [x] Obtener audit de DB
+  - [x] Retornar estado completo
 
 ### 4.3 Endpoint de Historial (para Dashboard)
 
-- [ ] Crear `app/api/audit/list/route.ts`
-  - [ ] Validar autenticación
-  - [ ] Paginación
-  - [ ] Filtros por status, fecha
-  - [ ] Retornar lista de auditorías
+- [x] Crear `app/api/audit/list/route.ts`
+  - [x] Validar autenticación
+  - [x] Paginación
+  - [x] Filtros por status
+  - [x] Retornar lista de auditorías
 
 ---
 
-## Fase 5: CLI Tool
+## Fase 5: CLI Tool ✅
 
 ### 5.1 Estructura del CLI
 
-- [ ] Crear `src/cli/index.ts` - Entry point con shebang
-- [ ] Crear `src/cli/types/cli.types.ts`
-  - [ ] Interface `ICliOptions`
-  - [ ] Type `TCliStatus`
-- [ ] Actualizar `package.json`
-  - [ ] Añadir `"bin": { "github-auditor": "./bin/github-auditor" }`
+- [x] Crear `src/cli/index.ts` - Entry point con shebang
+- [x] Crear `src/cli/types/cli.types.ts`
+  - [x] Interface `ICliOptions`
+  - [x] Type `TCliStatus`
+- [x] Actualizar `package.json`
+  - [x] Añadir `"bin": { "github-auditor": "./bin/github-auditor.js" }`
 
 ### 5.2 Comando Ship
 
-- [ ] Crear `src/cli/commands/ship.ts`
-  - [ ] Parsear argumentos
-  - [ ] Validar que estamos en un repo git
-  - [ ] Capturar git diff
-- [ ] Crear `src/cli/lib/git-diff.ts`
-  - [ ] Función `getGitDiff(baseBranch: string): Promise<string>`
-  - [ ] Función `getCurrentBranch(): Promise<string>`
-  - [ ] Función `getRepoUrl(): Promise<string>`
+- [x] Crear `src/cli/commands/ship.ts`
+  - [x] Parsear argumentos
+  - [x] Validar que estamos en un repo git
+  - [x] Capturar git diff
+- [x] Crear `src/cli/lib/git.ts`
+  - [x] Función `getGitDiff(baseBranch: string): Promise<string>`
+  - [x] Función `getCurrentBranch(): Promise<string>`
+  - [x] Función `getRepoUrl(): Promise<string | null>`
 
 ### 5.3 Cliente API del CLI
 
-- [ ] Crear `src/cli/lib/api-client.ts`
-  - [ ] Función `startAudit(data): Promise<IAuditStartResponse>`
-  - [ ] Función `getAuditStatus(id): Promise<IAuditStatusResponse>`
-  - [ ] Función `pollAuditStatus(id, callback): Promise<void>`
+- [x] Crear `src/cli/lib/api.ts`
+  - [x] Función `startAudit(data): Promise<IAuditStartResponse>`
+  - [x] Función `getAuditStatus(id): Promise<IAuditStatusResponse>`
+  - [x] Función `pollAuditStatus(id, callback): Promise<void>`
 
 ### 5.4 UI del CLI
 
-- [ ] Crear `src/cli/lib/display.ts`
-  - [ ] Funciones para mostrar progreso (spinners, colores)
-  - [ ] Función para mostrar resultado final
-- [ ] Instalar dependencia: `pnpm add ora chalk`
+- [x] Crear `src/cli/lib/display.ts`
+  - [x] Funciones para mostrar progreso (spinners, colores)
+  - [x] Función para mostrar resultado final
+- [x] Instalar dependencia: `pnpm add ora chalk commander`
 
 ### 5.5 Binario
 
-- [ ] Crear `bin/github-auditor`
-  - [ ] Shebang `#!/usr/bin/env node`
-  - [ ] Importar y ejecutar CLI
+- [x] Crear `bin/github-auditor.js`
+  - [x] Shebang `#!/usr/bin/env npx tsx`
+  - [x] Importar y ejecutar CLI
 
 ---
 
@@ -272,14 +285,14 @@
 
 ## Progreso
 
-| Fase | Tareas | Completadas | Progreso |
-|------|--------|-------------|----------|
-| 0 | 4 | 2 | 50% |
-| 1 | 17 | 0 | 0% |
-| 2 | 19 | 0 | 0% |
-| 3 | 10 | 0 | 0% |
-| 4 | 11 | 0 | 0% |
-| 5 | 15 | 0 | 0% |
-| 6 | 11 | 0 | 0% |
-| 7 | 8 | 0 | 0% |
-| **Total** | **95** | **2** | **2%** |
+| Fase      | Tareas  | Completadas | Progreso |
+| --------- | ------- | ----------- | -------- |
+| 0         | 4       | 2           | 50%      |
+| 1         | 17      | 17          | 100% ✅  |
+| 2         | 19      | 19          | 100% ✅  |
+| 3         | 18      | 18          | 100% ✅  |
+| 4         | 11      | 11          | 100% ✅  |
+| 5         | 15      | 15          | 100% ✅  |
+| 6         | 11      | 0           | 0%       |
+| 7         | 8       | 0           | 0%       |
+| **Total** | **103** | **82**      | **80%**  |

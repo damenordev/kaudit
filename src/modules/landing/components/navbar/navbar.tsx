@@ -12,6 +12,7 @@ import { useThemePalette } from '@/core/components/theme/palette/palette-provide
 import { BASE_THEMES, THEME_LABELS, type TThemePaletteBase } from '@/core/config/theme/palette.config'
 import { createDarkThemeByBase } from '@/core/styles/theme/palette.utils'
 import { cn } from '@/core/utils/cn.utils'
+import { routesConfig } from '@/core/config'
 
 const MusicToggle = dynamic(() => import('../music-toggle').then(m => m.MusicToggle), {
   ssr: false,
@@ -47,7 +48,7 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              href="/dashboard"
+              href={routesConfig.dashboard.root}
               className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
             >
               Dashboard
@@ -59,7 +60,7 @@ export function Navbar() {
               Docs
             </Link>
             <Link
-              href="/login"
+              href={routesConfig.auth.signIn}
               className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
             >
               Acceso

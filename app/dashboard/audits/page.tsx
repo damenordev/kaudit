@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 
 import { getSession } from '@/modules/auth/services/auth.service'
-import { listAudits } from '@/modules/audit/queries/audit.queries'
-import { AuditsTable } from '@/modules/audit/components'
+import { listAllAudits } from '@/modules/audit/queries/audit.queries'
+import { AuditsTable } from '@/modules/audit/components/audits-table/audits-table'
 import type { IAuditStatusResponse } from '@/modules/audit/types/api.types'
 
 interface IPageProps {
@@ -16,41 +16,48 @@ interface IPageProps {
  * Transforma los datos de la DB al formato de respuesta de API.
  * Convierte null a undefined para compatibilidad con tipos.
  */
-function transformToResponse(data: any[]): IAuditStatusResponse[] {
-  return data.map(item => ({
-    id: item.id,
-    status: item.status,
-    repoUrl: item.repoUrl,
-    branchName: item.branchName,
-    targetBranch: item.targetBranch,
-    validationResult: item.validationResult ?? undefined,
-    generatedContent: item.generatedContent ?? undefined,
-    prUrl: item.prUrl ?? undefined,
-    errorMessage: item.errorMessage ?? undefined,
-    createdAt: item.createdAt,
-    updatedAt: item.updatedAt,
+function transformToResponse(data: unknown[]): IAuditStatusResponse[] {
+  return (data as Array<Record<string, unknown>>).map(item => ({
+    id: item.id as string,
+    status: item.status as string,
+    repoUrl: item.repoUrl as string,
+    branchName: item.branchName as string,
+    targetBranch: item.targetBranch as string,
+    validationResult: (item.validationResult ?? undefined) as IAuditStatusResponse['validationResult'],
+    generatedContent: (item.generatedContent ?? undefined) as IAuditStatusResponse['generatedContent'],
+    prUrl: (item.prUrl ?? undefined) as string | undefined,
+    errorMessage: (item.errorMessage ?? undefined) as string | undefined,
+    createdAt: item.createdAt as Date,
+    updatedAt: item.updatedAt as Date,
   }))
 }
 
 /**
- * Server Component page para listar auditorías del usuario.
- * Obtiene datos del servidor y los pasa al componente cliente.
+ * Server Component page para listar auditorías.
+ * Muestra todas las auditorías (incluyendo las del CLI anónimo).
  */
 export default async function AuditsPage({ searchParams }: IPageProps) {
   const t = await getTranslations('dashboard.audits')
   const session = await getSession()
 
-  const params = await searchParams
-  const page = params.page ? parseInt(params.page) : 1
-  const limit = params.limit ? parseInt(params.limit) : 10
+  // Verificar autenticación
+  if (!session?.user) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <p className="text-muted-foreground">Please sign in to view audits.</p>
+      </div>
+    )
+  }
 
-  // Obtener auditorías del usuario
-  const result = session?.user?.id
-    ? await listAudits(session.user.id, { page, limit })
-    : { data: [], pageCount: 0, total: 0 }
+  const params = await searchParams
+  const page = params.page ? parseInt(params.page, 10) : 1
+  const limit = params.limit ? parseInt(params.limit, 10) : 10
+
+  // Obtener todas las auditorías (incluyendo anónimas del CLI)
+  const result = await listAllAudits({ page, limit })
 
   return (
-    <section className="p-3 h-full" aria-labelledby="audits-page-heading">
+    <section className="flex flex-col gap-4 p-3 h-full" aria-labelledby="audits-page-heading">
       <h1 id="audits-page-heading" className="sr-only">
         {t('pageTitle')}
       </h1>
@@ -67,7 +74,7 @@ export default async function AuditsPage({ searchParams }: IPageProps) {
           noResultsTitle: t('noAudits'),
           noResultsDescription: t('noAuditsDescription'),
           rowsPerPage: 'Rows per page',
-          pageOf: 'Page {current} of {total}',
+          pageOf: `Page ${page} of ${result.pageCount || 1}`,
         }}
       />
     </section>

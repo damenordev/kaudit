@@ -201,7 +201,8 @@
       "users": "Usuarios",
       "editor": "Demo Editor",
       "kanban": "Kanban",
-      "aiChat": "Chat IA"
+      "aiChat": "Chat IA",
+      "audits": "Auditorías"
     },
     "breadcrumbs": {
       "dashboard": "Panel",
@@ -269,6 +270,47 @@
       "securityLevel": "Nivel de Seguridad",
       "infrastructureEvents": "Eventos de Infraestructura",
       "viewFullAudit": "Ver Auditoría Completa"
+    },
+    "audits": {
+      "pageTitle": "Auditorías",
+      "pageDescription": "Ver y gestionar tus auditorías de código",
+      "noAudits": "Sin auditorías",
+      "noAuditsDescription": "Inicia tu primera auditoría desde la CLI",
+      "table": {
+        "date": "Fecha",
+        "repository": "Repositorio",
+        "status": "Estado",
+        "prUrl": "PR",
+        "actions": "Acciones",
+        "viewDetails": "Ver"
+      },
+      "detail": {
+        "repository": "Repositorio",
+        "branch": "Rama",
+        "targetBranch": "Destino",
+        "createdAt": "Creado",
+        "viewPR": "Ver Pull Request",
+        "validation": {
+          "title": "Resultados de Validación",
+          "noIssues": "Sin problemas detectados",
+          "issuesFound": "Problemas encontrados",
+          "line": "Línea",
+          "suggestion": "Sugerencia"
+        },
+        "content": {
+          "title": "Contenido Generado",
+          "noContent": "Sin contenido generado aún"
+        },
+        "error": {
+          "title": "Error",
+          "prefix": "La auditoría falló"
+        },
+        "notFound": {
+          "title": "Auditoría No Encontrada",
+          "description": "La auditoría que buscas no existe o ha sido eliminada.",
+          "backToList": "Volver a Auditorías"
+        }
+      }
     }
   }
 }

@@ -8,8 +8,18 @@ import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { createTable } from '@/core/lib/db'
 import { user } from '@/modules/auth/models/auth.schema'
 
+import type { IGeneratedContent, IValidationResult } from '../types'
+
 // Enum de estados de una auditoría
-export const auditStatusEnum = ['pending', 'processing', 'validating', 'generating', 'completed', 'failed'] as const
+export const auditStatusEnum = [
+  'pending',
+  'processing',
+  'validating',
+  'generating',
+  'completed',
+  'failed',
+  'blocked',
+] as const
 export type TAuditStatus = (typeof auditStatusEnum)[number]
 
 // Tabla principal de auditorías
@@ -30,8 +40,8 @@ export const audit = createTable(
     gitDiffHash: varchar('git_diff_hash', { length: 64 }).unique(),
     // Estado y resultados
     status: text('status', { enum: auditStatusEnum }).default('pending').notNull(),
-    validationResult: jsonb('validation_result').$type<Record<string, unknown>>(),
-    generatedContent: jsonb('generated_content').$type<Record<string, unknown>>(),
+    validationResult: jsonb('validation_result').$type<IValidationResult>(),
+    generatedContent: jsonb('generated_content').$type<IGeneratedContent>(),
     // URLs y errores
     prUrl: text('pr_url'),
     errorMessage: text('error_message'),

@@ -54,15 +54,7 @@ export default async function AuditDetailPage({ params }: IPageProps) {
   }
 
   return (
-    <section className="p-3 h-full" aria-labelledby="audit-detail-heading">
-      <div className="mb-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/dashboard/audits">
-            <ArrowLeft className="size-4" />
-            {t('detail.notFound.backToList')}
-          </Link>
-        </Button>
-      </div>
+    <section className="p-3 h-full max-w-7xl mx-auto" aria-labelledby="audit-detail-heading">
       <h1 id="audit-detail-heading" className="sr-only">
         {t('pageTitle')} - {audit.id}
       </h1>

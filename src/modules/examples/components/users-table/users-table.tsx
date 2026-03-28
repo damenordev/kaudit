@@ -74,8 +74,6 @@ export const UsersTable = ({ data, pageCount }: IUsersTableProps) => {
     noResultsTitle: 'No users found',
     noResultsDescription: 'Try adjusting your search',
     rowsPerPage: 'Rows per page',
-    pageOf: ({ current, total }) => `Page ${current} of ${total}`,
-    rowsSelected: ({ selected, total }) => `${selected} of ${total} selected`,
     reset: 'Reset',
     tableView: 'Table',
     gridView: 'Grid',
