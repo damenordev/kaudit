@@ -8,7 +8,7 @@ import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { createTable } from '@/core/lib/db'
 import { user } from '@/modules/auth/models/auth.schema'
 
-import type { IGeneratedContent, IValidationResult } from '../types'
+import type { IAuditCommit, IChangedFile, IEnrichedIssue, IGeneratedContent, IValidationResult } from '../types'
 
 // Enum de estados de una auditoría
 export const auditStatusEnum = [
@@ -38,6 +38,10 @@ export const audit = createTable(
     // Contenido del diff
     gitDiff: text('git_diff'),
     gitDiffHash: varchar('git_diff_hash', { length: 64 }).unique(),
+    // Datos estructurados del diff (FASE 1)
+    changedFiles: jsonb('changed_files').$type<IChangedFile[]>(),
+    commits: jsonb('commits').$type<IAuditCommit[]>(),
+    issues: jsonb('issues').$type<IEnrichedIssue[]>(),
     // Estado y resultados
     status: text('status', { enum: auditStatusEnum }).default('pending').notNull(),
     validationResult: jsonb('validation_result').$type<IValidationResult>(),
