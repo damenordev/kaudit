@@ -1,8 +1,17 @@
+/**
+ * Hook para obtener contenido de archivos vía Server Action.
+ * Reemplaza la llamada fetch al endpoint HTTP por una llamada directa,
+ * eliminando la capa de red y simplificando el manejo de errores.
+ */
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
 
-interface IFileContentResult {
+import { getFileContentAction } from '../actions/file-content.actions'
+import type { IFileContentActionData } from '../actions/file-content.actions'
+
+// Interfaz pública del hook (se mantiene igual para los consumidores)
+export interface IFileContentResult {
   originalContent: string | null
   modifiedContent: string | null
   language: string
@@ -10,10 +19,24 @@ interface IFileContentResult {
   error: string | null
 }
 
+// Caché en memoria para evitar llamadas repetidas al server action
 const cache = new Map<string, IFileContentResult>()
 
 function buildCacheKey(auditId: string, filePath: string): string {
   return `${auditId}::${filePath}`
+}
+
+/**
+ * Mapea la respuesta exitosa del action al formato del hook.
+ */
+function mapActionDataToResult(data: IFileContentActionData): IFileContentResult {
+  return {
+    originalContent: data.originalContent,
+    modifiedContent: data.modifiedContent,
+    language: data.language,
+    isLoading: false,
+    error: null,
+  }
 }
 
 export function useFileContent(auditId: string, filePath: string): IFileContentResult {
@@ -36,38 +59,33 @@ export function useFileContent(auditId: string, filePath: string): IFileContentR
       return
     }
 
-    const loadingState: IFileContentResult = {
+    setResult({
       originalContent: null,
       modifiedContent: null,
       language: '',
       isLoading: true,
       error: null,
-    }
-    setResult(loadingState)
+    })
 
-    try {
-      const encodedPath = filePath.split('/').map(encodeURIComponent).join('/')
-      const res = await fetch(`/api/audit/${auditId}/files/${encodedPath}?content=true`)
+    // Llamada directa al server action (sin HTTP)
+    const actionResult = await getFileContentAction(auditId, filePath)
 
-      if (!res.ok) {
-        throw new Error(`Error ${res.status}: ${res.statusText}`)
-      }
-
-      const data: IFileContentResult = await res.json()
-      cache.set(key, data)
-      setResult(data)
-    } catch (err) {
-      const errorResult: IFileContentResult = {
+    if (actionResult.success) {
+      const mapped = mapActionDataToResult(actionResult.data)
+      cache.set(key, mapped)
+      setResult(mapped)
+    } else {
+      setResult({
         originalContent: null,
         modifiedContent: null,
         language: '',
         isLoading: false,
-        error: err instanceof Error ? err.message : 'Error desconocido',
-      }
-      setResult(errorResult)
+        error: actionResult.error,
+      })
     }
   }, [auditId, filePath, key])
 
+  // Trigger fetch automático si no hay datos en caché ni en vuelo
   if (!cached.current && !result.isLoading && !result.error && !result.originalContent) {
     void fetchContent()
   }

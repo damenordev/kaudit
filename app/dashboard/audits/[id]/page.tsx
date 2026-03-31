@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { getAuditById } from '@/modules/audit/queries/audit.queries'
@@ -10,6 +11,11 @@ import { Spinner } from '@/core/ui/spinner'
 import { ArrowLeft } from 'lucide-react'
 
 import type { IAuditCommit, IChangedFile, IEnrichedIssue } from '@/modules/audit/types'
+
+export const metadata: Metadata = {
+  title: 'Detalle de Auditoría',
+  description: 'Detalle completo de una auditoría con diff, issues y chat',
+}
 
 interface IPageProps {
   params: Promise<{ id: string }>

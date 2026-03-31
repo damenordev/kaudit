@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import type { Metadata } from 'next'
 
 import { getSession } from '@/modules/auth/services/auth.service'
 import { listAllAudits } from '@/modules/audit/queries/audit.queries'
@@ -6,6 +7,11 @@ import { AuditsTable } from '@/modules/audit/components/audits-table'
 import { type IDataTableTranslations } from '@/core/ui/data-table'
 import type { IAuditStatusResponse } from '@/modules/audit/types/api.types'
 import type { TAuditStatus } from '@/modules/audit/models/audit.schema'
+
+export const metadata: Metadata = {
+  title: 'Auditorías',
+  description: 'Listado de auditorías con filtros y paginación',
+}
 
 interface IPageProps {
   searchParams: Promise<{
