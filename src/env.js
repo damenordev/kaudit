@@ -13,8 +13,10 @@ export const env = createEnv({
     // Inngest - opcional, solo requerido cuando se usa Inngest
     INNGEST_EVENT_KEY: z.string().optional(),
     INNGEST_SIGNING_KEY: z.string().optional(),
-    // GitHub - opcional en desarrollo, requerido en producción
-    GITHUB_TOKEN: process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
+    // URL base del servidor Inngest (self-hosted). Por defecto apunta a Inngest Cloud.
+    INNGEST_BASE_URL: z.string().url().optional(),
+    // GitHub - opcional en todos los entornos, solo necesario para llamadas al API de GitHub
+    GITHUB_TOKEN: z.string().optional(),
     // GitHub App OAuth
     GITHUB_APP_CLIENT_ID: z.string().optional(),
     GITHUB_APP_CLIENT_SECRET: z.string().optional(),
@@ -37,6 +39,7 @@ export const env = createEnv({
     SENTRY_DSN: process.env.SENTRY_DSN,
     INNGEST_EVENT_KEY: process.env.INNGEST_EVENT_KEY,
     INNGEST_SIGNING_KEY: process.env.INNGEST_SIGNING_KEY,
+    INNGEST_BASE_URL: process.env.INNGEST_BASE_URL,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     GITHUB_APP_CLIENT_ID: process.env.GITHUB_APP_CLIENT_ID,
     GITHUB_APP_CLIENT_SECRET: process.env.GITHUB_APP_CLIENT_SECRET,

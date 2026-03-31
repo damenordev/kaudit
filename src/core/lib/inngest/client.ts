@@ -53,4 +53,7 @@ export interface IInngestEvents {
 export const inngest = new Inngest({
   id: 'github-auditor',
   eventKey: env.INNGEST_EVENT_KEY,
+  // URL base del servidor Inngest (self-hosted o dev server). Si no se define,
+  // el SDK usa Inngest Cloud por defecto.
+  ...(env.INNGEST_BASE_URL ? { baseUrl: env.INNGEST_BASE_URL } : {}),
 })

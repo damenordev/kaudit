@@ -5,6 +5,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { env } from '@/env'
 import { inngest } from '@/core/lib/inngest/client'
 import { authenticateRequest } from '@/modules/auth/lib/cli-auth.middleware'
 import { createAudit } from '@/modules/audit/queries/audit.queries'
@@ -32,20 +33,28 @@ export async function POST(req: Request) {
 
     // Envío de evento a Inngest: no bloquea la respuesta si falla.
     // La auditoría ya fue creada en DB y puede procesarse después.
-    try {
-      await inngest.send({
-        name: 'audit/created',
-        data: {
-          auditId,
-          repoUrl: validated.repoUrl,
-          branchName: validated.branchName,
-          targetBranch: validated.targetBranch,
-          userId: userId ?? null,
-          options: validated.options,
-        },
-      })
-    } catch (inngestError) {
-      console.error('[audit/start] Error enviando evento a Inngest:', inngestError)
+    if (!env.INNGEST_EVENT_KEY) {
+      console.warn('[audit/start] INNGEST_EVENT_KEY no configurado — evento audit/created omitido')
+    } else {
+      try {
+        await inngest.send({
+          name: 'audit/created',
+          data: {
+            auditId,
+            repoUrl: validated.repoUrl,
+            branchName: validated.branchName,
+            targetBranch: validated.targetBranch,
+            userId: userId ?? null,
+            options: validated.options,
+          },
+        })
+      } catch (inngestError) {
+        // Clave inválida o servidor Inngest no disponible — no es fatal
+        console.warn(
+          '[audit/start] No se pudo enviar evento a Inngest (la auditoría persiste en DB):',
+          inngestError instanceof Error ? inngestError.message : inngestError
+        )
+      }
     }
 
     return NextResponse.json({ auditId, status: 'pending' }, { status: 201 })
