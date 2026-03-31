@@ -15,6 +15,20 @@
       "when": 1774460428353,
       "tag": "0001_parallel_butterfly",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774663736053,
+      "tag": "0002_productive_butterfly",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774917837666,
+      "tag": "0003_optimal_frightful_four",
+      "breakpoints": true
     }
   ]
 }

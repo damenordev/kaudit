@@ -1,6 +1,9 @@
 /**
  * Schema de la tabla audit para el sistema de auditorías de GitHub.
- * Incluye el enum de estados y las relaciones con el usuario.
+ * Incluye las relaciones con el usuario.
+ *
+ * NOTA: Los constantes (auditStatusEnum, TAuditStatus) están en audit.constants.ts
+ * para evitar que Client Components importen este archivo (que usa postgres → fs).
  */
 import { relations } from 'drizzle-orm'
 import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
@@ -8,9 +11,20 @@ import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { createTable } from '@/core/lib/db'
 import { user } from '@/modules/auth/models/auth.schema'
 
-// Enum de estados de una auditoría
-export const auditStatusEnum = ['pending', 'processing', 'validating', 'generating', 'completed', 'failed'] as const
-export type TAuditStatus = (typeof auditStatusEnum)[number]
+import type {
+  IAuditCommit,
+  IChangedFile,
+  IDocstringResult,
+  IEnrichedIssue,
+  IGeneratedContent,
+  IGeneratedTest,
+  IValidationResult,
+} from '../types'
+
+import { auditStatusEnum } from './audit.constants'
+
+// Re-exportar constantes para conveniencia del código de servidor
+export { auditStatusEnum, type TAuditStatus } from './audit.constants'
 
 // Tabla principal de auditorías
 export const audit = createTable(
@@ -28,10 +42,18 @@ export const audit = createTable(
     // Contenido del diff
     gitDiff: text('git_diff'),
     gitDiffHash: varchar('git_diff_hash', { length: 64 }).unique(),
+    // Datos estructurados del diff (FASE 1)
+    changedFiles: jsonb('changed_files').$type<IChangedFile[]>(),
+    commits: jsonb('commits').$type<IAuditCommit[]>(),
+    issues: jsonb('issues').$type<IEnrichedIssue[]>(),
     // Estado y resultados
     status: text('status', { enum: auditStatusEnum }).default('pending').notNull(),
-    validationResult: jsonb('validation_result').$type<Record<string, unknown>>(),
-    generatedContent: jsonb('generated_content').$type<Record<string, unknown>>(),
+    validationResult: jsonb('validation_result').$type<IValidationResult>(),
+    generatedContent: jsonb('generated_content').$type<IGeneratedContent>(),
+    // Docstrings generados automáticamente para funciones sin documentar
+    docstrings: jsonb('docstrings').$type<IDocstringResult[]>(),
+    // Tests unitarios generados automáticamente
+    generatedTests: jsonb('generated_tests').$type<IGeneratedTest[]>(),
     // URLs y errores
     prUrl: text('pr_url'),
     errorMessage: text('error_message'),

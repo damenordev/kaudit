@@ -9,6 +9,14 @@ import { env } from '@/env'
 // IDs de eventos disponibles en el sistema
 export type TInngestEventIds = 'audit/created' | 'audit/processing' | 'audit/completed' | 'audit/failed'
 
+/** Opciones para omitir steps opcionales del workflow de auditoría */
+export interface IAuditOptions {
+  skipPRDescription?: boolean
+  skipDocstrings?: boolean
+  skipTests?: boolean
+  skipPRComments?: boolean
+}
+
 // Definición de tipos de eventos para type safety
 export interface IInngestEvents {
   'audit/created': {
@@ -18,6 +26,7 @@ export interface IInngestEvents {
       branchName: string
       targetBranch: string
       userId: string | null
+      options?: IAuditOptions
     }
   }
   'audit/processing': {

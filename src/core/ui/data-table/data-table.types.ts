@@ -40,10 +40,10 @@ export interface IDataTableTranslations {
   noResultsTitle?: string
   noResultsDescription?: string
   rowsPerPage?: string
-  /** Función que recibe { current, total } y devuelve el texto del indicador de página. */
-  pageOf?: (params: { current: number; total: number }) => string
-  /** Función que recibe { selected, total } y devuelve el texto de selección. */
-  rowsSelected?: (params: { selected: number; total: number }) => string
+  /** Texto del indicador de página. Si no se proporciona, se usa el default. */
+  pageOf?: string
+  /** Texto de filas seleccionadas. Si no se proporciona, se usa el default. */
+  rowsSelected?: string
   selectAll?: string
   selectRow?: string
   reset?: string

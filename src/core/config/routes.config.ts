@@ -20,8 +20,11 @@ export const routesConfig = {
   dashboard: {
     root: '/dashboard',
     settings: '/dashboard/settings',
-    users: '/dashboard/examples/users',
     aiChat: '/dashboard/ai-chat',
+    audits: {
+      list: '/dashboard/audits',
+      detail: (id: string) => `/dashboard/audits/${id}`,
+    },
   },
 } as const
 

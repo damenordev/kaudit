@@ -198,16 +198,15 @@
       "dashboard": "Panel",
       "overview": "Resumen",
       "settings": "Configuración",
-      "users": "Usuarios",
       "editor": "Demo Editor",
       "kanban": "Kanban",
-      "aiChat": "Chat IA"
+      "aiChat": "Chat IA",
+      "audits": "Auditorías"
     },
     "breadcrumbs": {
       "dashboard": "Panel",
       "overview": "Resumen",
-      "settings": "Configuración",
-      "users": "Usuarios"
+      "settings": "Configuración"
     },
     "userMenu": {
       "language": "Idioma",
@@ -259,6 +258,10 @@
       "title": "Panel de Control",
       "description": "Monitorización de sistemas y métricas críticas en tiempo real.",
       "totalUsers": "Total Usuarios",
+      "totalAudits": "Total Auditorías",
+      "completed": "Completadas",
+      "totalIssues": "Total Issues",
+      "active": "Activas",
       "revenue": "Ingresos",
       "activeNodes": "Nodos Activos",
       "uptime": "Tiempo de Actividad",
@@ -268,7 +271,99 @@
       "complianceDescription": "Protocolos de seguridad validados. Sin incidencias críticas registradas.",
       "securityLevel": "Nivel de Seguridad",
       "infrastructureEvents": "Eventos de Infraestructura",
-      "viewFullAudit": "Ver Auditoría Completa"
+      "viewFullAudit": "Ver Auditoría Completa",
+      "issuesBySeverity": {
+        "title": "Issues por Severidad",
+        "description": "Distribución en todas las auditorías",
+        "critical": "Crítico",
+        "error": "Error",
+        "warning": "Advertencia",
+        "info": "Info"
+      },
+      "approvalRate": {
+        "title": "Tasa de Aprobación",
+        "failedOfTotal": "{failed} fallidas / {total} auditorías totales",
+        "status": "Estado",
+        "active": "Activo",
+        "idle": "Inactivo"
+      },
+      "recentAudits": {
+        "title": "Auditorías Recientes",
+        "emptyState": "Sin auditorías aún. Crea tu primera auditoría para ver datos aquí."
+      },
+      "timeAgo": {
+        "now": "ahora",
+        "minutesAgo": "hace {count}m",
+        "hoursAgo": "hace {count}h",
+        "daysAgo": "hace {count}d"
+      }
+    },
+    "audits": {
+      "pageTitle": "Auditorías",
+      "pageDescription": "Ver y gestionar tus auditorías de código",
+      "noAudits": "Sin auditorías",
+      "noAuditsDescription": "Inicia tu primera auditoría desde la CLI",
+      "table": {
+        "date": "Fecha",
+        "repository": "Repositorio",
+        "status": "Estado",
+        "prUrl": "PR",
+        "actions": "Acciones",
+        "viewDetails": "Ver"
+      },
+      "filters": {
+        "searchPlaceholder": "Buscar por repositorio...",
+        "searchAriaLabel": "Buscar por repositorio",
+        "statusPlaceholder": "Estado",
+        "allStatuses": "Todos los estados",
+        "dateRange": "Rango de fechas",
+        "clearDates": "Limpiar fechas",
+        "clear": "Limpiar"
+      },
+      "detail": {
+        "repository": "Repositorio",
+        "branch": "Rama",
+        "targetBranch": "Destino",
+        "createdAt": "Creado",
+        "viewPR": "Ver Pull Request",
+        "validation": {
+          "title": "Resultados de Validación",
+          "noIssues": "Sin problemas detectados",
+          "issuesFound": "Problemas encontrados",
+          "line": "Línea",
+          "suggestion": "Sugerencia"
+        },
+        "content": {
+          "title": "Contenido Generado",
+          "noContent": "Sin contenido generado aún"
+        },
+        "error": {
+          "title": "Error",
+          "prefix": "La auditoría falló"
+        },
+        "notFound": {
+          "title": "Auditoría No Encontrada",
+          "description": "La auditoría que buscas no existe o ha sido eliminada.",
+          "backToList": "Volver a Auditorías"
+        },
+        "diagrams": {
+          "files": "Archivos",
+          "commitFlow": "Commits",
+          "commitSequence": "Secuencia"
+        },
+        "chat": {
+          "title": "Chat con IA",
+          "badge": "Contextual",
+          "placeholder": "Pregunta sobre los issues o cambios del PR",
+          "contextInfo": "La IA tiene contexto completo de la auditoría",
+          "filesCount": "{count} archivos",
+          "issuesCount": "{count} issues",
+          "thinking": "Pensando...",
+          "errorMessage": "Error: no se pudo obtener respuesta.",
+          "connectionError": "Error: conexión fallida.",
+          "inputPlaceholder": "Pregunta sobre los issues o cambios..."
+        }
+      }
     }
   }
 }
