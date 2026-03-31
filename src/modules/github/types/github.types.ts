@@ -29,6 +29,8 @@ export interface IGitHubPrResult {
   prUrl: string
   /** Fecha de creación */
   created: Date
+  /** Indica si se actualizó un PR existente en lugar de crear uno nuevo */
+  updated?: boolean
 }
 
 /** Parámetros para publicar comentarios inline en un PR */

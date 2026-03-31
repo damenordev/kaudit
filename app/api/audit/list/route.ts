@@ -8,21 +8,19 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { requireAuth } from '@/modules/auth/services/auth.service'
+import { authenticateRequest } from '@/modules/auth/lib/cli-auth.middleware'
 import { listAudits, listAllAudits } from '@/modules/audit/queries/audit.queries'
 import { auditListQuerySchema } from '@/modules/audit/types/api.types'
 
 export async function GET(req: Request) {
   try {
-    // Verificar autenticación
-    let userId: string | undefined
-    try {
-      const session = await requireAuth()
-      userId = session.user.id
-    } catch {
-      // Usuario no autenticado - no puede ver auditorías
+    // Autenticación unificada: sesión web o API key del CLI
+    const authenticatedUser = await authenticateRequest(req)
+    if (!authenticatedUser) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const userId = authenticatedUser.userId
 
     const { searchParams } = new URL(req.url)
     const query = auditListQuerySchema.parse({

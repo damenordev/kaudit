@@ -10,7 +10,7 @@
  */
 import { NextResponse } from 'next/server'
 
-import { requireAuth } from '@/modules/auth/services/auth.service'
+import { authenticateRequest } from '@/modules/auth/lib/cli-auth.middleware'
 import { getAuditById } from '@/modules/audit/queries/audit.queries'
 
 import type { IAuditStatusResponse } from '@/modules/audit/types/api.types'
@@ -48,16 +48,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       return NextResponse.json({ error: 'Audit not found' }, { status: 404 })
     }
 
-    // Intentar obtener sesión para verificar ownership
-    // Si no hay sesión (CLI anónimo), permitir acceso a la auditoría
-    try {
-      const session = await requireAuth()
-      // Usuario autenticado - verificar ownership solo si la auditoría tiene userId
-      if (audit.userId && audit.userId !== session.user.id) {
-        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-      }
-    } catch {
-      // Usuario CLI anónimo - permitir acceso a la auditoría existente
+    // Autenticación unificada: sesión web o API key del CLI
+    const authenticatedUser = await authenticateRequest(req)
+
+    // Usuario autenticado - verificar ownership solo si la auditoría tiene userId
+    if (authenticatedUser && audit.userId && audit.userId !== authenticatedUser.userId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
     // Respuesta explícita: solo campos necesarios para polling del CLI

@@ -1,45 +1,44 @@
 /**
- * Dashboard Overview con datos reales de auditorías.
- * Server Component optimizado con Suspense para streaming progresivo.
- * El header se renderiza inmediatamente mientras las estadísticas cargan.
+ * Dashboard Overview - Real data from audits.
+ * Server Component optimized with Suspense for progressive streaming.
  */
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { Badge } from '@/core/ui/badge'
-import { LayoutGrid, Cpu } from 'lucide-react'
-
 import { DashboardStatsContent } from './components/dashboard-stats-content'
+import { DashboardQuickAction } from './components/dashboard-quick-action'
 
 export const metadata: Metadata = {
   title: 'Dashboard Overview',
-  description: 'Panel de control con estadísticas de auditorías',
+  description: 'Mission Control with historical stats and real-time audit activity.',
+}
+
+interface IQuickActionTranslations {
+  title: string
+  description: string
+  command: string
+  copy: string
+  copied: string
 }
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard.overview')
+  const quickActionT = t.raw('quickAction') as IQuickActionTranslations
 
   return (
-    <div className="flex flex-col gap-3 p-3 w-full animate-in fade-in duration-500">
-      {/* Header — se renderiza inmediatamente */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <LayoutGrid className="size-5 text-primary" />
-            <h1 className="text-3xl font-black tracking-tighter uppercase">{t('title')}</h1>
-          </div>
-          <p className="text-sm text-muted-foreground font-medium">{t('description')}</p>
+    <div className="flex flex-col gap-8 p-4 md:p-8 w-full animate-in fade-in duration-700 max-w-(--breakpoint-2xl) mx-auto">
+      {/* Header — Static and visible immediately */}
+      <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+        <div className="space-y-2">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic leading-none">{t('title')}</h1>
+          <p className="text-sm md:text-base text-muted-foreground font-bold tracking-tight opacity-50">{t('description')}</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="secondary" className="font-bold px-3 py-1 bg-primary/5 text-primary border-primary/20">
-            AUDITS
-          </Badge>
-          <div className="size-9 rounded-lg border border-border/50 flex items-center justify-center bg-card shadow-xs">
-            <Cpu className="size-4 text-muted-foreground" />
-          </div>
-        </div>
+        <DashboardQuickAction 
+          translations={quickActionT} 
+          className="w-full lg:w-auto min-w-[320px]" 
+        />
       </header>
 
-      {/* Estadísticas — cargan vía Suspense con streaming */}
+      {/* Statistics and Charts — Dynamic streaming content via Suspense */}
       <DashboardStatsContent />
     </div>
   )

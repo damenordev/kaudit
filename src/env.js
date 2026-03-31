@@ -20,6 +20,9 @@ export const env = createEnv({
     GITHUB_APP_CLIENT_SECRET: z.string().optional(),
     // Secreto del webhook de GitHub App
     GITHUB_WEBHOOK_SECRET: z.string().optional(),
+    // GitHub App - autenticación como App (requiere ambos para modo App)
+    GITHUB_APP_ID: z.string().optional(),
+    GITHUB_APP_PRIVATE_KEY: z.string().optional(),
   },
 
   client: {},
@@ -38,6 +41,8 @@ export const env = createEnv({
     GITHUB_APP_CLIENT_ID: process.env.GITHUB_APP_CLIENT_ID,
     GITHUB_APP_CLIENT_SECRET: process.env.GITHUB_APP_CLIENT_SECRET,
     GITHUB_WEBHOOK_SECRET: process.env.GITHUB_WEBHOOK_SECRET,
+    GITHUB_APP_ID: process.env.GITHUB_APP_ID,
+    GITHUB_APP_PRIVATE_KEY: process.env.GITHUB_APP_PRIVATE_KEY,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

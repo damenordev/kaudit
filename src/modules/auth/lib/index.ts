@@ -1,2 +1,5 @@
 export { authClient } from './auth-client'
 export type { Session } from './auth.config'
+export { validateApiKey } from './api-key-auth'
+export { authenticateRequest, requireAuthOrApiKey, requireAuthWithOwnership } from './cli-auth.middleware'
+export type { IAuthenticatedUser } from './cli-auth.middleware'

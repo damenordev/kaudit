@@ -1,13 +1,8 @@
-/**
- * Endpoint para crear un Pull Request desde el CLI.
- * POST /api/audit/[id]/create-pr
- *
- * Permite acceso anónimo para CLI - usa Octokit en lugar de gh CLI.
- * No acepta body en la petición.
- */
+/** Endpoint para crear un Pull Request desde el CLI. Requiere autenticación. */
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
+import { requireAuthOrApiKey } from '@/modules/auth/lib/cli-auth.middleware'
 import { getAuditById, updateAuditStatus } from '@/modules/audit/queries/audit.queries'
 import { createPullRequest, isGitHubAvailable } from '@/modules/github/services/github.service'
 
@@ -18,6 +13,7 @@ interface ICreatePrResponse {
   success: boolean
   prUrl?: string
   prNumber?: number
+  updated?: boolean
   error?: string
 }
 
@@ -51,6 +47,8 @@ export async function POST(
 ): Promise<NextResponse<ICreatePrResponse>> {
   try {
     const { id } = await params
+    // CRÍTICO: Requiere autenticación obligatoria (sesión web o API key del CLI)
+    const authenticatedUser = await requireAuthOrApiKey(req)
 
     // Validar que el body esté vacío o sea un objeto vacío
     let body: unknown
@@ -61,7 +59,7 @@ export async function POST(
     }
     emptyBodySchema.parse(body)
 
-    // Verificar que GitHub está configurado en el servidor
+    // Verificar que GitHub está configurado
     if (!isGitHubAvailable()) {
       return NextResponse.json(
         { success: false, error: 'GitHub no está configurado en el servidor. Falta GITHUB_TOKEN.' },
@@ -69,10 +67,15 @@ export async function POST(
       )
     }
 
-    // Obtener la auditoría
+    // Obtener auditoría y verificar existencia
     const audit = await getAuditById(id)
     if (!audit) {
       return NextResponse.json({ success: false, error: 'Auditoría no encontrada' }, { status: 404 })
+    }
+
+    // Verificar ownership si el usuario está autenticado y la auditoría tiene userId
+    if (authenticatedUser && audit.userId && audit.userId !== authenticatedUser.userId) {
+      return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 })
     }
 
     // Verificar estado completado
@@ -119,15 +122,19 @@ export async function POST(
       body: prBody,
     })
 
-    // Actualizar la auditoría con la URL del PR
+    // Actualizar auditoría con URL del PR
     await updateAuditStatus(id, 'completed', { prUrl: prResult.prUrl })
 
     return NextResponse.json({
       success: true,
       prUrl: prResult.prUrl,
       prNumber: prResult.prNumber,
+      updated: prResult.updated,
     })
   } catch (error) {
+    if (error instanceof Error && error.message === 'Authentication required') {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+    }
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, error: 'Este endpoint no acepta body', details: error.issues },

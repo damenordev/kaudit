@@ -15,3 +15,5 @@ export const requireAuth = async () => {
 
 export { auth } from '../lib/auth.config'
 export type { Session } from '../lib/auth.config'
+export { authenticateRequest, requireAuthOrApiKey, requireAuthWithOwnership } from '../lib/cli-auth.middleware'
+export type { IAuthenticatedUser } from '../lib/cli-auth.middleware'

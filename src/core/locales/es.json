@@ -296,6 +296,26 @@
         "minutesAgo": "hace {count}m",
         "hoursAgo": "hace {count}h",
         "daysAgo": "hace {count}d"
+      },
+      "quickAction": {
+        "title": "Auditoría Rápida",
+        "description": "Ejecuta este comando en tu repositorio local",
+        "command": "npx audit-ship",
+        "copy": "Copiar",
+        "copied": "¡Copiado!"
+      },
+      "statusDistribution": {
+        "title": "Estado de Auditorías",
+        "description": "Distribución global por estado"
+      },
+      "onboarding": {
+        "title": "Bienvenido a KAudit",
+        "description": "Tu asistente de ingeniería AI-first está listo. Sigue estos pasos para comenzar:",
+        "step1": "Abre tu terminal en tu proyecto",
+        "step2": "Ejecuta el comando de auditoría",
+        "step3": "Refresca esta página para ver resultados",
+        "action": "Copiar Comando",
+        "command": "npx audit-ship"
       }
     },
     "audits": {

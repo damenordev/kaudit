@@ -6,7 +6,7 @@ import 'server-only'
 
 import { generateObject } from 'ai'
 
-import { AI_CALL_TIMEOUT_MS, getLightModel } from '@/core/config/ai.config'
+import { AI_CALL_TIMEOUT_MS, getLightModelInstance } from '@/core/config/ai.config'
 
 import { truncateDiffForModel } from '../lib/truncate-diff.utils'
 import { testGenerationPrompt, testGenerationSchema } from '../lib/prompts/test-generation.prompt'
@@ -41,7 +41,7 @@ export async function generateTestsForFile(
 
   try {
     const result = await generateObject({
-      model: getLightModel(),
+      model: getLightModelInstance(),
       schema: testGenerationSchema,
       prompt: testGenerationPrompt(
         file.path,

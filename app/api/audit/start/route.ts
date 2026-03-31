@@ -6,21 +6,16 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { inngest } from '@/core/lib/inngest/client'
-import { requireAuth } from '@/modules/auth/services/auth.service'
+import { authenticateRequest } from '@/modules/auth/lib/cli-auth.middleware'
 import { createAudit } from '@/modules/audit/queries/audit.queries'
 import { auditStartSchema } from '@/modules/audit/types/api.types'
 import { nanoid } from 'nanoid'
 
 export async function POST(req: Request) {
   try {
-    // Auth es nullable - CLI puede ser anónimo
-    let userId: string | undefined
-    try {
-      const session = await requireAuth()
-      userId = session.user.id
-    } catch {
-      // Usuario CLI anónimo - permitido
-    }
+    // Autenticación unificada: sesión web o API key del CLI
+    const authenticatedUser = await authenticateRequest(req)
+    const userId = authenticatedUser?.userId
 
     const body = await req.json()
     const validated = auditStartSchema.parse(body)
@@ -57,7 +52,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('[audit/start] Error no controlado:', error)
 
-    if (error instanceof Error && error.message === 'Unauthorized') {
+    if (error instanceof Error && error.message === 'Authentication required') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     if (error instanceof z.ZodError) {
