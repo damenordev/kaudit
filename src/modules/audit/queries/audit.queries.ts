@@ -4,20 +4,32 @@
  */
 import 'server-only'
 
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, gte, ilike, lte, sql } from 'drizzle-orm'
 
 import { db } from '@/core/lib/db'
 
-import type { IGeneratedContent, IValidationResult } from '../types'
+import type {
+  IAuditCommit,
+  IChangedFile,
+  IDocstringResult,
+  IEnrichedIssue,
+  IGeneratedContent,
+  IGeneratedTest,
+  IValidationResult,
+} from '../types'
 import { audit, type TAuditStatus } from '../models/audit.schema'
 
-// Tipo para los datos de actualización de audit
 type TUpdateAuditData = Partial<{
   status: TAuditStatus
   validationResult: IValidationResult
   generatedContent: IGeneratedContent
+  docstrings: IDocstringResult[]
+  generatedTests: IGeneratedTest[]
   prUrl: string
   errorMessage: string
+  changedFiles: IChangedFile[]
+  commits: IAuditCommit[]
+  issues: IEnrichedIssue[]
   updatedAt: Date
 }>
 
@@ -122,23 +134,49 @@ export async function listAudits(userId: string, options?: { page?: number; limi
 }
 
 /**
- * Lista todas las auditorías con paginación y filtros.
+ * Lista todas las auditorías con paginación y filtros avanzados.
  * Incluye auditorías anónimas (del CLI) y de usuarios.
- * @param options - Opciones de paginación y filtro
+ * Soporta filtrado por status, búsqueda por repo y rango de fechas.
+ * @param options - Opciones de paginación y filtros
  * @returns Lista paginada de auditorías
  */
-export async function listAllAudits(options?: { page?: number; limit?: number; status?: TAuditStatus }) {
+export async function listAllAudits(options?: {
+  page?: number
+  limit?: number
+  status?: TAuditStatus
+  search?: string
+  dateFrom?: Date
+  dateTo?: Date
+}) {
   const page = options?.page ?? 1
   const limit = options?.limit ?? 20
   const offset = (page - 1) * limit
 
-  const whereConditions = options?.status ? [eq(audit.status, options.status)] : []
+  // Construir condiciones de filtrado dinámicamente
+  const whereConditions = []
+  if (options?.status) {
+    whereConditions.push(eq(audit.status, options.status))
+  }
+  if (options?.search) {
+    whereConditions.push(ilike(audit.repoUrl, `%${options.search}%`))
+  }
+  if (options?.dateFrom) {
+    whereConditions.push(gte(audit.createdAt, options.dateFrom))
+  }
+  if (options?.dateTo) {
+    // Incluir todo el día final sumando 23:59:59.999
+    const endOfDay = new Date(options.dateTo)
+    endOfDay.setHours(23, 59, 59, 999)
+    whereConditions.push(lte(audit.createdAt, endOfDay))
+  }
+
+  const whereClause = whereConditions.length > 0 ? and(...whereConditions) : undefined
 
   // Obtener datos paginados
   const data = await db
     .select()
     .from(audit)
-    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+    .where(whereClause)
     .orderBy(desc(audit.createdAt))
     .limit(limit)
     .offset(offset)
@@ -147,7 +185,7 @@ export async function listAllAudits(options?: { page?: number; limit?: number; s
   const countResult = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(audit)
-    .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+    .where(whereClause)
 
   const total = countResult[0]?.count ?? 0
 

@@ -8,7 +8,15 @@ import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import { createTable } from '@/core/lib/db'
 import { user } from '@/modules/auth/models/auth.schema'
 
-import type { IAuditCommit, IChangedFile, IEnrichedIssue, IGeneratedContent, IValidationResult } from '../types'
+import type {
+  IAuditCommit,
+  IChangedFile,
+  IDocstringResult,
+  IEnrichedIssue,
+  IGeneratedContent,
+  IGeneratedTest,
+  IValidationResult,
+} from '../types'
 
 // Enum de estados de una auditoría
 export const auditStatusEnum = [
@@ -46,6 +54,10 @@ export const audit = createTable(
     status: text('status', { enum: auditStatusEnum }).default('pending').notNull(),
     validationResult: jsonb('validation_result').$type<IValidationResult>(),
     generatedContent: jsonb('generated_content').$type<IGeneratedContent>(),
+    // Docstrings generados automáticamente para funciones sin documentar
+    docstrings: jsonb('docstrings').$type<IDocstringResult[]>(),
+    // Tests unitarios generados automáticamente
+    generatedTests: jsonb('generated_tests').$type<IGeneratedTest[]>(),
     // URLs y errores
     prUrl: text('pr_url'),
     errorMessage: text('error_message'),

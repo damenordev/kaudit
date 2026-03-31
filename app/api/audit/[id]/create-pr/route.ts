@@ -3,11 +3,16 @@
  * POST /api/audit/[id]/create-pr
  *
  * Permite acceso anónimo para CLI - usa Octokit en lugar de gh CLI.
+ * No acepta body en la petición.
  */
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 
 import { getAuditById, updateAuditStatus } from '@/modules/audit/queries/audit.queries'
 import { createPullRequest, isGitHubAvailable } from '@/modules/github/services/github.service'
+
+/** El endpoint create-pr no acepta body */
+const emptyBodySchema = z.union([z.undefined(), z.object({}).strict()])
 
 interface ICreatePrResponse {
   success: boolean
@@ -46,6 +51,15 @@ export async function POST(
 ): Promise<NextResponse<ICreatePrResponse>> {
   try {
     const { id } = await params
+
+    // Validar que el body esté vacío o sea un objeto vacío
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      body = undefined
+    }
+    emptyBodySchema.parse(body)
 
     // Verificar que GitHub está configurado en el servidor
     if (!isGitHubAvailable()) {
@@ -114,6 +128,12 @@ export async function POST(
       prNumber: prResult.prNumber,
     })
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'Este endpoint no acepta body', details: error.issues },
+        { status: 400 }
+      )
+    }
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
     return NextResponse.json({ success: false, error: errorMessage }, { status: 500 })
   }

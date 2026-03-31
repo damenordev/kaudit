@@ -6,7 +6,7 @@ import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { openrouter } from '@/modules/ai-assistant/lib/openrouter'
+import { getAIProvider } from '@/core/config/ai.config'
 
 import { generationPrompt, generationSchema } from '../lib/prompts/generation.prompt'
 import type { IGeneratedContent, IValidationResult } from '../types'
@@ -36,7 +36,7 @@ export async function generatePrDescription(
   }
 
   const result = await generateText({
-    model: openrouter('openrouter/free'),
+    model: getAIProvider(),
     output: Output.object({ schema: generationSchema }),
     prompt: generationPrompt(gitDiff, {
       isValid: validationResult.isValid,

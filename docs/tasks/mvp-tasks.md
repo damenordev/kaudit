@@ -1,14 +1,14 @@
 # GitHub Auditor AI - Tareas MVP
 
-**Actualizado:** 2026-03-25
-**Total de tareas:** ~85
+**Actualizado:** 2026-03-31
+**Total de tareas:** ~122
 
 ---
 
-## Fase 0: Documentación
+## Fase 0: Documentación ✅
 
-- [ ] Crear directorio `docs/plans/`
-- [ ] Crear directorio `docs/tasks/`
+- [x] Crear directorio `docs/plans/`
+- [x] Crear directorio `docs/tasks/`
 - [x] Escribir `docs/plans/2026-03-25-mvp-implementation-plan.md`
 - [x] Escribir `docs/tasks/mvp-tasks.md`
 
@@ -95,6 +95,17 @@
 - [x] Añadir variables en `src/env.js`: `GITHUB_TOKEN`
 - [x] Actualizar `.env.example`
 
+### 2.4 GitHub App Integration
+
+- [x] Crear modelo DB para GitHub Installation (`src/modules/github/models/github-installation.schema.ts`)
+- [x] Crear types para GitHub Installation (`src/modules/github/types/github-installation.types.ts`)
+- [x] Crear queries para GitHub Installation (`src/modules/github/queries/github-installation.queries.ts`)
+- [x] Crear OAuth callback endpoint (`app/api/gh/callback/route.ts`)
+- [x] Crear Webhook endpoint con verificación (`app/api/webhooks/github/route.ts`)
+- [x] Crear PR Comments service integrado al workflow (step en Inngest)
+- [x] Crear Status Checks service integrado al workflow (step en Inngest)
+- [x] Implementar bloqueo de merge en issues críticos (Block merge on critical issues)
+
 ---
 
 ## Fase 3: Inngest Workflow ✅
@@ -138,6 +149,31 @@
 - [x] Crear `src/modules/audit/inngest/index.ts`
   - [x] Exportar todas las funciones Inngest
 - [x] Registrar funciones en `src/core/lib/inngest/index.ts`
+
+### 3.5 Diferenciadores - Diagramas Mermaid
+
+- [x] Crear `src/modules/audit/lib/generate-mermaid.utils.ts` - Generación de diagramas
+- [x] Crear componente `mermaid-viewer` para renderizado
+- [x] Crear componente `diagrams-panel` para panel de diagramas
+
+### 3.6 Diferenciadores - Generación de Tests por IA
+
+- [x] Crear `src/modules/audit/services/test-generation.service.ts`
+- [x] Crear prompt especializado para generación de tests unitarios
+
+### 3.7 Diferenciadores - Docstrings Automáticos
+
+- [x] Crear `src/modules/audit/services/docstring-generation.service.ts`
+- [x] Crear prompt especializado para generación de docstrings
+
+### 3.8 Diferenciadores - IA Configurable
+
+- [x] Crear `src/core/config/ai.config.ts` - Configuración de modelo IA
+
+### 3.9 Diferenciadores - Filtros Avanzados
+
+- [x] Implementar filtros avanzados en auditorías (status, fecha, repo search con URL state)
+- [x] Crear `src/modules/audit/services/enrich-issues.service.ts` - EnrichIssues service
 
 ---
 
@@ -221,65 +257,69 @@
 
 ---
 
-## Fase 6: Dashboard de Auditorías
+## Fase 6: Dashboard de Auditorías ✅
 
 ### 6.1 Configuración de Rutas
 
-- [ ] Actualizar `src/core/config/routes.config.ts`
-  - [ ] Añadir rutas de auditorías
-- [ ] Actualizar `src/core/config/sidebar.config.tsx`
-  - [ ] Añadir item "Auditorías" en navegación
+- [x] Actualizar `src/core/config/routes.config.ts`
+  - [x] Añadir rutas de auditorías
+- [x] Actualizar `src/core/config/sidebar.config.tsx`
+  - [x] Añadir item "Auditorías" en navegación
 
 ### 6.2 Página de Historial
 
-- [ ] Crear `app/dashboard/audits/page.tsx`
-  - [ ] Server Component que carga datos iniciales
-- [ ] Crear `src/modules/audit/components/audits-table/audits-table.tsx`
-  - [ ] Tabla con data-table existente
-  - [ ] Columnas: Fecha, Repo, Status, PR URL, Acciones
-- [ ] Crear `src/modules/audit/components/audits-table/columns.tsx`
-  - [ ] Definición de columnas
-  - [ ] Badge de status con colores
-- [ ] Crear `src/modules/audit/components/audits-table/index.ts` - Exports
+- [x] Crear `app/dashboard/audits/page.tsx`
+  - [x] Server Component que carga datos iniciales
+- [x] Crear `src/modules/audit/components/audits-table/audits-table.tsx`
+  - [x] Tabla con DataTable existente
+  - [x] Filtros avanzados (status, fecha, repo search con URL state)
+- [x] Crear `src/modules/audit/components/audits-table/columns.tsx`
+  - [x] Definición de columnas
+  - [x] Badge de status con colores
+- [x] Crear `src/modules/audit/components/audits-table/index.ts` - Exports
 
 ### 6.3 Página de Detalle
 
-- [ ] Crear `app/dashboard/audits/[id]/page.tsx`
-  - [ ] Server Component que carga audit específico
-- [ ] Crear `src/modules/audit/components/audit-detail/audit-detail.tsx`
-  - [ ] Header con info de la auditoría
-  - [ ] Sección de validación (issues encontrados o aprobado)
-  - [ ] Sección de contenido generado (Markdown renderizado)
-  - [ ] Link a PR en GitHub
-- [ ] Crear `src/modules/audit/components/audit-detail/index.ts` - Exports
+- [x] Crear `app/dashboard/audits/[id]/page.tsx`
+  - [x] Server Component que carga audit específico
+- [x] Crear `src/modules/audit/components/audit-detail/audit-detail.tsx`
+  - [x] Monaco Editor para visualización de diff
+  - [x] Sidebar con info de la auditoría
+  - [x] Panel de Issues encontrados
+  - [x] Chat panel con IA contextual
+  - [x] Panel de Diagramas Mermaid
+  - [x] Commit timeline
+  - [x] Link a PR en GitHub
+- [x] Crear `src/modules/audit/components/audit-detail/index.ts` - Exports
 
 ---
 
-## Fase 7: Configuración y Polish
+## Fase 7: Configuración y Polish ✅
 
 ### 7.1 Variables de Entorno
 
-- [ ] Actualizar `src/env.js`
-  - [ ] `INNGEST_EVENT_KEY` (string, opcional en dev)
-  - [ ] `INNGEST_SIGNING_KEY` (string, opcional en dev)
-  - [ ] `GITHUB_TOKEN` (string, requerido en prod)
-- [ ] Actualizar `.env.example`
-- [ ] Documentar en README cómo obtener cada valor
+- [x] Actualizar `src/env.js`
+  - [x] `INNGEST_EVENT_KEY` (string, opcional en dev)
+  - [x] `INNGEST_SIGNING_KEY` (string, opcional en dev)
+  - [x] `GITHUB_TOKEN` (string, requerido en prod)
+- [x] Actualizar `.env.example`
+- [x] Documentar en README cómo obtener cada valor
 
 ### 7.2 Internacionalización
 
-- [ ] Actualizar `src/core/locales/en.json`
-  - [ ] Añadir claves para auditorías
-- [ ] Actualizar `src/core/locales/es.json`
-  - [ ] Añadir claves para auditorías
+- [x] Actualizar `src/core/locales/en.json`
+  - [x] Añadir 27 claves nuevas para auditorías
+- [x] Actualizar `src/core/locales/es.json`
+  - [x] Añadir 27 claves nuevas para auditorías
 
 ### 7.3 Documentación
 
-- [ ] Actualizar README.md
-  - [ ] Instrucciones de instalación
-  - [ ] Instrucciones de configuración
-  - [ ] Uso del CLI
-  - [ ] Explicación de arquitectura Inngest
+- [x] Actualizar README.md
+  - [x] Instrucciones de instalación
+  - [x] Instrucciones de configuración
+  - [x] Uso del CLI
+  - [x] Explicación de arquitectura Inngest
+  - [x] Documentación profesional completa
 
 ---
 
@@ -287,12 +327,12 @@
 
 | Fase      | Tareas  | Completadas | Progreso |
 | --------- | ------- | ----------- | -------- |
-| 0         | 4       | 2           | 50%      |
+| 0         | 4       | 4           | 100% ✅  |
 | 1         | 17      | 17          | 100% ✅  |
-| 2         | 19      | 19          | 100% ✅  |
-| 3         | 18      | 18          | 100% ✅  |
+| 2         | 27      | 27          | 100% ✅  |
+| 3         | 30      | 30          | 100% ✅  |
 | 4         | 11      | 11          | 100% ✅  |
 | 5         | 15      | 15          | 100% ✅  |
-| 6         | 11      | 0           | 0%       |
-| 7         | 8       | 0           | 0%       |
-| **Total** | **103** | **82**      | **80%**  |
+| 6         | 14      | 14          | 100% ✅  |
+| 7         | 8       | 8           | 100% ✅  |
+| **Total** | **126** | **126**     | **100%** |

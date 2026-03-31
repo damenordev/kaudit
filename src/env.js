@@ -15,6 +15,11 @@ export const env = createEnv({
     INNGEST_SIGNING_KEY: z.string().optional(),
     // GitHub - opcional en desarrollo, requerido en producción
     GITHUB_TOKEN: process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
+    // GitHub App OAuth
+    GITHUB_APP_CLIENT_ID: z.string().optional(),
+    GITHUB_APP_CLIENT_SECRET: z.string().optional(),
+    // Secreto del webhook de GitHub App
+    GITHUB_WEBHOOK_SECRET: z.string().optional(),
   },
 
   client: {},
@@ -30,6 +35,9 @@ export const env = createEnv({
     INNGEST_EVENT_KEY: process.env.INNGEST_EVENT_KEY,
     INNGEST_SIGNING_KEY: process.env.INNGEST_SIGNING_KEY,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+    GITHUB_APP_CLIENT_ID: process.env.GITHUB_APP_CLIENT_ID,
+    GITHUB_APP_CLIENT_SECRET: process.env.GITHUB_APP_CLIENT_SECRET,
+    GITHUB_WEBHOOK_SECRET: process.env.GITHUB_WEBHOOK_SECRET,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

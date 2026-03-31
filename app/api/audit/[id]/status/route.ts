@@ -4,11 +4,40 @@
  *
  * Permite acceso anónimo para CLI - si la auditoría existe, cualquiera puede verla.
  * Usuarios autenticados mantienen verificación de ownership para auditorías propias.
+ *
+ * NOTA DE SEGURIDAD: Solo devuelve campos necesarios para polling.
+ * NUNCA exponer gitDiff, changedFiles, commits, issues, docstrings, etc.
  */
 import { NextResponse } from 'next/server'
 
 import { requireAuth } from '@/modules/auth/services/auth.service'
 import { getAuditById } from '@/modules/audit/queries/audit.queries'
+
+import type { IAuditStatusResponse } from '@/modules/audit/types/api.types'
+
+/**
+ * Construye una respuesta segura con solo los campos necesarios para polling.
+ * Evita exponer datos sensibles como gitDiff o contenido detallado del repo.
+ */
+function buildSafeStatusResponse(audit: Awaited<ReturnType<typeof getAuditById>>): IAuditStatusResponse {
+  if (!audit) {
+    throw new Error('Audit is null')
+  }
+
+  return {
+    id: audit.id,
+    status: audit.status,
+    repoUrl: audit.repoUrl,
+    branchName: audit.branchName,
+    targetBranch: audit.targetBranch,
+    validationResult: audit.validationResult ?? undefined,
+    generatedContent: audit.generatedContent ?? undefined,
+    prUrl: audit.prUrl ?? undefined,
+    errorMessage: audit.errorMessage ?? undefined,
+    createdAt: audit.createdAt,
+    updatedAt: audit.updatedAt,
+  }
+}
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -31,7 +60,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       // Usuario CLI anónimo - permitir acceso a la auditoría existente
     }
 
-    return NextResponse.json(audit)
+    // Respuesta explícita: solo campos necesarios para polling del CLI
+    const statusResponse = buildSafeStatusResponse(audit)
+    return NextResponse.json(statusResponse)
   } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
   }

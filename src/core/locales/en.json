@@ -260,6 +260,10 @@
       "title": "Dashboard",
       "description": "Real-time system monitoring and critical metrics.",
       "totalUsers": "Total Users",
+      "totalAudits": "Total Audits",
+      "completed": "Completed",
+      "totalIssues": "Total Issues",
+      "active": "Active",
       "revenue": "Revenue",
       "activeNodes": "Active Nodes",
       "uptime": "Uptime",
@@ -269,7 +273,32 @@
       "complianceDescription": "Security protocols validated. No critical incidents recorded.",
       "securityLevel": "Security Level",
       "infrastructureEvents": "Infrastructure Events",
-      "viewFullAudit": "View Full Audit"
+      "viewFullAudit": "View Full Audit",
+      "issuesBySeverity": {
+        "title": "Issues by Severity",
+        "description": "Distribution across all audits",
+        "critical": "Critical",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info"
+      },
+      "approvalRate": {
+        "title": "Approval Rate",
+        "failedOfTotal": "{failed} failed / {total} total audits",
+        "status": "Status",
+        "active": "Active",
+        "idle": "Idle"
+      },
+      "recentAudits": {
+        "title": "Recent Audits",
+        "emptyState": "No audits yet. Create your first audit to see data here."
+      },
+      "timeAgo": {
+        "now": "now",
+        "minutesAgo": "{count}m ago",
+        "hoursAgo": "{count}h ago",
+        "daysAgo": "{count}d ago"
+      }
     },
     "audits": {
       "pageTitle": "Audits",
@@ -283,6 +312,15 @@
         "prUrl": "PR",
         "actions": "Actions",
         "viewDetails": "View"
+      },
+      "filters": {
+        "searchPlaceholder": "Search by repository...",
+        "searchAriaLabel": "Search by repository",
+        "statusPlaceholder": "Status",
+        "allStatuses": "All statuses",
+        "dateRange": "Date range",
+        "clearDates": "Clear dates",
+        "clear": "Clear"
       },
       "detail": {
         "repository": "Repository",
@@ -309,6 +347,23 @@
           "title": "Audit Not Found",
           "description": "The audit you're looking for doesn't exist or has been deleted.",
           "backToList": "Back to Audits"
+        },
+        "diagrams": {
+          "files": "Files",
+          "commitFlow": "Commits",
+          "commitSequence": "Sequence"
+        },
+        "chat": {
+          "title": "AI Chat",
+          "badge": "Contextual",
+          "placeholder": "Ask about the issues or PR changes",
+          "contextInfo": "AI has full audit context",
+          "filesCount": "{count} files",
+          "issuesCount": "{count} issues",
+          "thinking": "Thinking...",
+          "errorMessage": "Error: could not get a response.",
+          "connectionError": "Error: connection failed.",
+          "inputPlaceholder": "Ask about the issues or changes..."
         }
       }
     }

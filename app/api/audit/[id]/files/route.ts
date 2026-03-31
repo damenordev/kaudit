@@ -11,11 +11,13 @@ import { NextResponse } from 'next/server'
 import { requireAuth } from '@/modules/auth/services/auth.service'
 import { getAuditById } from '@/modules/audit/queries/audit.queries'
 
-import type { IChangedFile, TFileStatus } from '@/modules/audit/types'
+import type { IAuditCommit, IChangedFile, TFileStatus } from '@/modules/audit/types'
 
 interface IFileListResponse {
   files: IChangedFile[]
   total: number
+  changedFiles: IChangedFile[]
+  commits: IAuditCommit[]
   filters: {
     status?: string
     search?: string
@@ -82,6 +84,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const response: IFileListResponse = {
       files: filteredFiles,
       total: filteredFiles.length,
+      changedFiles: allFiles,
+      commits: audit.commits ?? [],
       filters: {
         status: filters.status,
         search: filters.search,

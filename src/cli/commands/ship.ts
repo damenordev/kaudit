@@ -2,7 +2,7 @@
  * Comando 'ship' del CLI.
  * Inicia una auditoría del diff actual y crea un PR.
  */
-import type { ICliOptions } from '../types/cli.types'
+import type { ICliOptions, TCliStatus } from '../types/cli.types'
 
 import { getGitDiff, getCurrentBranch, getRepoUrl, isGitRepo, getStagedDiff, pushBranch } from '../lib/git'
 import { pollAuditStatus, startAudit, createPr } from '../lib/api'
@@ -76,7 +76,7 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
   }
 
   // 5. Polling hasta completar
-  updateSpinner(`Auditoría ${audit.auditId} - ${getStatusMessage(audit.status as any)}...`)
+  updateSpinner(`Auditoría ${audit.auditId} - ${getStatusMessage(audit.status as TCliStatus)}...`)
 
   try {
     const result = await pollAuditStatus(

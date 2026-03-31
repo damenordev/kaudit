@@ -12,7 +12,7 @@ import { useThemePalette } from '@/core/components/theme/palette/palette-provide
 import { BASE_THEMES, THEME_LABELS, type TThemePaletteBase } from '@/core/config/theme/palette.config'
 import { createDarkThemeByBase } from '@/core/styles/theme/palette.utils'
 import { cn } from '@/core/utils/cn.utils'
-import { routesConfig } from '@/core/config'
+import { routesConfig } from '@/core/config/routes.config'
 
 const MusicToggle = dynamic(() => import('../music-toggle').then(m => m.MusicToggle), {
   ssr: false,

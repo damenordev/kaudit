@@ -6,7 +6,7 @@ import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { openrouter } from '@/modules/ai-assistant/lib/openrouter'
+import { getAIProvider } from '@/core/config/ai.config'
 
 import { validationPrompt, validationSchema } from '../lib/prompts/validation.prompt'
 import type { IValidationResult } from '../types'
@@ -30,7 +30,7 @@ export async function validateGitDiff(gitDiff: string): Promise<IValidationResul
   }
 
   const result = await generateText({
-    model: openrouter('openrouter/free'),
+    model: getAIProvider(),
     output: Output.object({ schema: validationSchema }),
     prompt: validationPrompt(gitDiff),
   })
