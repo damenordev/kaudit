@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { boolean, text, timestamp } from 'drizzle-orm/pg-core'
+import { boolean, integer, text, timestamp } from 'drizzle-orm/pg-core'
 
 import { createTable } from '@/core/lib/db'
 
@@ -59,9 +59,41 @@ export const verification = createTable('verification', {
   updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
 })
 
+/** Tabla para el plugin apiKey de better-auth (CLI auth) */
+export const apiKey = createTable('apikey', {
+  id: text('id').primaryKey(),
+  name: text('name'),
+  start: text('start'),
+  prefix: text('prefix'),
+  key: text('key').notNull(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  refillInterval: integer('refill_interval'),
+  refillAmount: integer('refill_amount'),
+  lastRefillAt: timestamp('last_refill_at'),
+  enabled: boolean('enabled').default(true),
+  rateLimitEnabled: boolean('rate_limit_enabled').default(true),
+  rateLimitTimeWindow: integer('rate_limit_time_window').default(86400000),
+  rateLimitMax: integer('rate_limit_max').default(10),
+  requestCount: integer('request_count').default(0),
+  remaining: integer('remaining'),
+  lastRequest: timestamp('last_request'),
+  expiresAt: timestamp('expires_at'),
+  createdAt: timestamp('created_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+  updatedAt: timestamp('updated_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
+  permissions: text('permissions'),
+  metadata: text('metadata'),
+})
+
 export const userRelations = relations(user, ({ many }) => ({
   account: many(account),
   session: many(session),
+  apiKey: many(apiKey),
 }))
 
 export const accountRelations = relations(account, ({ one }) => ({
@@ -70,4 +102,8 @@ export const accountRelations = relations(account, ({ one }) => ({
 
 export const sessionRelations = relations(session, ({ one }) => ({
   user: one(user, { fields: [session.userId], references: [user.id] }),
+}))
+
+export const apiKeyRelations = relations(apiKey, ({ one }) => ({
+  user: one(user, { fields: [apiKey.userId], references: [user.id] }),
 }))

@@ -296,6 +296,26 @@
         "minutesAgo": "{count}m ago",
         "hoursAgo": "{count}h ago",
         "daysAgo": "{count}d ago"
+      },
+      "quickAction": {
+        "title": "Quick Audit",
+        "description": "Run this command in your local repository to start",
+        "command": "npx audit-ship",
+        "copy": "Copy",
+        "copied": "Copied!"
+      },
+      "statusDistribution": {
+        "title": "Audit Status",
+        "description": "Global distribution by status"
+      },
+      "onboarding": {
+        "title": "Welcome to KAudit",
+        "description": "Your AI-first engineering assistant is ready. Follow these steps to start:",
+        "step1": "Open your terminal in your project",
+        "step2": "Run the audit command below",
+        "step3": "Refresh this page to see results",
+        "action": "Copy Command",
+        "command": "npx audit-ship"
       }
     },
     "audits": {

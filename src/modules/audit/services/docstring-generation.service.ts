@@ -7,7 +7,7 @@ import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { AI_CALL_TIMEOUT_MS, getLightModel } from '@/core/config/ai.config'
+import { AI_CALL_TIMEOUT_MS, getLightModelInstance } from '@/core/config/ai.config'
 
 import { docstringGenerationPrompt, docstringResponseSchema } from '../lib/prompts/docstring-generation.prompt'
 import type { IChangedFile, IDocstringResult } from '../types'
@@ -60,7 +60,7 @@ export async function generateDocstrings(file: IChangedFile): Promise<IDocstring
 
   try {
     const result = await generateText({
-      model: getLightModel(),
+      model: getLightModelInstance(),
       output: Output.object({ schema: docstringResponseSchema }),
       prompt: docstringGenerationPrompt(sourceCode, file.path, language),
       abortSignal: AbortSignal.timeout(AI_CALL_TIMEOUT_MS),

@@ -5,6 +5,7 @@
 import { Command } from 'commander'
 
 import { shipCommand } from './commands/ship'
+import { createLoginCommand, createLogoutCommand } from './commands/login'
 import type { ICliOptions } from './types/cli.types'
 import { setNoColor } from './lib/display'
 
@@ -45,6 +46,10 @@ program
     // Ejecutar comando ship
     await shipCommand(cliOptions)
   })
+
+// Registrar comandos de autenticación
+program.addCommand(createLoginCommand())
+program.addCommand(createLogoutCommand())
 
 // Parsear argumentos y ejecutar
 program.parse()

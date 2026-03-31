@@ -9,7 +9,7 @@ import { env } from '@/env'
 import { inngest } from '@/core/lib/inngest/client'
 import { createAudit } from '@/modules/audit/queries/audit.queries'
 import { verifyGitHubWebhook } from '@/modules/github/lib/verify-webhook.utils'
-import { getGitHubClient } from '@/modules/github/lib/github-client'
+import { getGitHubClientForInstallation } from '@/modules/github/lib/github-client'
 import { nanoid } from 'nanoid'
 
 import type { IGitHubPullRequestEvent, TGitHubPrAction } from '@/modules/github/types/webhook.types'
@@ -19,9 +19,16 @@ const PR_ACTIONS: Set<string> = new Set<TGitHubPrAction>(['opened', 'synchronize
 
 /**
  * Obtiene el diff entre base y head usando la API de GitHub.
+ * Soporta tanto PAT como tokens por instalación de GitHub App.
  */
-async function fetchGitDiff(owner: string, repo: string, base: string, head: string): Promise<string> {
-  const octokit = getGitHubClient()
+async function fetchGitDiff(
+  owner: string,
+  repo: string,
+  base: string,
+  head: string,
+  installationId?: number | null
+): Promise<string> {
+  const octokit = await getGitHubClientForInstallation(installationId)
   if (!octokit) return ''
 
   const response = await octokit.rest.repos.compareCommits({
@@ -77,8 +84,8 @@ export async function POST(req: Request) {
   // Crear auditoría sin bloquear la respuesta
   const auditId = nanoid()
 
-  // Obtener diff en background
-  const gitDiff = await fetchGitDiff(owner!, repoName!, targetBranch, branchName)
+  // Obtener diff usando token de instalación si está disponible
+  const gitDiff = await fetchGitDiff(owner!, repoName!, targetBranch, branchName, installationId)
 
   await createAudit({
     id: auditId,

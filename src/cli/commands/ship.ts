@@ -4,6 +4,7 @@
  */
 import type { ICliOptions, TCliStatus } from '../types/cli.types'
 
+import { isAuthenticated, isLocalUrl } from '../lib/config'
 import { getGitDiff, getCurrentBranch, getRepoUrl, isGitRepo, getStagedDiff, pushBranch } from '../lib/git'
 import { pollAuditStatus, startAudit, createPr } from '../lib/api'
 import {
@@ -28,6 +29,17 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
   const apiUrl = options.url || 'http://localhost:3000'
   const baseBranch = options.base || 'main'
   const timeout = options.timeout || 600_000
+
+  // 0. Verificar autenticación (localhost: warn, remote: block)
+  if (!isAuthenticated()) {
+    if (isLocalUrl(apiUrl)) {
+      showInfo('⚠ Ejecutando sin autenticación (modo desarrollo). Para producción usa: kaudit login <api-key>')
+    } else {
+      showError('No estás autenticado. Ejecuta: kaudit login <api-key>')
+      showInfo('También puedes usar la variable de entorno KAUDIT_API_KEY para CI/CD.')
+      process.exit(1)
+    }
+  }
 
   // 1. Verificar que es un repo git
   showSpinner('Verificando repositorio git...')
@@ -61,10 +73,7 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
 
   // 4. Iniciar auditoría
   updateSpinner('Iniciando auditoría...')
-
-  // Construir opciones de auditoría según flags del CLI
   const auditOptions = options.fast ? { skipDocstrings: true, skipTests: true } : undefined
-
   let audit: { auditId: string; status: string }
   try {
     audit = await startAudit(apiUrl, {
@@ -92,14 +101,10 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
       { timeout }
     )
 
-    // 6. Mostrar resultado
+    // 6. Mostrar resultado y exit code
     showSuccess('Auditoría completada!')
     showResult(result)
-
-    // Exit con código apropiado si falló o bloqueó
-    if (result.status === 'failed' || result.status === 'blocked') {
-      process.exit(1)
-    }
+    if (result.status === 'failed' || result.status === 'blocked') process.exit(1)
 
     // 7. Push automático si auditoría exitosa y push habilitado (default: true)
     if (result.status === 'completed' && options.push !== false) {
@@ -114,7 +119,11 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
           try {
             const prResult = await createPr(apiUrl, audit.auditId)
             if (prResult.success && prResult.prUrl) {
-              showSuccess(`Pull Request creado: ${prResult.prUrl}`)
+              if (prResult.updated) {
+                showSuccess(`PR existente actualizado: #${prResult.prNumber} — ${prResult.prUrl}`)
+              } else {
+                showSuccess(`Pull Request creado: ${prResult.prUrl}`)
+              }
             } else {
               showError(`No se pudo crear el PR: ${prResult.error ?? 'Error desconocido'}`)
               showInfo(`Crea el PR manualmente:`)

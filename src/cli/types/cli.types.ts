@@ -99,6 +99,16 @@ export interface IAuditStatusResponse {
 // Callback para polling de status
 export type TStatusCallback = (status: IAuditStatusResponse) => void
 
+// Configuración persistente en ~/.kaudit/config.json
+export interface IKauditConfig {
+  /** API key para autenticación con el servidor */
+  apiKey?: string
+  /** URL del servidor kaudit */
+  serverUrl?: string
+  /** ID del usuario autenticado */
+  userId?: string
+}
+
 // Configuración por defecto del CLI
 export const DEFAULT_CLI_CONFIG: ICliConfig = {
   apiUrl: 'https://kaudit.vercel.app',

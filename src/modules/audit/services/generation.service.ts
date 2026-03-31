@@ -7,7 +7,7 @@ import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { AI_HEAVY_CALL_TIMEOUT_MS, getHeavyModel } from '@/core/config/ai.config'
+import { AI_HEAVY_CALL_TIMEOUT_MS, getHeavyModelInstance } from '@/core/config/ai.config'
 
 import { generationPrompt, generationSchema } from '../lib/prompts/generation.prompt'
 import { truncateDiffForModel } from '../lib/truncate-diff.utils'
@@ -50,7 +50,7 @@ export async function generatePrDescription(
       const safeDiff = truncateDiffForModel(gitDiff, undefined, scaleFactor)
 
       const result = await generateText({
-        model: getHeavyModel(),
+        model: getHeavyModelInstance(),
         output: Output.object({ schema: generationSchema }),
         prompt: generationPrompt(safeDiff, {
           isValid: validationResult.isValid,
