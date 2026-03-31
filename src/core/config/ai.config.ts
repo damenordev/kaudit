@@ -16,6 +16,27 @@ export const AI_MODELS = {
 
 export type TAIModelId = (typeof AI_MODELS)[keyof typeof AI_MODELS]
 
+/** Límites de contexto del modelo para cálculos de truncamiento */
+export const MODEL_CONTEXT_LIMITS = {
+  /** Contexto máximo total del modelo (tokens) */
+  maxContextTokens: 262_144,
+  /** Tokens reservados para la respuesta del modelo (JSON schema pequeño) */
+  reservedOutputTokens: 4_096,
+  /** Tokens reservados para el prompt template (instrucciones sin diff) */
+  reservedPromptTokens: 1_024,
+  /** Margen de seguridad para evitar overflow por 1-2 tokens */
+  safetyMargin: 512,
+} as const
+
+/**
+ * Calcula el presupuesto máximo de tokens para el diff de entrada.
+ * Resta output, prompt template y margen de seguridad al contexto total.
+ */
+export function getMaxDiffInputTokens(): number {
+  const { maxContextTokens, reservedOutputTokens, reservedPromptTokens, safetyMargin } = MODEL_CONTEXT_LIMITS
+  return maxContextTokens - reservedOutputTokens - reservedPromptTokens - safetyMargin
+}
+
 /**
  * Retorna el modelo de IA configurado.
  * Lee de la env var AI_MODEL, con default 'openrouter/free'.

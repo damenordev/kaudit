@@ -8,12 +8,13 @@ import { generateText, Output } from 'ai'
 
 import { getAIProvider } from '@/core/config/ai.config'
 
+import { truncateDiffForModel } from '../lib/truncate-diff.utils'
 import { generationPrompt, generationSchema } from '../lib/prompts/generation.prompt'
 import type { IGeneratedContent, IValidationResult } from '../types'
 
 /**
  * Genera una descripción de PR basada en el diff y validación.
- * Usa Claude 3.5 Sonnet para generar contenido de alta calidad.
+ * Trunca el diff automáticamente si excede el contexto del modelo.
  *
  * @param gitDiff - El diff del código
  * @param validationResult - Resultado de la validación previa
@@ -35,10 +36,13 @@ export async function generatePrDescription(
     }
   }
 
+  // Truncar diff si excede el presupuesto de tokens del modelo
+  const safeDiff = truncateDiffForModel(gitDiff)
+
   const result = await generateText({
     model: getAIProvider(),
     output: Output.object({ schema: generationSchema }),
-    prompt: generationPrompt(gitDiff, {
+    prompt: generationPrompt(safeDiff, {
       isValid: validationResult.isValid,
       issues: validationResult.issues.map(i => ({
         type: i.type,

@@ -17,7 +17,8 @@ import type {
   IGeneratedTest,
   IValidationResult,
 } from '../types'
-import { audit, type TAuditStatus } from '../models/audit.schema'
+import { audit } from '../models/audit.schema'
+import { type TAuditStatus } from '../models/audit.constants'
 
 type TUpdateAuditData = Partial<{
   status: TAuditStatus

@@ -8,12 +8,14 @@ import { generateObject } from 'ai'
 
 import { getAIProvider } from '@/core/config/ai.config'
 
+import { truncateDiffForModel } from '../lib/truncate-diff.utils'
 import { testGenerationPrompt, testGenerationSchema } from '../lib/prompts/test-generation.prompt'
 import type { IChangedFile, IGeneratedTest, IValidationIssue } from '../types'
 
 /**
  * Genera tests unitarios para un archivo modificado.
  * Usa el modelo de IA configurado para producir tests con vitest.
+ * Trunca el diff del archivo si excede el contexto del modelo.
  *
  * @param file - Archivo modificado detectado en la auditoría
  * @param issues - Issues de validación asociados al archivo
@@ -34,13 +36,16 @@ export async function generateTestsForFile(
     return null
   }
 
+  // Truncar diff del archivo si excede el presupuesto de tokens
+  const safeDiff = truncateDiffForModel(file.diff)
+
   try {
     const result = await generateObject({
       model: getAIProvider(),
       schema: testGenerationSchema,
       prompt: testGenerationPrompt(
         file.path,
-        file.diff,
+        safeDiff,
         file.language,
         issues.map(i => ({ type: i.type, severity: i.severity, message: i.message }))
       ),

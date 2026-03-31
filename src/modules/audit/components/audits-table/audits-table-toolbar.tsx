@@ -10,7 +10,7 @@ import { Input } from '@/core/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/core/ui/select'
 import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/popover'
 
-import { auditStatusEnum } from '../../models/audit.schema'
+import { auditStatusEnum } from '../../models/audit.constants'
 
 export interface IAuditsTableToolbarProps {
   searchValue: string

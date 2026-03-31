@@ -35,19 +35,27 @@ export async function POST(req: Request) {
       gitDiff: validated.gitDiff,
     })
 
-    await inngest.send({
-      name: 'audit/created',
-      data: {
-        auditId,
-        repoUrl: validated.repoUrl,
-        branchName: validated.branchName,
-        targetBranch: validated.targetBranch,
-        userId: userId ?? null,
-      },
-    })
+    // Envío de evento a Inngest: no bloquea la respuesta si falla.
+    // La auditoría ya fue creada en DB y puede procesarse después.
+    try {
+      await inngest.send({
+        name: 'audit/created',
+        data: {
+          auditId,
+          repoUrl: validated.repoUrl,
+          branchName: validated.branchName,
+          targetBranch: validated.targetBranch,
+          userId: userId ?? null,
+        },
+      })
+    } catch (inngestError) {
+      console.error('[audit/start] Error enviando evento a Inngest:', inngestError)
+    }
 
     return NextResponse.json({ auditId, status: 'pending' }, { status: 201 })
   } catch (error) {
+    console.error('[audit/start] Error no controlado:', error)
+
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

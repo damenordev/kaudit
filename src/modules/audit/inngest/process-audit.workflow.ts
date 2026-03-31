@@ -1,35 +1,18 @@
 /**
  * Workflow de Inngest para procesar auditorías.
- * Orquesta los pasos de parsing, validación, generación, PR comments y status checks.
+ * Orquesta los pasos delegando en handlers del directorio steps/.
  */
-import { NonRetriableError } from 'inngest'
-
+import type { IDocstringResult, IGeneratedTest, IValidationIssue } from '../types'
 import { inngest } from '@/core/lib/inngest/client'
-import { fetchCommits } from '@/modules/github/services/commits.service'
 
-import type {
-  IAuditCommit,
-  IChangedFile,
-  IDocstringResult,
-  IEnrichedIssue,
-  IGeneratedTest,
-  IValidationIssue,
-} from '../types'
-import { parseDiff } from '../lib/parse-diff.utils'
-import { getAuditById, updateAuditStatus } from '../queries/audit.queries'
-import { enrichIssues } from '../services/enrich-issues.service'
-import { generateDocstrings } from '../services/docstring-generation.service'
-import { generatePrDescription } from '../services/generation.service'
-import { generateTestsForAudit } from '../services/test-generation.service'
-import { validateGitDiff } from '../services/validation.service'
-import { postAuditStatus, postPrComments } from './workflow-steps.utils'
-
-/** Extrae owner y repo de una URL de GitHub */
-function parseRepoUrl(repoUrl: string): { owner: string; repo: string } {
-  const match = repoUrl.match(/github\.com\/([^/]+)\/([^/]+)/)
-  if (!match) throw new NonRetriableError(`URL de repo inválida: ${repoUrl}`)
-  return { owner: match[1] ?? '', repo: (match[2] ?? '').replace(/\.git$/, '') }
-}
+import { updateAuditStatus } from '../queries/audit.queries'
+import { runValidateSecurity } from './steps/validate-security.step'
+import { runParseDiffAndCommits } from './steps/parse-diff.step'
+import { runGenerateContent } from './steps/generate-content.step'
+import { runGenerateDocstrings } from './steps/generate-docstrings.step'
+import { runGenerateTests } from './steps/generate-tests.step'
+import { runPostPrComments } from './steps/post-pr-comments.step'
+import { runPostStatusCheck } from './steps/post-status-check.step'
 
 /**
  * Workflow principal para procesar una auditoría.
@@ -57,132 +40,43 @@ export const processAudit = inngest.createFunction(
     const auditId = event.data.auditId as string
 
     // Paso 1: Validación de seguridad
-    const validationResult = await step.run('validate-security', async () => {
-      await updateAuditStatus(auditId, 'validating')
-      const auditRecord = await getAuditById(auditId)
-      if (!auditRecord?.gitDiff) {
-        throw new NonRetriableError('No se encontró git diff para la auditoría')
-      }
-      return validateGitDiff(auditRecord.gitDiff)
-    })
+    const validationResult = await step.run('validate-security', () => runValidateSecurity(auditId))
 
     // Paso 2: Parsear diff, obtener commits y enriquecer issues
-    // Se ejecuta siempre, incluso con issues críticos, para poder comentar en el PR
-    await step.run('parse-diff-and-commits', async () => {
-      await updateAuditStatus(auditId, 'processing')
-      const auditRecord = await getAuditById(auditId)
-      if (!auditRecord?.gitDiff) throw new NonRetriableError('No se encontró git diff')
-
-      const changedFiles = parseDiff(auditRecord.gitDiff)
-      if (changedFiles.length === 0) {
-        throw new NonRetriableError('El diff no contiene cambios parseables')
-      }
-
-      const { owner, repo } = parseRepoUrl(auditRecord.repoUrl)
-      let commits: IAuditCommit[] = []
-      try {
-        const fetched = await fetchCommits(owner, repo, auditRecord.targetBranch, auditRecord.branchName)
-        commits = Array.isArray(fetched) ? fetched : []
-      } catch (err) {
-        console.error(`[audit:${auditId}] Error obteniendo commits:`, err)
-      }
-
-      const commitShas = commits.map((c: IAuditCommit) => c.sha)
-      const issues = enrichIssues(validationResult.issues, changedFiles, commitShas)
-      await updateAuditStatus(auditId, 'processing', { changedFiles, commits, issues })
-    })
+    await step.run('parse-diff-and-commits', () =>
+      runParseDiffAndCommits(auditId, validationResult.issues as IValidationIssue[])
+    )
 
     // Determinar si hay issues críticos para condicionar steps posteriores
-    const isBlocked = validationResult.issues.some((v: IValidationIssue) => v.severity === 'critical')
+    const isBlocked = (validationResult.issues as IValidationIssue[]).some(
+      (v: IValidationIssue) => v.severity === 'critical'
+    )
 
     // Paso 3: Generación de contenido (solo si no hay issues críticos)
     let content = null
     if (!isBlocked) {
-      content = await step.run('generate-content', async () => {
-        await updateAuditStatus(auditId, 'generating')
-        const auditRecord = await getAuditById(auditId)
-        if (!auditRecord?.gitDiff) throw new NonRetriableError('No se encontró git diff')
-        return generatePrDescription(auditRecord.gitDiff, validationResult)
-      })
+      content = await step.run('generate-content', () => runGenerateContent(auditId, validationResult))
     }
 
-    // Paso 4: Generación de docstrings para funciones sin documentar (opcional, solo si no hay críticos)
+    // Paso 4: Generación de docstrings (solo si no hay críticos)
     let docstringResults: IDocstringResult[] = []
     if (!isBlocked) {
-      docstringResults = await step.run('generate-docstrings', async () => {
-        const auditRecord = await getAuditById(auditId)
-        if (!auditRecord) return []
-
-        const files = (auditRecord.changedFiles ?? []) as IChangedFile[]
-        const supportedFiles = files.filter(
-          f => f.language === 'TypeScript' || f.language === 'JavaScript' || f.language === 'ts' || f.language === 'js'
-        )
-
-        // Procesar archivos en paralelo con límite de concurrencia
-        const allDocstrings = await Promise.all(supportedFiles.map(f => generateDocstrings(f)))
-        const flattened = allDocstrings.flat()
-
-        if (flattened.length > 0) {
-          await updateAuditStatus(auditId, 'generating', { docstrings: flattened })
-        }
-
-        return flattened
-      })
+      docstringResults = await step.run('generate-docstrings', () => runGenerateDocstrings(auditId))
     }
 
-    // Paso 5: Generación de tests unitarios (opcional, solo si no hay críticos)
+    // Paso 5: Generación de tests unitarios (solo si no hay críticos)
     let generatedTests: IGeneratedTest[] = []
     if (!isBlocked) {
-      generatedTests = await step.run('generate-tests', async () => {
-        const auditRecord = await getAuditById(auditId)
-        if (!auditRecord) return []
-
-        const files = (auditRecord.changedFiles ?? []) as IChangedFile[]
-        const tests = await generateTestsForAudit(files, validationResult.issues)
-
-        if (tests.length > 0) {
-          await updateAuditStatus(auditId, 'generating', { generatedTests: tests })
-        }
-
-        return tests
-      })
+      generatedTests = await step.run('generate-tests', () =>
+        runGenerateTests(auditId, validationResult.issues as IValidationIssue[])
+      )
     }
 
-    // Paso 6: Publicar comentarios en el PR (inline + resumen)
-    await step.run('post-pr-comments', async () => {
-      const auditRecord = await getAuditById(auditId)
-      if (!auditRecord) return
+    // Paso 6: Publicar comentarios en el PR
+    await step.run('post-pr-comments', () => runPostPrComments(auditId))
 
-      const issues = (auditRecord.issues ?? []) as IEnrichedIssue[]
-      if (issues.length === 0) return
-
-      const { owner, repo } = parseRepoUrl(auditRecord.repoUrl)
-      const commits = (auditRecord.commits ?? []) as IAuditCommit[]
-      const commitSha = commits[0]?.sha ?? ''
-
-      await postPrComments({
-        owner,
-        repo,
-        prUrl: auditRecord.prUrl,
-        issues,
-        commitSha,
-        summary: auditRecord.generatedContent?.summary ?? undefined,
-      })
-    })
-
-    // Paso 7: Status check en el commit (bloquea merge si hay críticos)
-    await step.run('post-status-check', async () => {
-      const auditRecord = await getAuditById(auditId)
-      if (!auditRecord) return
-
-      const issues = (auditRecord.issues ?? []) as IEnrichedIssue[]
-      const { owner, repo } = parseRepoUrl(auditRecord.repoUrl)
-      const commits = (auditRecord.commits ?? []) as IAuditCommit[]
-      const commitSha = commits[0]?.sha ?? ''
-      if (!commitSha) return
-
-      await postAuditStatus({ owner, repo, commitSha, issues })
-    })
+    // Paso 7: Status check en el commit
+    await step.run('post-status-check', () => runPostStatusCheck(auditId))
 
     // Estado final: blocked si hay críticos, completed si todo OK
     if (isBlocked) {

@@ -4,7 +4,7 @@
  */
 import type { IChangedFile } from '../types/diff.types'
 import type { IEnrichedIssue, TIssueSeverity, TIssueType } from '../types/issue.types'
-import type { IValidationIssue, TValidationIssueType, TValidationSeverity } from '../types/validation.types'
+import type { IValidationIssue, TValidationSeverity } from '../types/validation.types'
 
 /** Mapeo de severidad de validación a severidad de issue enriquecido */
 const SEVERITY_MAP: Record<TValidationSeverity, TIssueSeverity> = {
@@ -15,16 +15,23 @@ const SEVERITY_MAP: Record<TValidationSeverity, TIssueSeverity> = {
 }
 
 /** Mapeo de tipo de validación a tipo de issue enriquecido */
-const TYPE_MAP: Record<TValidationIssueType, TIssueType> = {
+const TYPE_MAP: Record<string, TIssueType> = {
   API_KEY: 'security',
+  SECRET: 'security',
   SQL_INJECTION: 'security',
   XSS: 'security',
-  SECRET: 'security',
+  CSRF: 'security',
+  AUTH: 'security',
+  INJECTION: 'security',
+  PATH_TRAVERSAL: 'security',
+  SSRF: 'security',
+  SENSITIVE_DATA: 'security',
+  MISCONFIGURATION: 'best-practice',
   DANGEROUS_LOGIC: 'logic',
 }
 
 /** Genera un título corto a partir del tipo y mensaje del issue */
-function buildTitle(type: TValidationIssueType, message: string): string {
+function buildTitle(type: string, message: string): string {
   const prefix = type.replace(/_/g, ' ').toLowerCase()
   const maxMsgLen = 60
   const truncated = message.length > maxMsgLen ? `${message.slice(0, maxMsgLen)}...` : message

@@ -16,8 +16,9 @@ export interface ITokenUsage {
 // Niveles de severidad para los issues detectados
 export type TValidationSeverity = 'critical' | 'high' | 'medium' | 'low'
 
-// Tipos de problemas de seguridad que puede detectar el validador
-export type TValidationIssueType = 'API_KEY' | 'SQL_INJECTION' | 'XSS' | 'SECRET' | 'DANGEROUS_LOGIC'
+// Tipos de problemas de seguridad que puede detectar el validador.
+// String libre — el modelo elige la categoría más apropiada.
+export type TValidationIssueType = string
 
 // Interface para un issue individual detectado en el código
 export interface IValidationIssue {
@@ -43,4 +44,6 @@ export interface IValidationResult {
   analyzedAt: Date | string
   /** Uso de tokens de la llamada a IA (opcional) */
   tokenUsage?: ITokenUsage
+  /** Advertencia cuando el análisis fue parcial o fallback */
+  warning?: string
 }

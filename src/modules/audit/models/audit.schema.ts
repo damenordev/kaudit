@@ -1,6 +1,9 @@
 /**
  * Schema de la tabla audit para el sistema de auditorías de GitHub.
- * Incluye el enum de estados y las relaciones con el usuario.
+ * Incluye las relaciones con el usuario.
+ *
+ * NOTA: Los constantes (auditStatusEnum, TAuditStatus) están en audit.constants.ts
+ * para evitar que Client Components importen este archivo (que usa postgres → fs).
  */
 import { relations } from 'drizzle-orm'
 import { index, jsonb, text, timestamp, varchar } from 'drizzle-orm/pg-core'
@@ -18,17 +21,10 @@ import type {
   IValidationResult,
 } from '../types'
 
-// Enum de estados de una auditoría
-export const auditStatusEnum = [
-  'pending',
-  'processing',
-  'validating',
-  'generating',
-  'completed',
-  'failed',
-  'blocked',
-] as const
-export type TAuditStatus = (typeof auditStatusEnum)[number]
+import { auditStatusEnum } from './audit.constants'
+
+// Re-exportar constantes para conveniencia del código de servidor
+export { auditStatusEnum, type TAuditStatus } from './audit.constants'
 
 // Tabla principal de auditorías
 export const audit = createTable(

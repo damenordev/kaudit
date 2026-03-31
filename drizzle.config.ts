@@ -7,7 +7,7 @@ import pkg from './package.json'
 const TABLE_PREFIX = pkg.config?.dbTablePrefix ?? ''
 
 export default {
-  schema: ['./src/core/db/schema.ts', './src/modules/*/models/*.schema.ts'],
+  schema: ['./src/core/lib/db/schema.ts', './src/modules/*/models/*.schema.ts'],
   dialect: 'postgresql',
   dbCredentials: {
     url: env.DATABASE_URL,
