@@ -8,7 +8,7 @@
  * 3. Mantener todos los headers de archivo (nombres, modo)
  * 4. Truncar hunks de cada archivo desde el final
  */
-import { getMaxDiffInputTokens, MODEL_CONTEXT_LIMITS } from '@/core/config/ai.config'
+import { getMaxDiffInputTokens, getModelContextLimit, RESERVED_PROMPT_TOKENS } from '@/core/config/ai.config'
 
 /**
  * Ratio conservador: ~3 caracteres por token.
@@ -43,8 +43,13 @@ export function splitDiffByFile(diff: string): string[] {
  * @param scaleFactor - Multiplicador del presupuesto de tokens (0.0-1.0). Default: 1.0
  * @returns El diff truncado con nota informativa si fue necesario
  */
-export function truncateDiffForModel(diff: string, maxTokens?: number, scaleFactor: number = 1.0): string {
-  const baseBudget = maxTokens ?? getMaxDiffInputTokens()
+export function truncateDiffForModel(
+  diff: string,
+  maxTokens?: number,
+  scaleFactor: number = 1.0,
+  model?: string
+): string {
+  const baseBudget = maxTokens ?? getMaxDiffInputTokens(model)
   const budget = Math.floor(baseBudget * scaleFactor)
   const estimatedTokens = estimateTokenCount(diff)
 
@@ -62,7 +67,7 @@ export function truncateDiffForModel(diff: string, maxTokens?: number, scaleFact
   const fileBlocks = splitDiffByFile(diff)
   const resultBlocks: string[] = []
   let usedTokens = 0
-  const headerOverhead = MODEL_CONTEXT_LIMITS.reservedPromptTokens
+  const headerOverhead = RESERVED_PROMPT_TOKENS
 
   for (const block of fileBlocks) {
     const blockTokens = estimateTokenCount(block)

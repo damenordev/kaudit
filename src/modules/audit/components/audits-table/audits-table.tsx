@@ -87,25 +87,25 @@ export const AuditsTable = ({ data, pageCount, translations }: IAuditsTableProps
   }
 
   return (
-    <div className="flex flex-col gap-2 h-full">
-      <AuditsTableToolbar
-        searchValue={search}
-        onSearchChange={handleSearchChange}
-        statusValue={status ?? 'all'}
-        onStatusChange={handleStatusChange}
-        dateRange={dateRange}
-        onDateRangeChange={handleDateRangeChange}
-        onClearFilters={handleClearFilters}
-        hasActiveFilters={hasActiveFilters}
-      />
-      <DataTable
-        columns={columns}
-        data={data}
-        pageCount={pageCount}
-        pagination={pagination}
-        onPaginationChange={handlePaginationChange}
-        translations={translations}
-      />
-    </div>
+    <DataTable
+      columns={columns}
+      data={data}
+      pageCount={pageCount}
+      pagination={pagination}
+      onPaginationChange={handlePaginationChange}
+      translations={translations}
+      toolbarActions={
+        <AuditsTableToolbar
+          searchValue={search}
+          onSearchChange={handleSearchChange}
+          statusValue={status ?? 'all'}
+          onStatusChange={handleStatusChange}
+          dateRange={dateRange}
+          onDateRangeChange={handleDateRangeChange}
+          onClearFilters={handleClearFilters}
+          hasActiveFilters={hasActiveFilters}
+        />
+      }
+    />
   )
 }

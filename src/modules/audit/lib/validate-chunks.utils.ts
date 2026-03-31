@@ -4,18 +4,13 @@
  */
 import { generateText, Output } from 'ai'
 
-import { getAIProvider } from '@/core/config/ai.config'
+import { AI_HEAVY_CALL_TIMEOUT_MS, getHeavyModelInstance } from '@/core/config/ai.config'
 
 import type { IValidationResult, ITokenUsage } from '../types'
 import { validationPrompt, validationSchema } from './prompts/validation.prompt'
 
-/** Máximo de reintentos cuando un chunk falla */
 const MAX_RETRIES = 2
-
-/** Factor de reducción del diff en cada retry */
 const RETRY_SCALE_FACTOR = 0.6
-
-/** Tokens de output para respuestas con muchos issues */
 const MAX_OUTPUT_TOKENS = 8192
 
 /** Resultado parcial de un chunk individual */
@@ -23,18 +18,27 @@ interface IChunkResult {
   isValid: boolean
   issues: IValidationResult['issues']
   tokenUsage: ITokenUsage
+  /** Indica si el chunk falló después de todos los reintentos */
+  failed: boolean
 }
 
-/**
- * Ejecuta un intento de validación con un chunk de diff.
- */
+/** Ejecuta un intento de validación con un chunk de diff. */
 async function attemptValidation(safeDiff: string) {
   return generateText({
-    model: getAIProvider(),
+    model: getHeavyModelInstance(),
     output: Output.object({ schema: validationSchema }),
     prompt: validationPrompt(safeDiff),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
+    abortSignal: AbortSignal.timeout(AI_HEAVY_CALL_TIMEOUT_MS),
   })
+}
+
+/** Resultado vacío para chunks fallidos */
+const FAILED_CHUNK: IChunkResult = {
+  isValid: true,
+  issues: [],
+  tokenUsage: { inputTokens: 0, outputTokens: 0, totalTokens: 0 },
+  failed: true,
 }
 
 /**
@@ -46,11 +50,9 @@ async function validateSingleChunk(chunk: string, chunkIndex: number): Promise<I
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      // Truncar chunk si scaleFactor lo reduce
       const effectiveDiff = scaleFactor < 1.0 ? chunk.slice(0, Math.floor(chunk.length * scaleFactor)) : chunk
 
       const result = await attemptValidation(effectiveDiff)
-
       console.log(
         `[ValidateChunks] Chunk ${chunkIndex} — Tokens: ${result.usage.totalTokens ?? 0}` +
           (attempt > 0 ? ` [retry ${attempt}]` : '')
@@ -64,6 +66,7 @@ async function validateSingleChunk(chunk: string, chunkIndex: number): Promise<I
           outputTokens: result.usage.outputTokens ?? 0,
           totalTokens: result.usage.totalTokens ?? 0,
         },
+        failed: false,
       }
     } catch (error) {
       const msg = error instanceof Error ? error.message : String(error)
@@ -74,52 +77,64 @@ async function validateSingleChunk(chunk: string, chunkIndex: number): Promise<I
         console.log(`[ValidateChunks] Chunk ${chunkIndex} reintentando al ${(scaleFactor * 100).toFixed(0)}%`)
         continue
       }
-
-      // Todos los reintentos fallaron — retornar vacío para este chunk
-      console.warn(`[ValidateChunks] Chunk ${chunkIndex} falló definitivamente, omitiendo`)
-      return { isValid: true, issues: [], tokenUsage: { inputTokens: 0, outputTokens: 0, totalTokens: 0 } }
+      console.warn(`[ValidateChunks] Chunk ${chunkIndex} falló definitivamente, marcando como fallido`)
+      return FAILED_CHUNK
     }
   }
 
-  return { isValid: true, issues: [], tokenUsage: { inputTokens: 0, outputTokens: 0, totalTokens: 0 } }
+  return FAILED_CHUNK
 }
 
 /**
  * Valida múltiples chunks de diff y mergea los resultados.
- * Ejecuta cada chunk secuencialmente con retry individual.
- *
- * @param chunks - Array de diffs (un chunk por llamada al modelo)
- * @returns Resultado combinado con todos los issues encontrados
+ * Ejecuta cada chunk en paralelo con retry individual.
+ * Si TODOS los chunks fallan, lanza error para propagar fallo al workflow.
  */
 export async function validateChunks(chunks: string[]): Promise<IValidationResult> {
-  // Un solo chunk: comportamiento directo
   if (chunks.length === 1) {
     const single = await validateSingleChunk(chunks[0] as string, 1)
     console.log(`[ValidateChunks] 1/1 completado — ${single.issues.length} issues encontrados`)
+
+    if (single.failed) {
+      throw new Error('All validation chunks failed — AI model unavailable or timeout exceeded')
+    }
     return { isValid: single.isValid, issues: single.issues, analyzedAt: new Date(), tokenUsage: single.tokenUsage }
   }
 
-  console.log(`[ValidateChunks] Procesando diff en ${chunks.length} chunks`)
+  console.log(`[ValidateChunks] Procesando ${chunks.length} chunks en paralelo`)
 
-  const allIssues: IValidationResult['issues'] = []
-  let globalIsValid = true
-  const totalUsage: ITokenUsage = { inputTokens: 0, outputTokens: 0, totalTokens: 0 }
+  const chunkResults = await Promise.all(
+    chunks.map((chunk, index) =>
+      validateSingleChunk(chunk, index + 1).then(result => {
+        console.log(`[ValidateChunks] Chunk ${index + 1}/${chunks.length} — ${result.issues.length} issues`)
+        return result
+      })
+    )
+  )
 
-  for (let i = 0; i < chunks.length; i++) {
-    const chunkResult = await validateSingleChunk(chunks[i] as string, i + 1)
+  const failedCount = chunkResults.filter(r => r.failed).length
 
-    if (!chunkResult.isValid) globalIsValid = false
-    allIssues.push(...chunkResult.issues)
-    totalUsage.inputTokens += chunkResult.tokenUsage.inputTokens
-    totalUsage.outputTokens += chunkResult.tokenUsage.outputTokens
-    totalUsage.totalTokens += chunkResult.tokenUsage.totalTokens
-
-    console.log(
-      `[ValidateChunks] Chunk ${i + 1}/${chunks.length} completado — ${chunkResult.issues.length} issues encontrados`
+  if (failedCount === chunks.length) {
+    throw new Error('All validation chunks failed — AI model unavailable or timeout exceeded')
+  }
+  if (failedCount > 0) {
+    console.warn(
+      `[ValidateChunks] ${failedCount}/${chunks.length} chunks fallaron — continuando con resultados parciales`
     )
   }
 
-  console.log(`[ValidateChunks] Completado: ${chunks.length} chunks procesados, ${allIssues.length} issues totales`)
+  const successful = chunkResults.filter(r => !r.failed)
+  const globalIsValid = successful.every(r => r.isValid)
+  const allIssues = successful.flatMap(r => r.issues)
+  const totalUsage: ITokenUsage = successful.reduce(
+    (acc, r) => ({
+      inputTokens: acc.inputTokens + r.tokenUsage.inputTokens,
+      outputTokens: acc.outputTokens + r.tokenUsage.outputTokens,
+      totalTokens: acc.totalTokens + r.tokenUsage.totalTokens,
+    }),
+    { inputTokens: 0, outputTokens: 0, totalTokens: 0 }
+  )
 
+  console.log(`[ValidateChunks] Completado: ${chunks.length} chunks, ${allIssues.length} issues totales`)
   return { isValid: globalIsValid, issues: allIssues, analyzedAt: new Date(), tokenUsage: totalUsage }
 }

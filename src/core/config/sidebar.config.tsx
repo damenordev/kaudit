@@ -1,4 +1,4 @@
-import { FileSearch, KanbanSquare, LayoutDashboard, MessageSquare, Users } from 'lucide-react'
+import { FileSearch, LayoutDashboard, MessageSquare } from 'lucide-react'
 
 import { routesConfig } from './routes.config'
 
@@ -43,11 +43,6 @@ export const getDashboardConfig = (t: (key: string) => string): IDashboardConfig
           url: routesConfig.dashboard.root,
           icon: <LayoutDashboard />,
           isActive: true,
-        },
-        {
-          title: t('nav.users'),
-          url: routesConfig.dashboard.users,
-          icon: <Users />,
         },
         {
           title: t('nav.aiChat'),

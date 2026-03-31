@@ -5,12 +5,13 @@
 import { z } from 'zod'
 
 // Schema para la respuesta de generación
+// El modelo genera arrays de strings para cambios, sugerencias y checklist
 export const generationSchema = z.object({
   title: z.string(),
   summary: z.string(),
-  changes: z.string(),
-  suggestions: z.string(),
-  checklist: z.string(),
+  changes: z.array(z.string()),
+  suggestions: z.array(z.string()),
+  checklist: z.array(z.string()),
 })
 
 interface IValidationContext {

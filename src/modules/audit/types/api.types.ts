@@ -6,12 +6,19 @@ import { z } from 'zod'
 
 import type { IGeneratedContent, IValidationResult } from './index'
 
+// Opciones para saltar pasos en la auditoría
+export const auditOptionsSchema = z.object({
+  skipDocstrings: z.boolean().optional(),
+  skipTests: z.boolean().optional(),
+})
+
 // Schema para iniciar una auditoría
 export const auditStartSchema = z.object({
   repoUrl: z.string().url(),
   branchName: z.string().min(1),
   targetBranch: z.string().default('main'),
   gitDiff: z.string().max(1_000_000), // 1MB máximo
+  options: auditOptionsSchema.optional(),
 })
 
 // Schema para query params del listado de auditorías

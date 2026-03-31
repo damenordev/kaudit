@@ -27,7 +27,7 @@ import {
 export async function shipCommand(options: ICliOptions): Promise<void> {
   const apiUrl = options.url || 'http://localhost:3000'
   const baseBranch = options.base || 'main'
-  const timeout = options.timeout || 300000
+  const timeout = options.timeout || 600_000
 
   // 1. Verificar que es un repo git
   showSpinner('Verificando repositorio git...')
@@ -62,6 +62,9 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
   // 4. Iniciar auditoría
   updateSpinner('Iniciando auditoría...')
 
+  // Construir opciones de auditoría según flags del CLI
+  const auditOptions = options.fast ? { skipDocstrings: true, skipTests: true } : undefined
+
   let audit: { auditId: string; status: string }
   try {
     audit = await startAudit(apiUrl, {
@@ -69,6 +72,7 @@ export async function shipCommand(options: ICliOptions): Promise<void> {
       branchName: currentBranch,
       targetBranch: baseBranch,
       gitDiff,
+      options: auditOptions,
     })
   } catch (error) {
     showError(`Error al iniciar auditoría: ${error instanceof Error ? error.message : 'Error desconocido'}`)

@@ -8,8 +8,34 @@ import type { TCliStatus } from '../types/cli.types'
 
 // Intervalo de polling en ms
 const POLL_INTERVAL = 2000
-// Tiempo máximo de polling por defecto (5 minutos)
-const DEFAULT_MAX_POLL_TIME = 300000
+// Tiempo máximo de polling por defecto (10 minutos)
+const DEFAULT_MAX_POLL_TIME = 600_000
+// Timeout para fetch individual (30 segundos)
+const FETCH_TIMEOUT_MS = 30_000
+
+/**
+ * Envuelve un fetch con timeout y mensaje de error descriptivo.
+ */
+async function fetchWithTimeout(url: string, init: RequestInit = {}): Promise<Response> {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+
+  try {
+    const response = await fetch(url, {
+      ...init,
+      signal: init.signal ?? controller.signal,
+    })
+    return response
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new Error(`Request timeout: el servidor no respondió en ${FETCH_TIMEOUT_MS / 1000}s (${url})`)
+    }
+    const msg = error instanceof Error ? error.message : String(error)
+    throw new Error(`No se pudo conectar al servidor (${url}). ` + `Verificá que esté corriendo: ${msg}`)
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
 
 /**
  * Inicia una nueva auditoría en el backend.
@@ -21,9 +47,10 @@ export async function startAudit(
     branchName: string
     targetBranch: string
     gitDiff: string
+    options?: Record<string, unknown>
   }
 ): Promise<IAuditStartResponse> {
-  const response = await fetch(`${apiUrl}/api/audit/start`, {
+  const response = await fetchWithTimeout(`${apiUrl}/api/audit/start`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -41,7 +68,7 @@ export async function startAudit(
  * Obtiene el estado actual de una auditoría.
  */
 export async function getAuditStatus(apiUrl: string, auditId: string): Promise<IAuditStatusResponse> {
-  const response = await fetch(`${apiUrl}/api/audit/${auditId}/status`)
+  const response = await fetchWithTimeout(`${apiUrl}/api/audit/${auditId}/status`)
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -61,7 +88,7 @@ export async function createPr(
   apiUrl: string,
   auditId: string
 ): Promise<{ success: boolean; prUrl?: string; prNumber?: number; error?: string }> {
-  const response = await fetch(`${apiUrl}/api/audit/${auditId}/create-pr`, {
+  const response = await fetchWithTimeout(`${apiUrl}/api/audit/${auditId}/create-pr`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   })

@@ -178,9 +178,9 @@ describe('Workflow de auditoría - integración', () => {
       vi.mocked(generatePrDescription).mockResolvedValue({
         title: 'Update hello function',
         summary: 'Updated return value',
-        changes: '- Changed return',
-        suggestions: 'None',
-        checklist: '- [ ] Tested',
+        changes: ['- Changed return'],
+        suggestions: ['None'],
+        checklist: ['- [ ] Tested'],
       })
       vi.mocked(getAuditById).mockResolvedValue({
         id: 'audit-1',

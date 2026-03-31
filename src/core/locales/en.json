@@ -198,7 +198,6 @@
       "dashboard": "Dashboard",
       "overview": "Overview",
       "settings": "Settings",
-      "users": "Users",
       "editor": "Editor Demo",
       "kanban": "Kanban",
       "aiChat": "AI Chat",
@@ -207,8 +206,7 @@
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "overview": "Overview",
-      "settings": "Settings",
-      "users": "Users"
+      "settings": "Settings"
     },
     "userMenu": {
       "language": "Language",

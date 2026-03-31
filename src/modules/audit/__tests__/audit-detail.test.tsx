@@ -105,9 +105,9 @@ describe('AuditDetail', () => {
       generatedContent: {
         title: 'PR Title',
         summary: 'Summary of changes',
-        changes: 'Changes description',
-        suggestions: 'Some suggestions',
-        checklist: '- [ ] Check 1\n- [ ] Check 2',
+        changes: ['- Changed file A', '- Updated file B'],
+        suggestions: ['Consider refactoring'],
+        checklist: ['- [ ] Check 1', '- [ ] Check 2'],
       },
     })
 

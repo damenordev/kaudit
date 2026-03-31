@@ -11,13 +11,13 @@ export interface IGeneratedContent {
   title: string
   /** Resumen ejecutivo de los cambios */
   summary: string
-  /** Descripción detallada de los cambios realizados */
-  changes: string
+  /** Lista detallada de los cambios realizados */
+  changes: string[]
   /** Sugerencias y recomendaciones adicionales */
-  suggestions: string
+  suggestions: string[]
   /** Checklist de verificación para el revisor */
-  checklist: string
-  /** Markdown cruto generado (para uso interno) */
+  checklist: string[]
+  /** Markdown crudo generado (para uso interno) */
   rawMarkdown?: string
   /** Uso de tokens de la llamada a IA (opcional) */
   tokenUsage?: ITokenUsage

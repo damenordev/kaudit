@@ -7,7 +7,7 @@ import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { getAIProvider } from '@/core/config/ai.config'
+import { AI_CALL_TIMEOUT_MS, getLightModel } from '@/core/config/ai.config'
 
 import { docstringGenerationPrompt, docstringResponseSchema } from '../lib/prompts/docstring-generation.prompt'
 import type { IChangedFile, IDocstringResult } from '../types'
@@ -22,9 +22,13 @@ const SUPPORTED_LANGUAGES = new Set(['typescript', 'javascript', 'ts', 'js'])
  */
 function normalizeLanguage(language: string): 'typescript' | 'javascript' | null {
   const normalized = language.toLowerCase().trim()
-  if (normalized === 'typescript' || normalized === 'ts') return 'typescript'
-  if (normalized === 'javascript' || normalized === 'js') return 'javascript'
-  return null
+  return SUPPORTED_LANGUAGES.has(normalized)
+    ? normalized === 'ts'
+      ? 'typescript'
+      : normalized === 'js'
+        ? 'javascript'
+        : (normalized as 'typescript' | 'javascript')
+    : null
 }
 
 /**
@@ -56,9 +60,10 @@ export async function generateDocstrings(file: IChangedFile): Promise<IDocstring
 
   try {
     const result = await generateText({
-      model: getAIProvider(),
+      model: getLightModel(),
       output: Output.object({ schema: docstringResponseSchema }),
       prompt: docstringGenerationPrompt(sourceCode, file.path, language),
+      abortSignal: AbortSignal.timeout(AI_CALL_TIMEOUT_MS),
     })
 
     console.log(

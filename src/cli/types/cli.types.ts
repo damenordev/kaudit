@@ -9,7 +9,7 @@ export interface ICliOptions {
   base?: string
   /** URL base de la API (default: https://kaudit.vercel.app) */
   url?: string
-  /** Timeout máximo de polling en ms (default: 300000 = 5 min) */
+  /** Timeout máximo de polling en ms (default: 600000 = 10 min) */
   timeout?: number
   /** Deshabilitar colores para CI */
   noColor?: boolean
@@ -19,6 +19,8 @@ export interface ICliOptions {
   repo?: string
   /** Push automático después de auditoría exitosa (default: true) */
   push?: boolean
+  /** Modo rápido: omite docstrings y tests */
+  fast?: boolean
 }
 
 // Configuración interna del CLI
@@ -101,7 +103,7 @@ export type TStatusCallback = (status: IAuditStatusResponse) => void
 export const DEFAULT_CLI_CONFIG: ICliConfig = {
   apiUrl: 'https://kaudit.vercel.app',
   targetBranch: 'main',
-  maxPollTime: 300000, // 5 minutos
+  maxPollTime: 600000, // 10 minutos
   pollInterval: 2000, // 2 segundos
   maxDiffSize: 1000000, // 1MB
 }

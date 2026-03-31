@@ -46,6 +46,7 @@ export async function POST(req: Request) {
           branchName: validated.branchName,
           targetBranch: validated.targetBranch,
           userId: userId ?? null,
+          options: validated.options,
         },
       })
     } catch (inngestError) {

@@ -1,25 +1,32 @@
 /**
  * Servicio de generación de contenido para PRs con IA.
  * Genera descripciones profesionales usando Claude 3.5 Sonnet.
+ * Incluye retry con re-truncado progresivo si el modelo falla.
  */
 import 'server-only'
 
 import { generateText, Output } from 'ai'
 
-import { getAIProvider } from '@/core/config/ai.config'
+import { AI_HEAVY_CALL_TIMEOUT_MS, getHeavyModel } from '@/core/config/ai.config'
 
-import { truncateDiffForModel } from '../lib/truncate-diff.utils'
 import { generationPrompt, generationSchema } from '../lib/prompts/generation.prompt'
+import { truncateDiffForModel } from '../lib/truncate-diff.utils'
 import type { IGeneratedContent, IValidationResult } from '../types'
+
+/** Máximo de reintentos cuando la generación falla */
+const MAX_RETRIES = 2
+
+/** Factor de reducción del diff en cada retry */
+const RETRY_SCALE_FACTOR = 0.6
 
 /**
  * Genera una descripción de PR basada en el diff y validación.
  * Trunca el diff automáticamente si excede el contexto del modelo.
+ * Reintenta con diff más pequeño si la generación falla.
  *
  * @param gitDiff - El diff del código
  * @param validationResult - Resultado de la validación previa
  * @returns Contenido generado para el PR
- * @throws Error si el modelo de IA falla
  */
 export async function generatePrDescription(
   gitDiff: string,
@@ -27,47 +34,81 @@ export async function generatePrDescription(
 ): Promise<IGeneratedContent> {
   // Caso edge: diff vacío
   if (!gitDiff || gitDiff.trim().length === 0) {
-    return {
-      title: 'Empty changes',
-      summary: 'No changes detected in the diff.',
-      changes: 'No changes to describe.',
-      suggestions: 'Please ensure the diff contains actual changes.',
-      checklist: '- [ ] Verify the diff is not empty',
+    return buildFallbackContent()
+  }
+
+  const issuesContext = validationResult.issues.map(i => ({
+    type: i.type,
+    severity: i.severity,
+    message: i.message,
+  }))
+
+  let scaleFactor = 1.0
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const safeDiff = truncateDiffForModel(gitDiff, undefined, scaleFactor)
+
+      const result = await generateText({
+        model: getHeavyModel(),
+        output: Output.object({ schema: generationSchema }),
+        prompt: generationPrompt(safeDiff, {
+          isValid: validationResult.isValid,
+          issues: issuesContext,
+        }),
+        abortSignal: AbortSignal.timeout(AI_HEAVY_CALL_TIMEOUT_MS),
+      })
+
+      console.log(
+        `[Generation] Tokens: ${result.usage.totalTokens ?? 0} (input: ${result.usage.inputTokens ?? 0}, output: ${result.usage.outputTokens ?? 0})` +
+          (attempt > 0 ? ` [retry ${attempt}]` : '')
+      )
+
+      // Validar que el contenido no esté vacío
+      if (!result.output.title?.trim()) {
+        throw new Error('El modelo generó un título vacío')
+      }
+
+      const rawMarkdown = buildRawMarkdown(result.output)
+
+      return {
+        ...result.output,
+        rawMarkdown,
+        tokenUsage: {
+          inputTokens: result.usage.inputTokens ?? 0,
+          outputTokens: result.usage.outputTokens ?? 0,
+          totalTokens: result.usage.totalTokens ?? 0,
+        },
+      }
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : String(error)
+      console.warn(`[Generation] Intento ${attempt + 1} falló: ${msg}`)
+
+      if (attempt < MAX_RETRIES) {
+        scaleFactor *= RETRY_SCALE_FACTOR
+        console.log(`[Generation] Reintentando con scaleFactor ${(scaleFactor * 100).toFixed(0)}%`)
+        continue
+      }
+
+      // Todos los reintentos fallaron — retornar fallback
+      console.warn('[Generation] Todos los reintentos fallaron, retornando contenido fallback')
+      return buildFallbackContent()
     }
   }
 
-  // Truncar diff si excede el presupuesto de tokens del modelo
-  const safeDiff = truncateDiffForModel(gitDiff)
+  return buildFallbackContent()
+}
 
-  const result = await generateText({
-    model: getAIProvider(),
-    output: Output.object({ schema: generationSchema }),
-    prompt: generationPrompt(safeDiff, {
-      isValid: validationResult.isValid,
-      issues: validationResult.issues.map(i => ({
-        type: i.type,
-        severity: i.severity,
-        message: i.message,
-      })),
-    }),
-  })
-
-  // Registrar uso de tokens en el servidor
-  console.log(
-    `[Generation] Tokens: ${result.usage.totalTokens ?? 0} (input: ${result.usage.inputTokens ?? 0}, output: ${result.usage.outputTokens ?? 0})`
-  )
-
-  // Construir el markdown crudo para uso interno
-  const rawMarkdown = buildRawMarkdown(result.output)
-
+/**
+ * Construye contenido fallback mínimo cuando la generación falla.
+ */
+function buildFallbackContent(): IGeneratedContent {
   return {
-    ...result.output,
-    rawMarkdown,
-    tokenUsage: {
-      inputTokens: result.usage.inputTokens ?? 0,
-      outputTokens: result.usage.outputTokens ?? 0,
-      totalTokens: result.usage.totalTokens ?? 0,
-    },
+    title: 'Changes detected',
+    summary: 'Automated description generation failed. Please review the diff manually.',
+    changes: ['- Review the git diff for details'],
+    suggestions: ['Consider running the audit again later'],
+    checklist: ['- [ ] Review the diff manually'],
   }
 }
 
@@ -77,9 +118,9 @@ export async function generatePrDescription(
 function buildRawMarkdown(content: {
   title: string
   summary: string
-  changes: string
-  suggestions: string
-  checklist: string
+  changes: string[]
+  suggestions: string[]
+  checklist: string[]
 }): string {
   return `# ${content.title}
 
@@ -87,13 +128,13 @@ function buildRawMarkdown(content: {
 ${content.summary}
 
 ## Changes
-${content.changes}
+${content.changes.join('\n')}
 
 ## Suggestions
-${content.suggestions}
+${content.suggestions.join('\n')}
 
 ## Checklist
-${content.checklist}
+${content.checklist.join('\n')}
 `
 }
 
