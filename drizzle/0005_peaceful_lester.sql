@@ -1,0 +1,1 @@
+ALTER TABLE "kaudit_user" ADD COLUMN "custom_rules" text;

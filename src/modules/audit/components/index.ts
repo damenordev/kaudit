@@ -36,3 +36,5 @@ export type { ICommitTimelineProps, ICommitTimelineTranslations } from './commit
 
 export { MermaidViewer } from './mermaid-viewer'
 export type { IMermaidViewerProps } from './mermaid-viewer'
+
+export { RulesForm } from './rules-form'

@@ -36,6 +36,13 @@
       "when": 1775004497468,
       "tag": "0004_flaky_psynapse",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1775013415491,
+      "tag": "0005_peaceful_lester",
+      "breakpoints": true
     }
   ]
 }

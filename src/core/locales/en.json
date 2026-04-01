@@ -226,6 +226,19 @@
         "copied": "Copied!",
         "close": "Dismiss"
       }
+    },
+    "rules": {
+      "title": "AI Rules",
+      "description": "Configure custom instructions that the AI will strictly follow for this project's audits.",
+      "form": {
+        "label": "Audit Instructions",
+        "placeholder": "e.g. 'Always require Zod for validation...'",
+        "description": "Customize the audit engine behavior. These rules have maximum priority over the system.",
+        "submit": "Save Rules",
+        "submitting": "Saving...",
+        "success": "Rules saved successfully.",
+        "error": "Failed to save rules."
+      }
     }
   },
   "dashboard": {
@@ -237,6 +250,7 @@
       "editor": "Editor Demo",
       "kanban": "Kanban",
       "audits": "Audits",
+      "rules": "IA Rules",
       "apiKeys": "API Keys",
       "installApp": "Install App"
     },
@@ -363,6 +377,9 @@
       "pageDescription": "View and manage your code audits",
       "noAudits": "No audits found",
       "noAuditsDescription": "Start your first audit from the CLI",
+      "metadataTitle": "Audits",
+      "metadataDescription": "Audit list with filters and pagination",
+      "signInRequired": "Please sign in to view audits.",
       "table": {
         "date": "Date",
         "repository": "Repository",
@@ -381,6 +398,16 @@
         "clear": "Clear"
       },
       "detail": {
+        "metadataTitle": "Audit Detail",
+        "metadataDescription": "Complete audit detail with diff, issues and chat",
+        "tabs": {
+          "overview": "Overview",
+          "diff": "Files & Code",
+          "chat": "AI Assistant"
+        },
+        "loadingDiff": "Loading diff viewer...",
+        "processing": "Processing audit code...",
+        "processingHint": "This process may take a few seconds.",
         "repository": "Repository",
         "branch": "Branch",
         "targetBranch": "Target",

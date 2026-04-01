@@ -3,7 +3,10 @@
  * Verifica que el diff no contenga patrones peligrosos.
  */
 import { NonRetriableError } from 'inngest'
+import { eq } from 'drizzle-orm'
 
+import { db } from '@/core/lib/db'
+import { user } from '@/modules/auth/models/auth.schema'
 import { getAuditById, updateAuditStatus } from '../../queries/audit.queries'
 import { validateGitDiff } from '../../services/validation.service'
 
@@ -20,5 +23,18 @@ export async function runValidateSecurity(auditId: string): Promise<IValidationR
   if (!auditRecord?.gitDiff) {
     throw new NonRetriableError('No se encontró git diff para la auditoría')
   }
-  return validateGitDiff(auditRecord.gitDiff)
+
+  let customRules: string | undefined
+  if (auditRecord.userId) {
+    const [foundUser] = await db
+      .select({ customRules: user.customRules })
+      .from(user)
+      .where(eq(user.id, auditRecord.userId))
+    
+    if (foundUser?.customRules) {
+      customRules = foundUser.customRules
+    }
+  }
+
+  return validateGitDiff(auditRecord.gitDiff, customRules)
 }

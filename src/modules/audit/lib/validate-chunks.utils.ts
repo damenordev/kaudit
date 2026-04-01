@@ -23,11 +23,11 @@ interface IChunkResult {
 }
 
 /** Ejecuta un intento de validación con un chunk de diff. */
-async function attemptValidation(safeDiff: string) {
+async function attemptValidation(safeDiff: string, customRules?: string) {
   return generateText({
     model: getHeavyModelInstance(),
     output: Output.object({ schema: validationSchema }),
-    prompt: validationPrompt(safeDiff),
+    prompt: validationPrompt(safeDiff, customRules),
     maxOutputTokens: MAX_OUTPUT_TOKENS,
     abortSignal: AbortSignal.timeout(AI_HEAVY_CALL_TIMEOUT_MS),
   })
@@ -45,14 +45,14 @@ const FAILED_CHUNK: IChunkResult = {
  * Valida un chunk individual con reintentos progresivos.
  * En cada retry trunca el chunk para reducir tamaño.
  */
-async function validateSingleChunk(chunk: string, chunkIndex: number): Promise<IChunkResult> {
+async function validateSingleChunk(chunk: string, chunkIndex: number, customRules?: string): Promise<IChunkResult> {
   let scaleFactor = 1.0
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
       const effectiveDiff = scaleFactor < 1.0 ? chunk.slice(0, Math.floor(chunk.length * scaleFactor)) : chunk
 
-      const result = await attemptValidation(effectiveDiff)
+      const result = await attemptValidation(effectiveDiff, customRules)
       console.log(
         `[ValidateChunks] Chunk ${chunkIndex} — Tokens: ${result.usage.totalTokens ?? 0}` +
           (attempt > 0 ? ` [retry ${attempt}]` : '')
@@ -90,9 +90,9 @@ async function validateSingleChunk(chunk: string, chunkIndex: number): Promise<I
  * Ejecuta cada chunk en paralelo con retry individual.
  * Si TODOS los chunks fallan, lanza error para propagar fallo al workflow.
  */
-export async function validateChunks(chunks: string[]): Promise<IValidationResult> {
+export async function validateChunks(chunks: string[], customRules?: string): Promise<IValidationResult> {
   if (chunks.length === 1) {
-    const single = await validateSingleChunk(chunks[0] as string, 1)
+    const single = await validateSingleChunk(chunks[0] as string, 1, customRules)
     console.log(`[ValidateChunks] 1/1 completado — ${single.issues.length} issues encontrados`)
 
     if (single.failed) {
@@ -105,7 +105,7 @@ export async function validateChunks(chunks: string[]): Promise<IValidationResul
 
   const chunkResults = await Promise.all(
     chunks.map((chunk, index) =>
-      validateSingleChunk(chunk, index + 1).then(result => {
+      validateSingleChunk(chunk, index + 1, customRules).then(result => {
         console.log(`[ValidateChunks] Chunk ${index + 1}/${chunks.length} — ${result.issues.length} issues`)
         return result
       })

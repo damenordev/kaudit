@@ -16,8 +16,8 @@ export const CAROUSEL_ITEMS = [
   {
     id: '03',
     title: 'Refactorización IA',
-    bg: '/images/carousel/carousel3.jpeg',
-    main: '/images/carousel/carousel3.jpeg',
+    bg: '/images/home/carousel3.jpg',
+    main: '/images/home/carousel3.jpg',
     url: '#archive-3',
   },
 ]

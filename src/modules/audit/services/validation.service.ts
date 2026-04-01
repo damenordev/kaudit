@@ -17,7 +17,7 @@ import type { IValidationResult } from '../types'
  * @param gitDiff - El diff del código a validar
  * @returns Resultado de la validación con issues detectados
  */
-export async function validateGitDiff(gitDiff: string): Promise<IValidationResult> {
+export async function validateGitDiff(gitDiff: string, customRules?: string): Promise<IValidationResult> {
   // Caso edge: diff vacío
   if (!gitDiff || gitDiff.trim().length === 0) {
     return { isValid: true, issues: [], analyzedAt: new Date() }
@@ -25,7 +25,7 @@ export async function validateGitDiff(gitDiff: string): Promise<IValidationResul
 
   // Dividir diff en chunks (si es necesario) y validar todos
   const chunks = chunkDiffForModel(gitDiff)
-  return validateChunks(chunks)
+  return validateChunks(chunks, customRules)
 }
 
 /**

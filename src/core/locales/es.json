@@ -226,6 +226,19 @@
         "copied": "¡Copiada!",
         "close": "Cerrar"
       }
+    },
+    "rules": {
+      "title": "Reglas de IA",
+      "description": "Configura instrucciones personalizadas que la IA seguirá estrictamente en cada auditoría para este proyecto.",
+      "form": {
+        "label": "Instrucciones de Auditoría",
+        "placeholder": "ej. 'Requiere siempre Zod para la validación...'",
+        "description": "Personaliza el comportamiento del motor de auditoría. Estas reglas tienen prioridad máxima sobre el sistema.",
+        "submit": "Guardar Reglas",
+        "submitting": "Guardando...",
+        "success": "Reglas guardadas exitosamente.",
+        "error": "Error al guardar las reglas."
+      }
     }
   },
   "dashboard": {
@@ -237,6 +250,7 @@
       "editor": "Demo Editor",
       "kanban": "Kanban",
       "audits": "Auditorías",
+      "rules": "Reglas de IA",
       "apiKeys": "API Keys",
       "installApp": "Instalar App"
     },
@@ -363,6 +377,9 @@
       "pageDescription": "Ver y gestionar tus auditorías de código",
       "noAudits": "Sin auditorías",
       "noAuditsDescription": "Inicia tu primera auditoría desde la CLI",
+      "metadataTitle": "Auditorías",
+      "metadataDescription": "Listado de auditorías con filtros y paginación",
+      "signInRequired": "Inicia sesión para ver las auditorías.",
       "table": {
         "date": "Fecha",
         "repository": "Repositorio",
@@ -381,6 +398,16 @@
         "clear": "Limpiar"
       },
       "detail": {
+        "metadataTitle": "Detalle de Auditoría",
+        "metadataDescription": "Detalle completo de una auditoría con diff, issues y chat",
+        "tabs": {
+          "overview": "Resumen",
+          "diff": "Archivos y Código",
+          "chat": "Asistente IA"
+        },
+        "loadingDiff": "Cargando visor de diff...",
+        "processing": "Procesando código de la auditoría...",
+        "processingHint": "Este proceso puede tardar unos segundos.",
         "repository": "Repositorio",
         "branch": "Rama",
         "targetBranch": "Destino",

@@ -40,8 +40,13 @@ export const validationSchema = z.object({
  * Genera el prompt para validar un git diff.
  * Incluye ejemplo JSON explícito para guiar al modelo.
  */
-export function validationPrompt(gitDiff: string): string {
+export function validationPrompt(gitDiff: string, customRules?: string): string {
+  const customRulesSection = customRules 
+    ? `\nCRITICAL CUSTOM RULES FROM USER:\nYou MUST enforce and strictly adhere to the following rules during this audit:\n"""\n${customRules}\n"""\n`
+    : ''
+
   return `You are a security code reviewer. Analyze the following git diff for potential security issues.
+${customRulesSection}
 
 Focus on:
 - API keys or secrets exposed in code

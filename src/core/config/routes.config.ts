@@ -20,6 +20,7 @@ export const routesConfig = {
   dashboard: {
     root: '/dashboard',
     settings: '/dashboard/settings',
+    rules: '/dashboard/rules',
     apiKeys: '/dashboard/api-keys',
     /** Instalación de la GitHub App */
     install: '/dashboard/install',

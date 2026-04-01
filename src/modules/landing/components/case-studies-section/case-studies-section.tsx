@@ -48,21 +48,21 @@ export function CaseStudiesSection() {
               id: 1,
               title: 'Revisión IA en Cada PR',
               subtitle: '[ GitHub App — Integración Automática ]',
-              img: '/images/home/case-study-1.jpeg',
+              img: '/images/home/case-study-1.jpg',
               desc: 'Instala la GitHub App en segundos. Cada Pull Request recibe un análisis completo con comentarios inline sugiriendo mejoras, detectando bugs y vulnerabilidades antes del merge.',
             },
             {
               id: 2,
               title: 'CLI para Tu Terminal',
               subtitle: '[ npx kaudit — Audita en Segundos ]',
-              img: '/images/home/case-study-2.jpeg',
+              img: '/images/home/case-study-2.jpg',
               desc: 'Ejecuta npx kaudit en cualquier repositorio y obtén un reporte detallado al instante. Sin configuración, sin instalación permanente. Perfecto para auditorías puntuales.',
             },
             {
               id: 3,
               title: 'Análisis Multi-Modelo',
               subtitle: '[ GPT-4 · Claude · y más ]',
-              img: '/images/home/case-study-3.jpeg',
+              img: '/images/home/case-study-3.jpg',
               desc: 'Elige el modelo de IA que mejor se adapte a tu proyecto. Análisis archivo por archivo con contexto completo del cambio, priorizando los issues más críticos.',
             },
           ].map(item => (
@@ -98,20 +98,20 @@ export function CaseStudiesSection() {
               style={{ willChange: 'transform' }}
             >
               <img
-                src={`/images/home/case-study-${id}.jpeg`}
+                src={`/images/home/case-study-${id}.jpg`}
                 alt=""
                 className="absolute top-1/2 left-1/2 w-full h-full object-cover origin-top transform-gpu"
                 style={{ transform: 'translate(-50%, -50%) scale(2)', willChange: 'transform' }}
               />
               <div className="absolute inset-0 bg-black/20" />
 
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+              {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <Link href={`#project-0${id}`} className="w-full h-full flex items-center justify-center">
                   <span className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 text-white font-mono flex items-center gap-2">
                     (&nbsp; Ver Detalle <MdArrowOutward /> &nbsp;)
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

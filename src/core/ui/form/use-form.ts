@@ -15,6 +15,7 @@ import {
   FormSwitchField,
   FormTextareaField,
   FormTextField,
+  FormMonacoField,
 } from './fields'
 import { FormSubscribeButton } from './form-subscribe-button'
 import { fieldContext, formContext } from './form.context'
@@ -37,6 +38,7 @@ export const { useAppForm: useForm } = createFormHook({
     ComboboxField: FormComboboxField,
     MultiSelectField: FormMultiSelectField,
     FileUploadField: FormFileUploadField,
+    MonacoField: FormMonacoField,
   },
   formComponents: {
     SubscribeButton: FormSubscribeButton,

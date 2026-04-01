@@ -11,6 +11,7 @@ export const user = createTable('user', {
     .$defaultFn(() => false)
     .notNull(),
   image: text('image'),
+  customRules: text('custom_rules'),
   createdAt: timestamp('created_at')
     .$defaultFn(() => new Date())
     .notNull(),
