@@ -72,7 +72,7 @@ export default async function AuditDetailPage({ params }: IPageProps) {
   const hasFiles = changedFiles.length > 0
 
   return (
-    <section className="p-4 space-y-4 max-w-[1600px] mx-auto" aria-labelledby="audit-detail-heading">
+    <section className="flex flex-col gap-6 p-6 max-w-[1600px] mx-auto" aria-labelledby="audit-detail-heading">
       <h1 id="audit-detail-heading" className="sr-only">
         {t('pageTitle')} - {audit.id}
       </h1>

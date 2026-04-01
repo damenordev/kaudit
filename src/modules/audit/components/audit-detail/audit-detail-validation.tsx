@@ -1,3 +1,8 @@
+import { ShieldCheck, ShieldAlert } from 'lucide-react'
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/core/ui/card'
+import { Badge } from '@/core/ui/badge'
+
 import type { IValidationResult } from '../../types/validation.types'
 
 export interface IAuditValidationTranslations {
@@ -13,37 +18,51 @@ interface IAuditValidationSectionProps {
   translations: IAuditValidationTranslations
 }
 
-/** Sección colapsable que muestra el resultado de la validación de seguridad */
+/** Sección de resultado de validación usando Card */
 export function AuditValidationSection({ result, translations }: IAuditValidationSectionProps) {
   return (
-    <section className="p-4 border rounded-lg">
-      <h3 className="text-sm font-semibold mb-3">{translations.title}</h3>
-      {result.isValid ? (
-        <p className="text-sm text-emerald-600">{translations.noIssues}</p>
-      ) : (
-        <div className="space-y-2">
-          <p className="text-sm text-amber-600 font-medium">
-            {translations.issuesFound}: {result.issues.length}
-          </p>
-          <ul className="list-disc list-inside space-y-1">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          {result.isValid ? (
+            <ShieldCheck className="size-4 text-emerald-600" />
+          ) : (
+            <ShieldAlert className="size-4 text-amber-600" />
+          )}
+          {translations.title}
+          {!result.isValid && (
+            <Badge variant="destructive" className="ml-auto text-xs">
+              {result.issues.length} {translations.issuesFound}
+            </Badge>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {result.isValid ? (
+          <p className="text-sm text-emerald-600">{translations.noIssues}</p>
+        ) : (
+          <ul className="space-y-2">
             {result.issues.map((issue, index) => (
-              <li key={`${issue.type}-${index}`} className="text-sm">
-                <span className="font-medium">{issue.type}:</span> {issue.message}
-                {issue.line > 0 && (
-                  <span className="text-muted-foreground ml-2">
-                    ({translations.line} {issue.line})
-                  </span>
-                )}
+              <li key={`${issue.type}-${index}`} className="rounded-md bg-muted/50 p-3 text-sm space-y-1">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium">{issue.type}</span>
+                  {issue.line > 0 && (
+                    <Badge variant="outline" className="text-[10px]">
+                      {translations.line} {issue.line}
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-muted-foreground">{issue.message}</p>
                 {issue.suggestion && (
-                  <p className="text-muted-foreground ml-4 text-xs italic">
+                  <p className="text-xs text-muted-foreground italic">
                     {translations.suggestion}: {issue.suggestion}
                   </p>
                 )}
               </li>
             ))}
           </ul>
-        </div>
-      )}
-    </section>
+        )}
+      </CardContent>
+    </Card>
   )
 }

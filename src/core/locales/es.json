@@ -9,18 +9,19 @@
     "create": "Crear",
     "dataTable": {
       "noResultsTitle": "Sin resultados",
-      "noResultsDescription": "Intenta ajust los filtros o términos",
+      "noResultsDescription": "Intenta ajustar los filtros o términos",
       "rowsPerPage": "Filas por página",
       "pageOf": "Página {current} de {total}",
       "rowsSelected": "{selected} de {total} seleccionados",
       "reset": "Restablecer",
       "tableView": "Tabla",
-      "gridView": "Cuadrícul",
+      "gridView": "Cuadrícula",
       "goToFirstPage": "Ir a la primera página",
       "goToPreviousPage": "Ir a la página anterior",
       "goToNextPage": "Ir a la siguiente página",
       "goToLastPage": "Ir a la última página"
-    }
+    },
+    "or": "o"
   },
   "navigation": {
     "dashboard": "Panel",
@@ -424,6 +425,40 @@
           "inputPlaceholder": "Pregunta sobre los issues o cambios..."
         }
       }
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Iniciar Sesión",
+      "description": "Entra a tu cuenta para gestionar tus auditorías",
+      "github": "Continuar con GitHub",
+      "submit": "Entrar",
+      "quote": "La mejor forma de predecir el futuro es inventarlo.",
+      "quoteAuthor": "Alan Kay",
+      "noAccount": "¿No tienes cuenta?",
+      "signUpLink": "Regístrate"
+    },
+    "signUp": {
+      "title": "Crear Cuenta",
+      "description": "Empieza a auditar tu código con IA hoy mismo",
+      "github": "Regístrate con GitHub",
+      "submit": "Crear cuenta",
+      "signInLink": "Inicia sesión"
+    },
+    "fields": {
+      "name": "Nombre",
+      "namePlaceholder": "Tu nombre completo",
+      "email": "Email",
+      "emailPlaceholder": "tu@email.com",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña"
+    },
+    "errors": {
+      "invalidCredentials": "Credenciales inválidas",
+      "invalidEmail": "Email inválido",
+      "passwordTooShort": "Mínimo 8 caracteres",
+      "nameTooShort": "Mínimo 2 caracteres",
+      "passwordsDontMatch": "Las contraseñas no coinciden"
     }
   }
 }

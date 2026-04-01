@@ -1,23 +1,26 @@
 import type { getTranslations } from 'next-intl/server'
 
 import { Badge } from '@/core/ui/badge'
+import { Card, CardContent } from '@/core/ui/card'
 import { Spinner } from '@/core/ui/spinner'
 
-/** Panel cuando la auditoría aún no tiene datos de archivos */
+/** Panel cuando la auditoría aún no tiene datos de archivos, usa Card del dashboard */
 export function PendingAuditNotice({ status }: { status: string }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 gap-4 border rounded-lg bg-muted/30">
-      <Spinner className="size-8" />
-      <div className="text-center space-y-1">
-        <p className="text-sm font-medium">La auditoría aún se está procesando</p>
-        <p className="text-xs text-muted-foreground">
-          Estado actual:{' '}
-          <Badge variant="secondary" className="text-[10px] capitalize">
-            {status}
-          </Badge>
-        </p>
-      </div>
-    </div>
+    <Card>
+      <CardContent className="flex flex-col items-center justify-center py-16 gap-4">
+        <Spinner className="size-8" />
+        <div className="text-center space-y-1">
+          <p className="text-sm font-medium">Procesando auditoría...</p>
+          <p className="text-xs text-muted-foreground">
+            Estado actual:{' '}
+            <Badge variant="secondary" className="text-[10px] capitalize">
+              {status}
+            </Badge>
+          </p>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

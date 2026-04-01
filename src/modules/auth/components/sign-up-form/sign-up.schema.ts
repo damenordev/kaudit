@@ -2,13 +2,13 @@ import { z } from 'zod'
 
 export const signUpSchema = z
   .object({
-    name: z.string().min(2, 'Mínimo 2 caracteres'),
-    email: z.string().email('Email inválido'),
-    password: z.string().min(8, 'Mínimo 8 caracteres'),
-    confirmPassword: z.string().min(8, 'Mínimo 8 caracteres'),
+    name: z.string().min(2, 'auth.errors.nameTooShort'),
+    email: z.string().email('auth.errors.invalidEmail'),
+    password: z.string().min(8, 'auth.errors.passwordTooShort'),
+    confirmPassword: z.string().min(8, 'auth.errors.passwordTooShort'),
   })
   .refine(data => data.password === data.confirmPassword, {
-    message: 'Las contraseñas no coinciden',
+    message: 'auth.errors.passwordsDontMatch',
     path: ['confirmPassword'],
   })
 

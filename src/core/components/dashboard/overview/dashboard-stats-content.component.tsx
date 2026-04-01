@@ -8,10 +8,10 @@ import { FileCode, CheckCircle2, ShieldAlert, Loader, ArrowRight } from 'lucide-
 import Link from 'next/link'
 
 import { getAuditStats } from '@/modules/audit/queries/stats.queries'
-import { StatCard, AuditRow } from './dashboard-overview.components'
-import { DashboardSeverityChart } from './dashboard-severity-chart'
-import { DashboardStatusRing } from './dashboard-status-ring'
-import { DashboardEmptyState } from './dashboard-empty-state'
+import { StatCard, AuditRow } from './dashboard-overview.component'
+import { DashboardSeverityChart } from './dashboard-severity-chart.component'
+import { DashboardStatusRing } from './dashboard-status-ring.component'
+import { DashboardEmptyState } from './dashboard-empty-state.component'
 import { routesConfig } from '@/core/config/routes.config'
 
 function formatTimeAgo(date: Date): string {

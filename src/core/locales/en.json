@@ -20,7 +20,8 @@
       "goToPreviousPage": "Go to previous page",
       "goToNextPage": "Go to next page",
       "goToLastPage": "Go to last page"
-    }
+    },
+    "or": "or"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -424,6 +425,40 @@
           "inputPlaceholder": "Ask about the issues or changes..."
         }
       }
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Sign In",
+      "description": "Enter your account to manage your audits",
+      "github": "Continue with GitHub",
+      "submit": "Sign In",
+      "quote": "The best way to predict the future is to invent it.",
+      "quoteAuthor": "Alan Kay",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "description": "Start auditing your code with AI today",
+      "github": "Sign up with GitHub",
+      "submit": "Create account",
+      "signInLink": "Sign in"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "errors": {
+      "invalidCredentials": "Invalid credentials",
+      "invalidEmail": "Invalid email",
+      "passwordTooShort": "Minimum 8 characters",
+      "nameTooShort": "Minimum 2 characters",
+      "passwordsDontMatch": "Passwords don't match"
     }
   }
 }

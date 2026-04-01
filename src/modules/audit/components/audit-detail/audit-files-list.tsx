@@ -1,10 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronRight, FileCode2, Plus, Minus } from 'lucide-react'
+import { ChevronDown, ChevronRight, FileCode2, Plus, Minus, FolderOpen } from 'lucide-react'
 
 import { cn } from '@/core/utils/cn.utils'
 import { Badge } from '@/core/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/core/ui/card'
 import { ScrollArea } from '@/core/ui/scroll-area'
 import { Separator } from '@/core/ui/separator'
 
@@ -73,7 +74,7 @@ function FileRow({
       {isExpanded && fileIssues.length > 0 && (
         <div className="pl-12 pr-3 pb-2 space-y-1.5">
           {fileIssues.map(issue => (
-            <div key={issue.id} className="flex items-start gap-2 text-xs py-1 px-2 rounded bg-muted/50">
+            <div key={issue.id} className="flex items-start gap-2 text-xs py-1.5 px-3 rounded-md bg-muted/50">
               <Badge
                 variant={issue.severity === 'critical' || issue.severity === 'error' ? 'destructive' : 'secondary'}
                 className="text-[9px] px-1 py-0 h-3.5 shrink-0 mt-0.5 capitalize"
@@ -92,11 +93,10 @@ function FileRow({
   )
 }
 
-/** Lista expandible de archivos auditados con detalles de issues */
+/** Lista expandible de archivos auditados usando Card */
 export function AuditFilesList({ files, issues, onFileSelect, className }: IAuditFilesListProps) {
   const [expandedFile, setExpandedFile] = useState<string | null>(null)
 
-  /** Agrupa issues por ruta de archivo */
   function getFileIssues(filePath: string): IEnrichedIssue[] {
     return issues.filter(i => i.file === filePath)
   }
@@ -104,38 +104,43 @@ export function AuditFilesList({ files, issues, onFileSelect, className }: IAudi
   if (files.length === 0) {
     return (
       <div className={cn('flex flex-col items-center justify-center py-12 gap-3 text-muted-foreground', className)}>
-        <FileCode2 className="size-10 opacity-30" />
+        <FolderOpen className="size-10 opacity-30" />
         <p className="text-sm">No se encontraron archivos en esta auditoría</p>
       </div>
     )
   }
 
   return (
-    <div className={cn('border rounded-lg', className)}>
-      <div className="flex items-center justify-between px-4 py-3 border-b">
-        <h3 className="text-sm font-semibold">Archivos analizados</h3>
-        <Badge variant="secondary" className="text-xs">
-          {files.length} archivos
-        </Badge>
-      </div>
-      <ScrollArea className="max-h-[400px]">
-        <div>
-          {files.map((file, idx) => (
-            <div key={file.path}>
-              {idx > 0 && <Separator />}
-              <FileRow
-                file={file}
-                fileIssues={getFileIssues(file.path)}
-                isExpanded={expandedFile === file.path}
-                onToggle={() => {
-                  setExpandedFile(prev => (prev === file.path ? null : file.path))
-                  onFileSelect?.(file.path)
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      </ScrollArea>
-    </div>
+    <Card className={cn('py-0', className)}>
+      <CardHeader className="border-b px-4 py-3">
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <FileCode2 className="size-4 text-muted-foreground" />
+          Archivos analizados
+          <Badge variant="secondary" className="text-xs ml-auto">
+            {files.length} archivos
+          </Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-0">
+        <ScrollArea className="max-h-[400px]">
+          <div>
+            {files.map((file, idx) => (
+              <div key={file.path}>
+                {idx > 0 && <Separator />}
+                <FileRow
+                  file={file}
+                  fileIssues={getFileIssues(file.path)}
+                  isExpanded={expandedFile === file.path}
+                  onToggle={() => {
+                    setExpandedFile(prev => (prev === file.path ? null : file.path))
+                    onFileSelect?.(file.path)
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
   )
 }

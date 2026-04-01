@@ -3,8 +3,8 @@
  */
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { DashboardStatsContent } from './components/dashboard-stats-content'
-import { DashboardQuickAction } from './components/dashboard-quick-action'
+import { DashboardStatsContent } from '@/core/components/dashboard/overview/dashboard-stats-content.component'
+import { DashboardQuickAction } from '@/core/components/dashboard/overview/dashboard-quick-action.component'
 
 export const metadata: Metadata = {
   title: 'Dashboard',
