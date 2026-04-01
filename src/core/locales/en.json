@@ -451,6 +451,37 @@
           "inputPlaceholder": "Ask about the issues or changes..."
         }
       }
+    },
+    "install": {
+      "metadataTitle": "Install KAudit — GitHub App",
+      "metadataDescription": "Install the KAudit GitHub App and audit your Pull Requests.",
+      "heading": "Connect KAudit with GitHub",
+      "description": "Improve your development workflow with intelligent code audits. Let our AI review your Pull Requests automatically and ensure the highest quality of your code.",
+      "installButton": "Install GitHub App",
+      "installCaption": "You'll be redirected to GitHub securely.",
+      "features": {
+        "audit": {
+          "title": "Automatic Audits",
+          "description": "Vulnerability analysis, bad practices and code smells on every PR."
+        },
+        "ai": {
+          "title": "AI Reviews",
+          "description": "Detailed comments directly on GitHub with actionable suggestions."
+        },
+        "zeroConfig": {
+          "title": "Zero config",
+          "description": "Install once and audit any repository in your organization."
+        }
+      },
+      "success": {
+        "title": "Installation complete!",
+        "description": "KAudit is now watching your repositories. Upcoming Pull Requests will receive automatic AI reviews.",
+        "goToDashboard": "Go to Dashboard"
+      }
+    },
+    "apiKeys": {
+      "metadataTitle": "API Keys",
+      "metadataDescription": "Manage your API keys for CLI authentication"
     }
   },
   "auth": {
