@@ -493,7 +493,7 @@
           "title": "Auditorías automáticas",
           "description": "Análisis de vulnerabilidades, malas prácticas y code smells en cada PR."
         },
-        "ai": {
+        "aiReview": {
           "title": "Revisiones con IA",
           "description": "Comentarios detallados directamente en GitHub con sugerencias accionables."
         },

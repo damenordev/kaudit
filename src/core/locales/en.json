@@ -487,7 +487,7 @@
           "title": "Automatic Audits",
           "description": "Vulnerability analysis, bad practices and code smells on every PR."
         },
-        "ai": {
+        "aiReview": {
           "title": "AI Reviews",
           "description": "Detailed comments directly on GitHub with actionable suggestions."
         },
