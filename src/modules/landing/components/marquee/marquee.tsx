@@ -9,8 +9,7 @@ export function Marquee() {
       <div className="flex relative w-fit will-change-transform backface-hidden transform-gpu" ref={wrapperRef}>
         <div className="shrink-0">
           <h1 className="uppercase font-mono font-normal text-6xl md:text-8xl lg:text-9xl leading-[0.9] -tracking-[0.05em] whitespace-nowrap pr-8 md:pr-12 will-change-transform text-foreground">
-            The Evolution of AI — The Evolution of AI — The Evolution of AI —
-            The Evolution of AI —
+            AI Code Audit — AI Code Audit — AI Code Audit — AI Code Audit —
           </h1>
         </div>
       </div>

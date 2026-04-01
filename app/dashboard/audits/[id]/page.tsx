@@ -1,16 +1,26 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-
-import { getAuditById } from '@/modules/audit/queries/audit.queries'
-import { AuditDetail, AuditDetailClient, AuditChatPanel } from '@/modules/audit/components'
-import { Button } from '@/core/ui/button'
-import { Spinner } from '@/core/ui/spinner'
 import { ArrowLeft } from 'lucide-react'
 
+import { getAuditById } from '@/modules/audit/queries/audit.queries'
+import {
+  AuditDetail,
+  AuditDetailClient,
+  AuditDetailHeader,
+  AuditChatPanel,
+  AuditSummary,
+  AuditFilesList,
+} from '@/modules/audit/components'
+import { Button } from '@/core/ui/button'
 import type { IAuditCommit, IChangedFile, IEnrichedIssue } from '@/modules/audit/types'
+import {
+  PendingAuditNotice,
+  LoadingFallback,
+  buildDetailTranslations,
+  buildChatTranslations,
+} from './audit-detail.helpers'
 
 export const metadata: Metadata = {
   title: 'Detalle de Auditoría',
@@ -19,13 +29,11 @@ export const metadata: Metadata = {
 
 interface IPageProps {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ file?: string }>
 }
 
-export default async function AuditDetailPage({ params, searchParams }: IPageProps) {
+export default async function AuditDetailPage({ params }: IPageProps) {
   const { id } = await params
   const t = await getTranslations('dashboard.audits')
-
   const audit = await getAuditById(id)
 
   if (!audit) {
@@ -43,6 +51,7 @@ export default async function AuditDetailPage({ params, searchParams }: IPagePro
     )
   }
 
+  const repoName = audit.repoUrl.replace('https://github.com/', '')
   const auditResponse = {
     id: audit.id,
     status: audit.status,
@@ -60,61 +69,45 @@ export default async function AuditDetailPage({ params, searchParams }: IPagePro
   const changedFiles: IChangedFile[] = (audit.changedFiles as IChangedFile[] | null) ?? []
   const issues: IEnrichedIssue[] = (audit.issues as IEnrichedIssue[] | null) ?? []
   const commits: IAuditCommit[] = (audit.commits as IAuditCommit[] | null) ?? []
+  const hasFiles = changedFiles.length > 0
 
   return (
-    <section className="p-3 h-full max-w-[1600px] mx-auto" aria-labelledby="audit-detail-heading">
+    <section className="p-4 space-y-4 max-w-[1600px] mx-auto" aria-labelledby="audit-detail-heading">
       <h1 id="audit-detail-heading" className="sr-only">
         {t('pageTitle')} - {audit.id}
       </h1>
-      <AuditDetail
-        audit={auditResponse}
-        translations={{
-          repository: t('detail.repository'),
-          branch: t('detail.branch'),
-          targetBranch: t('detail.targetBranch'),
-          createdAt: t('detail.createdAt'),
-          viewPR: t('detail.viewPR'),
-          validation: {
-            title: t('detail.validation.title'),
-            noIssues: t('detail.validation.noIssues'),
-            issuesFound: t('detail.validation.issuesFound'),
-            line: t('detail.validation.line'),
-            suggestion: t('detail.validation.suggestion'),
-          },
-          content: { title: t('detail.content.title'), noContent: t('detail.content.noContent') },
-          error: { title: t('detail.error.title'), prefix: t('detail.error.prefix') },
-        }}
-      />
-      {changedFiles.length > 0 && (
-        <Suspense fallback={<Spinner className="size-6 mx-auto my-8" />}>
-          <AuditDetailClient
-            auditId={id}
-            changedFiles={changedFiles}
-            issues={issues}
-            commits={commits}
-            className="mt-4"
-          />
+
+      {/* Cabecera: repo, status badge y fecha */}
+      <AuditDetailHeader repoName={repoName} status={audit.status} createdAt={audit.createdAt} />
+
+      {/* Resumen estadístico: archivos, issues, commits, líneas */}
+      <AuditSummary changedFiles={changedFiles} issues={issues} commits={commits} />
+
+      {/* Info del audit: status, branch, validación, contenido generado */}
+      <AuditDetail audit={auditResponse} translations={buildDetailTranslations(t)} />
+
+      {/* Lista expandible de archivos con issues (o aviso de pendiente) */}
+      {hasFiles ? (
+        <AuditFilesList files={changedFiles} issues={issues} />
+      ) : (
+        <PendingAuditNotice status={audit.status} />
+      )}
+
+      {/* Visor de diff detallado con sidebar y panel de issues */}
+      {hasFiles && (
+        <Suspense fallback={<LoadingFallback label="Cargando visor de diff..." />}>
+          <AuditDetailClient auditId={id} changedFiles={changedFiles} issues={issues} commits={commits} />
         </Suspense>
       )}
 
+      {/* Panel de chat con IA (solo auditorías completadas) */}
       {audit.status === 'completed' && (
-        <div className="mt-4">
-          <AuditChatPanel
-            auditId={id}
-            translations={{
-              title: t('detail.chat.title'),
-              badge: t('detail.chat.badge'),
-              placeholder: t('detail.chat.placeholder'),
-              contextInfo: t('detail.chat.contextInfo'),
-              filesCount: t('detail.chat.filesCount'),
-              issuesCount: t('detail.chat.issuesCount'),
-              thinking: t('detail.chat.thinking'),
-              errorMessage: t('detail.chat.errorMessage'),
-              connectionError: t('detail.chat.connectionError'),
-              inputPlaceholder: t('detail.chat.inputPlaceholder'),
-            }}
-          />
-        </div>
+        <AuditChatPanel
+          auditId={id}
+          changedFiles={changedFiles}
+          issues={issues}
+          translations={buildChatTranslations(t)}
+        />
       )}
     </section>
   )

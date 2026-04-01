@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { Settings, Moon, Sun } from 'lucide-react'
+import { Settings, Moon, Sun, LogIn } from 'lucide-react'
 import { useNavbar } from './use-navbar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/core/ui/popover'
 import { Button } from '@/core/ui/button'
@@ -13,6 +13,7 @@ import { BASE_THEMES, THEME_LABELS, type TThemePaletteBase } from '@/core/config
 import { createDarkThemeByBase } from '@/core/styles/theme/palette.utils'
 import { cn } from '@/core/utils/cn.utils'
 import { routesConfig } from '@/core/config/routes.config'
+import { authClient } from '@/modules/auth/lib'
 
 const MusicToggle = dynamic(() => import('../music-toggle').then(m => m.MusicToggle), {
   ssr: false,
@@ -20,6 +21,7 @@ const MusicToggle = dynamic(() => import('../music-toggle').then(m => m.MusicTog
 
 export function Navbar() {
   const { time } = useNavbar()
+  const { data: session } = authClient.useSession()
 
   const { isDark, toggleMode, basePalette, setPalette } = useThemePalette()
   const t = useTranslations('settings.appearance')
@@ -47,28 +49,49 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            <Link
-              href={routesConfig.dashboard.root}
-              className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Dashboard
-            </Link>
+            {session ? (
+              <Link
+                href={routesConfig.dashboard.root}
+                className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href={routesConfig.auth.signIn}
+                  className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Acceso
+                </Link>
+                <Link
+                  href={routesConfig.auth.signUp}
+                  className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Registrarse
+                </Link>
+              </>
+            )}
             <Link
               href="/docs"
               className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
             >
               Docs
             </Link>
-            <Link
-              href={routesConfig.auth.signIn}
-              className="text-xs md:text-sm font-mono tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Acceso
-            </Link>
           </nav>
 
           {/* Right Actions (Time, Sound, Settings) */}
           <div className="flex items-center gap-4">
+            {/* Enlace de autenticación visible en móvil */}
+            {!session && (
+              <Link href={routesConfig.auth.signIn} className="md:hidden">
+                <Button variant="outline" size="sm" className="gap-2 text-xs">
+                  <LogIn className="size-3.5" />
+                  Acceso
+                </Button>
+              </Link>
+            )}
+
             <div className="hidden lg:block relative top-0.5 font-mono text-xs md:text-sm text-foreground/80 tracking-widest">
               {time}
             </div>

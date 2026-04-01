@@ -28,15 +28,16 @@
     "signOut": "Sign out"
   },
   "metadata": {
-    "title": "Base Template",
-    "description": "Next.js base template with auth, i18n, and theme"
+    "title": "KAudit — AI-Powered Code Audits",
+    "description": "Intelligent code audits on every Pull Request. Detect bugs, vulnerabilities, and performance issues with AI."
   },
   "settings": {
     "tabs": {
       "general": "General",
       "appearance": "Appearance",
       "typography": "Typography",
-      "profile": "Profile"
+      "profile": "Profile",
+      "apiKeys": "API Keys"
     },
     "general": {
       "title": "Language",
@@ -190,6 +191,40 @@
           "error": "Failed to delete account"
         }
       }
+    },
+    "apiKeys": {
+      "title": "API Keys",
+      "description": "Manage API keys for CLI authentication.",
+      "createButton": "Create New Key",
+      "table": {
+        "name": "Name",
+        "key": "Key",
+        "created": "Created",
+        "status": "Status",
+        "actions": "Actions",
+        "empty": "No API keys yet. Create one to use the CLI.",
+        "enabled": "Active",
+        "disabled": "Revoked",
+        "unnamed": "Unnamed",
+        "confirmDelete": "Are you sure you want to revoke this API key?",
+        "delete": "Revoke"
+      },
+      "create": {
+        "title": "Create API Key",
+        "nameLabel": "Key Name",
+        "namePlaceholder": "e.g. My CLI Key",
+        "cancel": "Cancel",
+        "submit": "Create Key",
+        "submitting": "Creating...",
+        "error": "Failed to manage API key"
+      },
+      "reveal": {
+        "title": "API Key Created",
+        "warning": "This key will only be shown once. Copy it now!",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "close": "Dismiss"
+      }
     }
   },
   "dashboard": {
@@ -201,15 +236,20 @@
       "editor": "Editor Demo",
       "kanban": "Kanban",
       "aiChat": "AI Chat",
-      "audits": "Audits"
+      "audits": "Audits",
+      "apiKeys": "API Keys",
+      "installApp": "Install App"
     },
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "overview": "Overview",
-      "settings": "Settings"
+      "settings": "Settings",
+      "apiKeys": "API Keys"
     },
     "userMenu": {
       "language": "Language",
+      "settings": "Settings",
+      "apiKeys": "API Keys",
       "signOut": "Sign out"
     },
     "user": {

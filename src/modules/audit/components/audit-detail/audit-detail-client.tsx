@@ -2,20 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
-import { FileCode2, GitBranch, Network } from 'lucide-react'
+import { FileCode2 } from 'lucide-react'
 
 import { cn } from '@/core/utils/cn.utils'
-
 import type { IAuditCommit } from '../../types/commit.types'
 import type { IChangedFile } from '../../types/diff.types'
 import type { IEnrichedIssue } from '../../types/issue.types'
 import { FileSidebar } from '../file-sidebar'
 import { MonacoDiffViewer } from '../monaco-diff-viewer'
 import { DiagramsPanel } from './diagrams-panel'
+import { DiffTabBar, type TDiffTab } from './audit-detail-tabs'
 import { IssuesPanel } from '../issues-panel'
 import { useFileContent } from '../../hooks'
-
-type TTab = 'diff' | 'diagrams'
 
 export interface IAuditDetailClientProps {
   auditId: string
@@ -29,15 +27,13 @@ export function AuditDetailClient({ auditId, changedFiles, issues, commits, clas
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const router = useRouter()
-
   const fileFromUrl = searchParams.get('file') ?? ''
   const [selectedFile, setSelectedFile] = useState<string>(fileFromUrl)
   const [selectedIssueId, setSelectedIssueId] = useState<string | undefined>()
-  const [activeTab, setActiveTab] = useState<TTab>('diff')
+  const [activeTab, setActiveTab] = useState<TDiffTab>('diff')
 
   const fileData = useFileContent(auditId, selectedFile)
   const selectedFileData = useMemo(() => changedFiles.find(f => f.path === selectedFile), [changedFiles, selectedFile])
-
   const issueLines = useMemo(() => {
     if (!selectedFile || !issues.length) return []
     return issues.filter(i => i.file === selectedFile).map(i => i.line)
@@ -63,88 +59,84 @@ export function AuditDetailClient({ auditId, changedFiles, issues, commits, clas
     [selectedFile, handleFileSelect]
   )
 
+  // Sincronizar selección con param de URL
   useEffect(() => {
     if (fileFromUrl && fileFromUrl !== selectedFile) setSelectedFile(fileFromUrl)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fileFromUrl])
 
+  // Auto-seleccionar primer archivo si no hay selección
+  useEffect(() => {
+    if (!selectedFile && !fileFromUrl && changedFiles.length > 0) {
+      handleFileSelect(changedFiles[0]?.path ?? '')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className={cn('flex h-[calc(100vh-8rem)] gap-0 overflow-hidden rounded-lg border', className)}>
-      <FileSidebar
-        files={changedFiles}
-        issues={issues}
-        selectedFile={selectedFile}
-        onFileSelect={handleFileSelect}
-        className="w-64 shrink-0 hidden md:flex"
-      />
-      <div className="flex-1 flex flex-col min-w-0">
-        <div className="flex border-b bg-muted/30">
-          <TabBtn
-            active={activeTab === 'diff'}
-            onClick={() => setActiveTab('diff')}
-            icon={<GitBranch className="size-3.5" />}
-          >
-            Diff
-          </TabBtn>
-          <TabBtn
-            active={activeTab === 'diagrams'}
-            onClick={() => setActiveTab('diagrams')}
-            icon={<Network className="size-3.5" />}
-          >
-            Diagramas
-          </TabBtn>
+    <div className={cn('flex flex-col lg:flex-row gap-4', className)}>
+      <div className="flex-1 flex flex-col min-w-0 rounded-lg border overflow-hidden min-h-[400px]">
+        <DiffTabBar active={activeTab} onChange={setActiveTab} />
+        <div className="flex flex-1 min-h-0">
+          <FileSidebar
+            files={changedFiles}
+            issues={issues}
+            selectedFile={selectedFile}
+            onFileSelect={handleFileSelect}
+            className="w-56 shrink-0 border-r hidden md:flex"
+          />
+          <div className="flex-1 min-w-0">
+            {activeTab === 'diff' ? (
+              <DiffView
+                selectedFile={selectedFile}
+                fileData={fileData}
+                selectedFileData={selectedFileData}
+                issueLines={issueLines}
+              />
+            ) : (
+              <DiagramsPanel changedFiles={changedFiles} issues={issues} commits={commits} className="flex-1" />
+            )}
+          </div>
         </div>
-        {activeTab === 'diff' ? (
-          selectedFile ? (
-            <MonacoDiffViewer
-              originalContent={fileData.originalContent ?? ''}
-              modifiedContent={fileData.modifiedContent ?? ''}
-              language={(fileData.language || selectedFileData?.language) ?? ''}
-              fileName={selectedFile}
-              highlightedLines={issueLines}
-              isLoading={fileData.isLoading}
-              error={fileData.error}
-              className="flex-1 border-0 rounded-none"
-            />
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
-              <FileCode2 className="size-12 opacity-30" />
-              <p className="text-sm">Selecciona un archivo para ver el diff</p>
-            </div>
-          )
-        ) : (
-          <DiagramsPanel changedFiles={changedFiles} issues={issues} commits={commits} className="flex-1" />
-        )}
       </div>
-      <aside className="w-80 shrink-0 border-l p-3 overflow-y-auto hidden lg:block">
+      <aside className="w-full lg:w-72 xl:w-80 shrink-0 rounded-lg border p-3 overflow-y-auto max-h-[600px] lg:max-h-none">
         <IssuesPanel issues={issues} onIssueClick={handleIssueClick} selectedIssueId={selectedIssueId} />
       </aside>
     </div>
   )
 }
 
-function TabBtn({
-  active,
-  onClick,
-  icon,
-  children,
+/** Vista de diff o placeholder cuando no hay archivo seleccionado */
+function DiffView({
+  selectedFile,
+  fileData,
+  selectedFileData,
+  issueLines,
 }: {
-  active: boolean
-  onClick: () => void
-  icon: React.ReactNode
-  children: React.ReactNode
+  selectedFile: string
+  fileData: ReturnType<typeof useFileContent>
+  selectedFileData: IChangedFile | undefined
+  issueLines: number[]
 }) {
+  if (!selectedFile) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full min-h-[300px] gap-3 text-muted-foreground">
+        <FileCode2 className="size-12 opacity-30" />
+        <p className="text-sm">Selecciona un archivo para ver el diff</p>
+      </div>
+    )
+  }
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        'flex items-center gap-1.5 px-4 py-2 text-sm font-medium border-b-2 transition-colors',
-        active ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'
-      )}
-    >
-      {icon}
-      {children}
-    </button>
+    <MonacoDiffViewer
+      originalContent={fileData.originalContent ?? ''}
+      modifiedContent={fileData.modifiedContent ?? ''}
+      language={(fileData.language || selectedFileData?.language) ?? ''}
+      fileName={selectedFile}
+      highlightedLines={issueLines}
+      isLoading={fileData.isLoading}
+      error={fileData.error}
+      className="border-0 rounded-none h-full"
+    />
   )
 }

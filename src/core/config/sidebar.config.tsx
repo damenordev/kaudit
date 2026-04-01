@@ -1,4 +1,4 @@
-import { FileSearch, LayoutDashboard, MessageSquare } from 'lucide-react'
+import { FileSearch, KeyRound, LayoutDashboard, MessageSquare, Github } from 'lucide-react'
 
 import { routesConfig } from './routes.config'
 
@@ -53,6 +53,16 @@ export const getDashboardConfig = (t: (key: string) => string): IDashboardConfig
           title: t('nav.audits'),
           url: routesConfig.dashboard.audits.list,
           icon: <FileSearch />,
+        },
+        {
+          title: t('nav.apiKeys'),
+          url: routesConfig.dashboard.apiKeys,
+          icon: <KeyRound />,
+        },
+        {
+          title: t('nav.installApp'),
+          url: routesConfig.dashboard.install,
+          icon: <Github />,
         },
       ],
     },

@@ -1,9 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Rocket, Terminal, Copy, Check, ExternalLink } from 'lucide-react'
-import { Card, CardHeader, CardContent } from '@/core/ui/card'
-import { Button } from '@/core/ui/button'
+import { useState } from 'react'
+import { Terminal, Copy, Check, Rocket, Sparkles } from 'lucide-react'
 
 interface IDashboardEmptyStateProps {
   translations: {
@@ -17,6 +15,7 @@ interface IDashboardEmptyStateProps {
   }
 }
 
+/** Estado vacío Premium — Glowing hero box */
 export function DashboardEmptyState({ translations }: IDashboardEmptyStateProps) {
   const [copied, setCopied] = useState(false)
 
@@ -26,73 +25,48 @@ export function DashboardEmptyState({ translations }: IDashboardEmptyStateProps)
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const steps = [translations.step1, translations.step2, translations.step3]
+
   return (
-    <div className="flex flex-col items-center justify-center p-8 py-16 animate-in fade-in slide-in-from-bottom-5 duration-700 max-w-4xl mx-auto text-center">
-      <div className="relative size-24 mb-12 flex items-center justify-center">
-        <div className="absolute inset-0 bg-primary/20 rounded-full animate-ping blur-3xl" />
-        <div className="absolute inset-0 bg-linear-to-b from-primary/10 to-transparent rounded-full shadow-2xl" />
-        <Rocket className="size-12 text-primary drop-shadow-lg animate-pulse" />
+    <div className="relative flex flex-col items-center justify-center p-12 max-w-2xl mx-auto mt-10 rounded-2xl border border-border/40 bg-background/50 backdrop-blur-xl shadow-2xl animate-in zoom-in-95 duration-700 ease-out overflow-hidden group hover:border-border/60 transition-all">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] -z-10 group-hover:bg-primary/20 transition-colors duration-1000" />
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-emerald-500/10 rounded-full blur-[100px] -z-10" />
+
+      <div className="flex size-16 items-center justify-center rounded-2xl bg-primary/10 border border-primary/20 text-primary mb-6 shadow-xs relative">
+        <Rocket className="size-8" />
+        <Sparkles className="absolute -top-2 -right-2 size-5 text-amber-400 animate-pulse" />
       </div>
 
-      <header className="space-y-4 mb-12">
-        <h2 className="text-5xl font-black italic tracking-tighter uppercase leading-none">
-          {translations.title}
-        </h2>
-        <p className="text-sm text-muted-foreground font-bold tracking-tight max-w-lg mx-auto opacity-70">
-          {translations.description}
-        </p>
-      </header>
+      <h2 className="text-2xl font-bold tracking-tight mb-3 text-center text-foreground/90">{translations.title}</h2>
+      <p className="text-sm text-muted-foreground/80 mb-10 text-center max-w-md mx-auto leading-relaxed">{translations.description}</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-12 relative">
-        <div className="absolute top-1/2 left-0 w-full h-px bg-border/20 -translate-y-1/2 hidden md:block" />
+      <div className="w-full max-w-md space-y-4 mb-10">
+        {steps.map((step, i) => (
+          <div key={`step-${i}`} className="flex items-center gap-4 text-left p-3 rounded-xl border border-border/30 bg-muted/10 hover:bg-muted/30 transition-colors shadow-xs">
+            <span className="flex size-7 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-xs font-bold text-primary shrink-0 shadow-inner">
+              {i + 1}
+            </span>
+            <span className="text-sm text-foreground/80 font-medium">{step}</span>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={handleCopy}
+        className="group/btn relative overflow-hidden flex items-center gap-3 px-6 py-3.5 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/15 transition-all shadow-[0_0_20px_rgba(var(--primary),0.1)] hover:shadow-[0_0_30px_rgba(var(--primary),0.2)] hover:-translate-y-0.5 w-full max-w-md justify-center"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover/btn:opacity-100 transition-opacity translate-x-[-100%] group-hover/btn:translate-x-[100%] duration-1000 ease-in-out" />
         
-        {/* Step 1 */}
-        <div className="flex flex-col items-center gap-4 group relative bg-background p-4 rounded-xl border border-border/10 shadow-xs hover:border-primary/30 transition-all">
-          <div className="size-10 rounded-full bg-muted border border-border/40 flex items-center justify-center text-xs font-black font-mono relative z-10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">1</div>
-          <span className="text-[10px] font-black uppercase tracking-widest opacity-60 relative z-10">{translations.step1}</span>
-        </div>
-
-        {/* Step 2 */}
-        <div className="flex flex-col items-center gap-4 group relative bg-background p-4 rounded-xl border border-border/10 shadow-xs hover:border-primary/30 transition-all">
-          <div className="size-10 rounded-full bg-muted border border-border/40 flex items-center justify-center text-xs font-black font-mono relative z-10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">2</div>
-          <span className="text-[10px] font-black uppercase tracking-widest opacity-60 relative z-10">{translations.step2}</span>
-        </div>
-
-        {/* Step 3 */}
-        <div className="flex flex-col items-center gap-4 group relative bg-background p-4 rounded-xl border border-border/10 shadow-xs hover:border-primary/30 transition-all">
-          <div className="size-10 rounded-full bg-muted border border-border/40 flex items-center justify-center text-xs font-black font-mono relative z-10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">3</div>
-          <span className="text-[10px] font-black uppercase tracking-widest opacity-60 relative z-10">{translations.step3}</span>
-        </div>
-      </div>
-
-      <Card className="w-full max-w-2xl bg-muted/30 border-border/40 p-6 shadow-2xl relative overflow-hidden group/card backdrop-blur-sm">
-        <div className="absolute inset-0 bg-linear-to-tr from-primary/10 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
-        <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between relative z-10">
-          <div className="flex items-center gap-2">
-            <Terminal className="size-4 text-primary" />
-            <span className="text-[10px] font-black tracking-widest uppercase opacity-40">Ready to Ship?</span>
-          </div>
-          <Button variant="link" size="sm" className="text-[10px] font-black uppercase italic p-0 h-auto">
-            Documentation <ExternalLink className="size-3 ml-2" />
-          </Button>
-        </CardHeader>
-        <CardContent className="p-0 flex flex-col md:flex-row items-center gap-4 relative z-10">
-          <div className="flex-1 w-full p-4 rounded-xl bg-background/80 border border-border/40 font-mono text-sm font-bold text-primary shadow-inner group/code hover:border-primary/50 transition-colors">
-            {translations.command}
-          </div>
-          <Button 
-            className="w-full md:w-auto h-12 px-8 font-black uppercase tracking-tighter italic text-md group/btn"
-            onClick={handleCopy}
-          >
-            {copied ? <Check className="size-5 mr-3" /> : <Copy className="size-5 mr-3 group-hover/btn:scale-110 transition-transform" /> }
-            {copied ? 'Copied' : translations.action}
-          </Button>
-        </CardContent>
-      </Card>
-      
-      <div className="mt-16 w-full max-w-lg mx-auto opacity-[0.03] grayscale pointer-events-none uppercase font-black tracking-[1em] text-4xl text-foreground">
-        KAudit Core Active
-      </div>
+        <Terminal className="size-4 text-primary shrink-0" />
+        <code className="text-[14px] font-mono font-bold text-primary tracking-tight">
+          {translations.command}
+        </code>
+        {copied
+          ? <Check className="size-4 text-emerald-500 shrink-0 ml-2" />
+          : <Copy className="size-4 text-primary/60 group-hover/btn:text-primary transition-colors shrink-0 ml-2" />
+        }
+      </button>
     </div>
   )
 }

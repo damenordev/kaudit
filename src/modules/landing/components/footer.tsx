@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { routesConfig } from '@/core/config/routes.config'
 
 export function Footer() {
   return (
@@ -7,31 +8,29 @@ export function Footer() {
         <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-16">
           <div className="w-full md:w-1/2">
             <h3 className="text-2xl md:text-4xl font-normal leading-tight max-w-[75%] md:max-w-none text-muted-foreground/80">
-              Un viaje al corazón del código seguro por KAudit © 2026 — Todos los derechos reservados.
+              Auditorías de código inteligentes con IA en cada Pull Request. KAudit © 2026 — Todos los derechos
+              reservados.
             </h3>
           </div>
           <div className="w-full md:w-1/2 flex">
             <div className="flex-1 hidden md:block"></div>
             <div className="flex-1 flex flex-col items-start md:items-end">
-              <p className="text-foreground uppercase font-mono text-sm mb-4 tracking-widest">[ * Archivo ]</p>
+              <p className="text-foreground uppercase font-mono text-sm mb-4 tracking-widest">[ * Producto ]</p>
               <div className="flex flex-col items-start md:items-end space-y-1">
                 <Link
-                  href="#project-01"
+                  href={routesConfig.dashboard.install}
                   className="text-muted-foreground hover:text-primary transition-colors font-mono"
                 >
-                  Archivo 101
+                  Instalar GitHub App
+                </Link>
+                <Link href="/docs" className="text-muted-foreground hover:text-primary transition-colors font-mono">
+                  Documentación
                 </Link>
                 <Link
-                  href="#project-02"
+                  href={routesConfig.auth.signUp}
                   className="text-muted-foreground hover:text-primary transition-colors font-mono"
                 >
-                  Archivo 102
-                </Link>
-                <Link
-                  href="#project-03"
-                  className="text-muted-foreground hover:text-primary transition-colors font-mono"
-                >
-                  Archivo 103
+                  Crear Cuenta
                 </Link>
               </div>
             </div>

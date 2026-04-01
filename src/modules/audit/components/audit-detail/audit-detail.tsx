@@ -1,7 +1,10 @@
 import { cn } from '@/core/utils/cn.utils'
 import { Badge } from '@/core/ui/badge'
+import { ExternalLink, GitBranch, GitPullRequest, Clock } from 'lucide-react'
 
 import type { IAuditStatusResponse } from '../../types/api.types'
+import { AuditGeneratedContent } from './audit-detail-content'
+import { AuditValidationSection } from './audit-detail-validation'
 
 /** Variantes visuales del badge según el status */
 const STATUS_VARIANT_MAP: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
@@ -46,121 +49,63 @@ export function AuditDetail({ audit, translations, className }: IAuditDetailProp
   const badgeVariant = STATUS_VARIANT_MAP[audit.status] ?? 'outline'
 
   return (
-    <div className={cn('space-y-6', className)}>
-      {/* Indicador de estado */}
-      <div className="flex items-center gap-2">
-        <Badge variant={badgeVariant} className="capitalize">
-          {audit.status}
-        </Badge>
-      </div>
+    <div className={cn('space-y-4', className)}>
+      {/* Cabecera: estado + info del repo en fila */}
+      <section className="flex flex-col gap-3 p-4 border rounded-lg">
+        <div className="flex items-center justify-between">
+          <Badge variant={badgeVariant} className="capitalize">
+            {audit.status}
+          </Badge>
+          <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <Clock className="size-3" />
+            {new Date(audit.createdAt).toLocaleString()}
+          </span>
+        </div>
 
-      {/* Información del repositorio */}
-      <section className="p-4 border rounded-lg">
-        <h2 className="text-lg font-semibold mb-3">{translations.repository}</h2>
-        <dl className="grid grid-cols-1 gap-2 text-sm">
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
           <div>
-            <dt className="text-muted-foreground">{translations.branch}</dt>
-            <dd className="font-mono">{audit.branchName}</dd>
+            <dt className="text-xs text-muted-foreground flex items-center gap-1">
+              <GitBranch className="size-3" /> {translations.branch}
+            </dt>
+            <dd className="font-mono text-sm truncate">{audit.branchName}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">{translations.targetBranch}</dt>
-            <dd className="font-mono">{audit.targetBranch}</dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground">{translations.createdAt}</dt>
-            <dd>{new Date(audit.createdAt).toLocaleString()}</dd>
+            <dt className="text-xs text-muted-foreground flex items-center gap-1">
+              <GitBranch className="size-3" /> {translations.targetBranch}
+            </dt>
+            <dd className="font-mono text-sm truncate">{audit.targetBranch}</dd>
           </div>
         </dl>
+
         {audit.prUrl && translations.viewPR && (
           <a
-            className="inline-block mt-3 text-blue-500 hover:underline"
+            className="inline-flex items-center gap-1.5 text-sm text-blue-500 hover:underline w-fit"
             href={audit.prUrl}
             rel="noopener noreferrer"
             target="_blank"
           >
+            <GitPullRequest className="size-3.5" />
             {translations.viewPR}
+            <ExternalLink className="size-3" />
           </a>
         )}
       </section>
 
       {/* Resultado de validación */}
       {audit.validationResult && validation && (
-        <section className="p-4 border rounded-lg">
-          <h3 className="text-md font-semibold mb-3">{validation.title}</h3>
-          {audit.validationResult.isValid ? (
-            <p className="text-emerald-500">{validation.noIssues}</p>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-amber-500 font-medium">
-                {validation.issuesFound}: {audit.validationResult.issues.length}
-              </p>
-              <ul className="list-disc list-inside space-y-1">
-                {audit.validationResult.issues.map((issue, index) => (
-                  <li key={`${issue.type}-${index}`} className="text-sm">
-                    <span className="font-medium">{issue.type}:</span> {issue.message}
-                    {issue.line && (
-                      <span className="text-muted-foreground ml-2">
-                        ({validation.line} {issue.line})
-                      </span>
-                    )}
-                    {issue.suggestion && (
-                      <p className="text-muted-foreground ml-4 text-xs italic">
-                        {validation.suggestion}: {issue.suggestion}
-                      </p>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
+        <AuditValidationSection result={audit.validationResult} translations={validation} />
       )}
 
       {/* Contenido generado */}
       {audit.generatedContent && content && (
-        <section className="p-4 border rounded-lg">
-          <h3 className="text-md font-semibold mb-3">{content.title}</h3>
-          <div className="prose prose-sm max-w-none">
-            <p className="mb-4">{audit.generatedContent.summary}</p>
-            {audit.generatedContent.changes.length > 0 && (
-              <div className="mb-3">
-                <h4 className="text-sm font-semibold mb-1">Changes</h4>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  {audit.generatedContent.changes.map((change, idx) => (
-                    <li key={`change-${idx}`}>{change}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {audit.generatedContent.suggestions.length > 0 && (
-              <div className="mb-3">
-                <h4 className="text-sm font-semibold mb-1">Suggestions</h4>
-                <ul className="list-disc list-inside space-y-1 text-xs">
-                  {audit.generatedContent.suggestions.map((suggestion, idx) => (
-                    <li key={`suggestion-${idx}`}>{suggestion}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {audit.generatedContent.checklist.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold mb-1">Checklist</h4>
-                <ul className="space-y-1 text-xs bg-muted p-3 rounded">
-                  {audit.generatedContent.checklist.map((item, idx) => (
-                    <li key={`checklist-${idx}`}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </section>
+        <AuditGeneratedContent generated={audit.generatedContent} translations={content} />
       )}
 
       {/* Mensaje de error */}
       {audit.errorMessage && error && (
-        <section className="p-4 border rounded-lg border-red-200 bg-red-50">
-          <h3 className="text-md font-semibold mb-2 text-red-700">{error.title}</h3>
-          <p className="text-sm text-red-600">
+        <section className="p-4 border rounded-lg border-destructive/50 bg-destructive/5">
+          <h3 className="text-sm font-semibold mb-1 text-destructive">{error.title}</h3>
+          <p className="text-sm text-destructive/80">
             {error.prefix}: {audit.errorMessage}
           </p>
         </section>

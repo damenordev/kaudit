@@ -7,7 +7,7 @@ import { useCaseStudiesSection } from './use-case-studies-section'
 
 export function CaseStudiesSection() {
   const container = useRef<HTMLElement>(null)
-  
+
   useCaseStudiesSection(container)
 
   return (
@@ -16,7 +16,7 @@ export function CaseStudiesSection() {
         <div className="case-studies-header w-full md:w-[70%] px-8 md:px-16">
           <ShuffleText
             as="h2"
-            text="Sumérgete en Casos de Éxito"
+            text="Funcionalidades que Marcan la Diferencia"
             triggerOnScroll={true}
             className="text-4xl md:text-6xl font-bold uppercase tracking-tighter"
           />
@@ -24,15 +24,16 @@ export function CaseStudiesSection() {
         <div className="case-studies-content mt-16 px-8 md:px-16">
           <div className="flex flex-col md:flex-row gap-8 md:gap-16">
             <div className="w-full md:w-1/4">
-              <p className="text-primary font-mono text-xl uppercase tracking-widest">[ Casos de Estudio ]</p>
+              <p className="text-primary font-mono text-xl uppercase tracking-widest">[ Funcionalidades ]</p>
             </div>
             <div className="w-full md:w-3/4">
               <div className="max-w-2xl">
                 <h2 className="text-3xl md:text-5xl font-bold mb-8 leading-tight">
-                  ¿Cómo remodela la IA los límites de la ingeniería?
+                  ¿Por qué elegir KAudit para tus proyectos?
                 </h2>
                 <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
-                  La IA generativa ha avanzado rápidamente, pasando de sugerir modificaciones menores a reescribir ecosistemas enteros, desafiando nuestra percepción del rol humano en el ciclo del software.
+                  Desde startups hasta empresas, KAudit se integra en tu flujo de trabajo en minutos. Comentarios
+                  inteligentes en cada PR, detección proactiva de bugs y análisis de seguridad automatizado.
                 </p>
               </div>
             </div>
@@ -45,24 +46,24 @@ export function CaseStudiesSection() {
           {[
             {
               id: 1,
-              title: 'Código en la Era Algorítmica',
-              subtitle: '[ Lumina Horizon — Zara Lee ]',
+              title: 'Revisión IA en Cada PR',
+              subtitle: '[ GitHub App — Integración Automática ]',
               img: '/images/home/case-study-1.jpeg',
-              desc: 'La instalación de IA de Zara cautiva audiencias en el Foro Digital Global, planteando preguntas sobre la fusión del deseo humano de perfección y la precisión técnica del sistema.',
+              desc: 'Instala la GitHub App en segundos. Cada Pull Request recibe un análisis completo con comentarios inline sugiriendo mejoras, detectando bugs y vulnerabilidades antes del merge.',
             },
             {
               id: 2,
-              title: 'El Amanecer del CI Seguro',
-              subtitle: '[ Visionary Threads — Elena Marquez ]',
+              title: 'CLI para Tu Terminal',
+              subtitle: '[ npx kaudit — Audita en Segundos ]',
               img: '/images/home/case-study-2.jpeg',
-              desc: 'Elena lanza el primer modelo diseñado enteramente por IA para identificar cuellos de botella semánticos en producción masiva. Genera debates sobre la validez de prescindir del ojo humano.',
+              desc: 'Ejecuta npx kaudit en cualquier repositorio y obtén un reporte detallado al instante. Sin configuración, sin instalación permanente. Perfecto para auditorías puntuales.',
             },
             {
               id: 3,
-              title: 'Premios Arte e Ingeniería',
-              subtitle: '[ Synthetic Realities — Sophia Armitage ]',
+              title: 'Análisis Multi-Modelo',
+              subtitle: '[ GPT-4 · Claude · y más ]',
               img: '/images/home/case-study-3.jpeg',
-              desc: 'La exhibición de KAudit resalta el potencial creativo oculto entre refactorizaciones automáticas. Resaltan piezas generadas al analizar los patrones lógicos más bellos dentro de arquitecturas complejas.',
+              desc: 'Elige el modelo de IA que mejor se adapte a tu proyecto. Análisis archivo por archivo con contexto completo del cambio, priorizando los issues más críticos.',
             },
           ].map(item => (
             <div key={item.id} className="case-studies-item w-full h-screen flex flex-col justify-center px-8 md:px-16">
@@ -81,7 +82,7 @@ export function CaseStudiesSection() {
                   href={`#project-0${item.id}`}
                   className="group flex items-center gap-2 text-primary uppercase font-mono tracking-widest"
                 >
-                  <span>Descubre el viaje</span>
+                  <span>Conoce más</span>
                   <MdArrowOutward className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
               </div>
@@ -91,7 +92,11 @@ export function CaseStudiesSection() {
 
         <div className="case-studies-items-images hidden md:block w-1/2 h-screen relative bg-background">
           {[1, 2, 3].map(id => (
-            <div key={id} className="case-studies-img absolute inset-0 overflow-hidden z-1" style={{ willChange: 'transform' }}>
+            <div
+              key={id}
+              className="case-studies-img absolute inset-0 overflow-hidden z-1"
+              style={{ willChange: 'transform' }}
+            >
               <img
                 src={`/images/home/case-study-${id}.jpeg`}
                 alt=""
@@ -103,7 +108,7 @@ export function CaseStudiesSection() {
               <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                 <Link href={`#project-0${id}`} className="w-full h-full flex items-center justify-center">
                   <span className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 text-white font-mono flex items-center gap-2">
-                    (&nbsp; Ver Artículo <MdArrowOutward /> &nbsp;)
+                    (&nbsp; Ver Detalle <MdArrowOutward /> &nbsp;)
                   </span>
                 </Link>
               </div>

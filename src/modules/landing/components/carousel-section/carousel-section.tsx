@@ -27,13 +27,13 @@ export function CarouselSection() {
           </div>
 
           <div className="project-header absolute top-32 left-0 w-full flex flex-col md:flex-row justify-between items-center gap-4 px-8 z-20">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-widest opacity-50">Archive {item.id}</h2>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-widest opacity-50">Feature {item.id}</h2>
             <h2 className="text-4xl md:text-6xl font-black uppercase tracking-widest max-w-[30vw] text-right">
               {item.title}
             </h2>
           </div>
 
-          <Link href={item.url} className="absolute inset-0 z-40" aria-label={`Ver proyecto ${item.title}`} />
+          <Link href={item.url} className="absolute inset-0 z-40" aria-label={`Ver funcionalidad ${item.title}`} />
         </div>
       ))}
     </section>

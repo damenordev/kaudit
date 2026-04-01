@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
         })
       }
 
-      return NextResponse.redirect(new URL('/dashboard', req.url))
+      return NextResponse.redirect(new URL('/dashboard/install?installed=true', req.url))
     }
 
     // Flujo de OAuth con code
@@ -101,7 +101,7 @@ export async function GET(req: NextRequest) {
       repositorySelection: 'all',
     })
 
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    return NextResponse.redirect(new URL('/dashboard/install?installed=true', req.url))
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.redirect(new URL('/sign-in', req.url))

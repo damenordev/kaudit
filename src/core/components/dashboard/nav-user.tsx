@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import Link from 'next/link'
-import { Check, ChevronsUpDown, Globe, LogOut, Settings } from 'lucide-react'
+import { Check, ChevronsUpDown, Globe, KeyRound, LogOut, Settings } from 'lucide-react'
 
 import {
   Avatar,
@@ -127,7 +127,13 @@ export function NavUser({ user }: INavUserProps) {
               <DropdownMenuItem asChild>
                 <Link href={routesConfig.dashboard.settings}>
                   <Settings className="size-4" />
-                  {t('nav.settings')}
+                  {t('userMenu.settings')}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href={routesConfig.dashboard.apiKeys}>
+                  <KeyRound className="size-4" />
+                  {t('userMenu.apiKeys')}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

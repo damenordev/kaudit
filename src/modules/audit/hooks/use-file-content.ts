@@ -5,7 +5,7 @@
  */
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { getFileContentAction } from '../actions/file-content.actions'
 import type { IFileContentActionData } from '../actions/file-content.actions'
@@ -26,6 +26,24 @@ function buildCacheKey(auditId: string, filePath: string): string {
   return `${auditId}::${filePath}`
 }
 
+/** Estado inicial por defecto (sin datos, no cargando) */
+const INITIAL_STATE: IFileContentResult = {
+  originalContent: null,
+  modifiedContent: null,
+  language: '',
+  isLoading: false,
+  error: null,
+}
+
+/** Estado de carga (sin datos, cargando) */
+const LOADING_STATE: IFileContentResult = {
+  originalContent: null,
+  modifiedContent: null,
+  language: '',
+  isLoading: true,
+  error: null,
+}
+
 /**
  * Mapea la respuesta exitosa del action al formato del hook.
  */
@@ -41,54 +59,70 @@ function mapActionDataToResult(data: IFileContentActionData): IFileContentResult
 
 export function useFileContent(auditId: string, filePath: string): IFileContentResult {
   const key = buildCacheKey(auditId, filePath)
-  const cached = useRef(cache.get(key))
+  const prevKeyRef = useRef(key)
+  const inFlightRef = useRef(false)
 
-  const [result, setResult] = useState<IFileContentResult>(
-    cached.current ?? {
-      originalContent: null,
-      modifiedContent: null,
-      language: '',
-      isLoading: !cached.current,
-      error: null,
-    }
-  )
+  // Inicializar desde caché si existe, sino estado de carga
+  const cached = cache.get(key)
+  const [result, setResult] = useState<IFileContentResult>(cached ?? (filePath ? LOADING_STATE : INITIAL_STATE))
 
   const fetchContent = useCallback(async () => {
+    if (!filePath) return
+    if (inFlightRef.current) return
+
+    // Retornar desde caché si ya existe
     if (cache.has(key)) {
       setResult(cache.get(key)!)
       return
     }
 
-    setResult({
-      originalContent: null,
-      modifiedContent: null,
-      language: '',
-      isLoading: true,
-      error: null,
-    })
+    inFlightRef.current = true
+    setResult(LOADING_STATE)
 
-    // Llamada directa al server action (sin HTTP)
-    const actionResult = await getFileContentAction(auditId, filePath)
+    try {
+      const actionResult = await getFileContentAction(auditId, filePath)
 
-    if (actionResult.success) {
-      const mapped = mapActionDataToResult(actionResult.data)
-      cache.set(key, mapped)
-      setResult(mapped)
-    } else {
+      if (actionResult.success) {
+        const mapped = mapActionDataToResult(actionResult.data)
+        cache.set(key, mapped)
+        setResult(mapped)
+      } else {
+        setResult({
+          originalContent: null,
+          modifiedContent: null,
+          language: '',
+          isLoading: false,
+          error: actionResult.error,
+        })
+      }
+    } catch {
       setResult({
         originalContent: null,
         modifiedContent: null,
         language: '',
         isLoading: false,
-        error: actionResult.error,
+        error: 'Error inesperado al cargar el archivo',
       })
+    } finally {
+      inFlightRef.current = false
     }
   }, [auditId, filePath, key])
 
-  // Trigger fetch automático si no hay datos en caché ni en vuelo
-  if (!cached.current && !result.isLoading && !result.error && !result.originalContent) {
+  // Efecto para detectar cambios de archivo y disparar fetch
+  useEffect(() => {
+    if (prevKeyRef.current !== key) {
+      prevKeyRef.current = key
+      inFlightRef.current = false
+    }
+
+    const cachedResult = cache.get(key)
+    if (cachedResult) {
+      setResult(cachedResult)
+      return
+    }
+
     void fetchContent()
-  }
+  }, [key, fetchContent])
 
   return result
 }

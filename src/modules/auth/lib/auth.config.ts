@@ -13,7 +13,7 @@ export const auth = betterAuth({
       session,
       account,
       verification,
-      apiKey: apiKeyTable,
+      apikey: apiKeyTable,
     },
   }),
   emailAndPassword: {

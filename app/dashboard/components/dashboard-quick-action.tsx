@@ -1,9 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Terminal, Copy, Check } from 'lucide-react'
-import { Card } from '@/core/ui/card'
-import { Button } from '@/core/ui/button'
 import { cn } from '@/core/utils/cn.utils'
 
 interface IDashboardQuickActionProps {
@@ -17,6 +15,7 @@ interface IDashboardQuickActionProps {
   className?: string
 }
 
+/** Dashboard Quick Action - Botón Copy-Paste Premium */
 export function DashboardQuickAction({ translations, className }: IDashboardQuickActionProps) {
   const [copied, setCopied] = useState(false)
 
@@ -27,39 +26,33 @@ export function DashboardQuickAction({ translations, className }: IDashboardQuic
   }
 
   return (
-    <Card className={cn('p-4 bg-muted/40 border-border/40 shadow-xs flex flex-row items-center justify-between gap-4 overflow-hidden relative group', className)}>
-      <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+    <button
+      onClick={handleCopy}
+      className={cn(
+        'group relative overflow-hidden flex items-center gap-3 px-4 py-2 rounded-xl border border-border/40',
+        'bg-background/80 backdrop-blur-xl shadow-sm transition-all duration-300',
+        'hover:border-primary/50 hover:shadow-[0_0_15px_rgba(var(--primary),0.2)] hover:-translate-y-0.5',
+        className
+      )}
+    >
+      {/* Interactive glow effect on hover */}
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-100%] group-hover:translate-x-[100%] duration-1000 ease-in-out" />
       
-      <div className="flex items-center gap-3 relative z-10">
-        <div className="p-2 rounded-lg bg-primary/10 text-primary">
-          <Terminal className="size-4" />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-xs font-black tracking-widest uppercase opacity-80">{translations.title}</span>
-          <p className="text-[10px] text-muted-foreground font-medium">{translations.description}</p>
-        </div>
+      <div className="flex size-6 items-center justify-center rounded-md bg-muted/50 border border-border/30 group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors">
+        <Terminal className="size-3 text-muted-foreground group-hover:text-primary transition-colors" />
       </div>
-
-      <div className="flex items-center gap-2 bg-background/50 border border-border/50 rounded-lg p-1 pl-3 relative z-10 max-md:hidden">
-        <code className="text-[10px] font-mono font-bold text-primary">{translations.command}</code>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="size-7 hover:bg-primary/10 hover:text-primary"
-          onClick={handleCopy}
-        >
-          {copied ? <Check className="size-3" /> : <Copy className="size-3" />}
-        </Button>
+      
+      <code className="text-[13px] font-mono font-medium text-foreground/80 group-hover:text-foreground transition-colors tracking-tight">
+        {translations.command}
+      </code>
+      
+      <div className="ml-2 flex items-center justify-center w-5 h-5 rounded-full bg-muted/20 border border-border/10 group-hover:bg-background transition-colors">
+        {copied ? (
+          <Check className="size-3 text-emerald-500 scale-100 transition-transform" />
+        ) : (
+          <Copy className="size-3 text-muted-foreground/60 group-hover:text-primary transition-colors hover:scale-110" />
+        )}
       </div>
-
-      <Button 
-        variant="outline" 
-        size="sm" 
-        className="md:hidden text-[10px] font-black uppercase h-8"
-        onClick={handleCopy}
-      >
-        {copied ? translations.copied : translations.copy}
-      </Button>
-    </Card>
+    </button>
   )
 }

@@ -58,3 +58,6 @@ _examples/
 .env.sentry-build-plugin
 
 PRD.md
+
+cli/node_modules/
+cli/dist/

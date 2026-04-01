@@ -24,10 +24,10 @@ export function HeroSection() {
 
       <div className="relative z-20 w-full p-6 md:p-24">
         <div className="flex flex-col gap-3 max-w-4xl">
-          <ShuffleText as="h3" text="Un breve viaje a" className="text-primary font-mono text-2xl " />
+          <ShuffleText as="h3" text="Código sin errores con" className="text-primary font-mono text-2xl " />
           <ShuffleText
             as="h1"
-            text="La Fusión de IA y Auditoría"
+            text="IA en Cada Pull Request"
             className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9]"
           />
         </div>
@@ -35,7 +35,7 @@ export function HeroSection() {
         <div className="flex items-center gap-4 animate-in fade-in slide-in-from-bottom-5 duration-3000 fill-mode-forwards mt-8">
           <Button asChild size="lg">
             <Link href="/dashboard">
-              Comenzar Auditoría
+              Comenzar Gratis
               <ArrowRight />
             </Link>
           </Button>
@@ -43,7 +43,7 @@ export function HeroSection() {
           <Button asChild variant="outline" size="lg">
             <Link href="/docs">
               <FileText />
-              Documentación
+              Ver Demo
             </Link>
           </Button>
         </div>

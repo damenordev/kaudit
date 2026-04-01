@@ -28,15 +28,16 @@
     "signOut": "Cerrar sesión"
   },
   "metadata": {
-    "title": "Base Template",
-    "description": "Plantilla base de Next.js con autenticación, i18n y temas"
+    "title": "KAudit — Auditorías de Código con IA",
+    "description": "Auditorías de código inteligentes en cada Pull Request. Detecta bugs, vulnerabilidades y problemas de rendimiento con IA."
   },
   "settings": {
     "tabs": {
       "general": "General",
       "appearance": "Apariencia",
       "typography": "Tipografia",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "apiKeys": "API Keys"
     },
     "general": {
       "title": "Idioma",
@@ -190,6 +191,40 @@
           "error": "Error al eliminar la cuenta"
         }
       }
+    },
+    "apiKeys": {
+      "title": "Claves API",
+      "description": "Gestiona las claves API para la autenticación CLI.",
+      "createButton": "Crear Nueva Clave",
+      "table": {
+        "name": "Nombre",
+        "key": "Clave",
+        "created": "Creada",
+        "status": "Estado",
+        "actions": "Acciones",
+        "empty": "Aún no hay claves API. Crea una para usar la CLI.",
+        "enabled": "Activa",
+        "disabled": "Revocada",
+        "unnamed": "Sin nombre",
+        "confirmDelete": "¿Estás seguro de que quieres revocar esta clave API?",
+        "delete": "Revocar"
+      },
+      "create": {
+        "title": "Crear Clave API",
+        "nameLabel": "Nombre de la Clave",
+        "namePlaceholder": "ej. Mi Clave CLI",
+        "cancel": "Cancelar",
+        "submit": "Crear Clave",
+        "submitting": "Creando...",
+        "error": "Error al gestionar la clave API"
+      },
+      "reveal": {
+        "title": "Clave API Creada",
+        "warning": "Esta clave solo se mostrará una vez. ¡Cópiela ahora!",
+        "copy": "Copiar",
+        "copied": "¡Copiada!",
+        "close": "Cerrar"
+      }
     }
   },
   "dashboard": {
@@ -201,15 +236,20 @@
       "editor": "Demo Editor",
       "kanban": "Kanban",
       "aiChat": "Chat IA",
-      "audits": "Auditorías"
+      "audits": "Auditorías",
+      "apiKeys": "API Keys",
+      "installApp": "Instalar App"
     },
     "breadcrumbs": {
       "dashboard": "Panel",
       "overview": "Resumen",
-      "settings": "Configuración"
+      "settings": "Configuración",
+      "apiKeys": "API Keys"
     },
     "userMenu": {
       "language": "Idioma",
+      "settings": "Configuración",
+      "apiKeys": "API Keys",
       "signOut": "Cerrar sesión"
     },
     "user": {
