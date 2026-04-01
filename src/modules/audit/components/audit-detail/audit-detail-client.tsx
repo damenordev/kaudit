@@ -74,8 +74,8 @@ export function AuditDetailClient({ auditId, changedFiles, issues, commits, clas
   }, [])
 
   return (
-    <div className={cn('flex flex-col lg:flex-row gap-4', className)}>
-      <div className="flex-1 flex flex-col min-w-0 rounded-lg border overflow-hidden min-h-[400px]">
+    <div className={cn('flex flex-col lg:flex-row gap-4 h-full min-h-0', className)}>
+      <div className="flex-1 flex flex-col min-w-0 rounded-lg border overflow-hidden">
         <DiffTabBar active={activeTab} onChange={setActiveTab} />
         <div className="flex flex-1 min-h-0">
           <FileSidebar
@@ -99,7 +99,7 @@ export function AuditDetailClient({ auditId, changedFiles, issues, commits, clas
           </div>
         </div>
       </div>
-      <aside className="w-full lg:w-72 xl:w-80 shrink-0 rounded-lg border p-3 overflow-y-auto max-h-[600px] lg:max-h-none">
+      <aside className="w-full lg:w-72 xl:w-80 shrink-0 rounded-lg border p-3 overflow-y-auto h-full min-h-0">
         <IssuesPanel issues={issues} onIssueClick={handleIssueClick} selectedIssueId={selectedIssueId} />
       </aside>
     </div>
@@ -120,7 +120,7 @@ function DiffView({
 }) {
   if (!selectedFile) {
     return (
-      <div className="flex flex-col items-center justify-center h-full min-h-[300px] gap-3 text-muted-foreground">
+      <div className="flex flex-col items-center justify-center h-full gap-3 text-muted-foreground">
         <FileCode2 className="size-12 opacity-30" />
         <p className="text-sm">Selecciona un archivo para ver el diff</p>
       </div>

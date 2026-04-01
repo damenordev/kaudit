@@ -94,8 +94,9 @@ export function MonacoDiffViewer({
   }
 
   return (
-    <div className={cn('h-full min-h-[400px] w-full overflow-hidden rounded-lg border', className)}>
+    <div className={cn('h-full w-full overflow-hidden rounded-lg border', className)}>
       <DiffEditor
+        key={fileName}
         original={originalContent}
         modified={modifiedContent}
         language={language}
