@@ -27,7 +27,7 @@ export function ChatMessageBubble({ message }: IMessageBubbleProps) {
         {isUser ? (
           <div className="whitespace-pre-wrap wrap-break-word">{message.content}</div>
         ) : (
-          <ChatMarkdown content={message.content} />
+          <ChatMarkdown>{message.content}</ChatMarkdown>
         )}
       </div>
       {isUser && (
