@@ -11,9 +11,9 @@ import {
   AuditDetailHeader,
   AuditChatPanel,
   AuditSummary,
-  AuditFilesList,
 } from '@/modules/audit/components'
 import { Button } from '@/core/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/ui/tabs'
 import type { IAuditCommit, IChangedFile, IEnrichedIssue } from '@/modules/audit/types'
 import {
   PendingAuditNotice,
@@ -66,49 +66,67 @@ export default async function AuditDetailPage({ params }: IPageProps) {
     updatedAt: audit.updatedAt,
   }
 
-  const changedFiles: IChangedFile[] = (audit.changedFiles as IChangedFile[] | null) ?? []
-  const issues: IEnrichedIssue[] = (audit.issues as IEnrichedIssue[] | null) ?? []
-  const commits: IAuditCommit[] = (audit.commits as IAuditCommit[] | null) ?? []
+  const changedFiles = audit.changedFiles ?? []
+  const issues = audit.issues ?? []
+  const commits = audit.commits ?? []
   const hasFiles = changedFiles.length > 0
 
   return (
-    <section className="flex flex-col gap-6 p-6 max-w-[1600px] mx-auto" aria-labelledby="audit-detail-heading">
+    <section
+      className="flex flex-col gap-6 p-6 mx-auto w-full h-full min-h-(--container-height)"
+      aria-labelledby="audit-detail-heading"
+    >
       <h1 id="audit-detail-heading" className="sr-only">
         {t('pageTitle')} - {audit.id}
       </h1>
 
       {/* Cabecera: repo, status badge y fecha */}
-      <AuditDetailHeader repoName={repoName} status={audit.status} createdAt={audit.createdAt} />
+      <AuditDetailHeader
+        repoName={repoName}
+        status={audit.status}
+        createdAt={audit.createdAt}
+        branchName={audit.branchName}
+        prUrl={audit.prUrl ?? undefined}
+      />
 
-      {/* Resumen estadístico: archivos, issues, commits, líneas */}
-      <AuditSummary changedFiles={changedFiles} issues={issues} commits={commits} />
+      <Tabs defaultValue="overview" className="w-full flex-1 flex flex-col min-h-0">
+        <TabsList className="w-fit mb-4">
+          <TabsTrigger value="overview">Resumen</TabsTrigger>
+          <TabsTrigger value="diff" disabled={!hasFiles}>
+            Archivos y Código
+          </TabsTrigger>
+          {audit.status === 'completed' && <TabsTrigger value="chat">Asistente IA</TabsTrigger>}
+        </TabsList>
 
-      {/* Info del audit: status, branch, validación, contenido generado */}
-      <AuditDetail audit={auditResponse} translations={buildDetailTranslations(t)} />
+        <TabsContent value="overview" className="flex-1 space-y-6 focus-visible:outline-none focus-visible:ring-0">
+          {/* Resumen estadístico: archivos, issues, commits, líneas */}
+          <AuditSummary changedFiles={changedFiles} issues={issues} commits={commits} />
 
-      {/* Lista expandible de archivos con issues (o aviso de pendiente) */}
-      {hasFiles ? (
-        <AuditFilesList files={changedFiles} issues={issues} />
-      ) : (
-        <PendingAuditNotice status={audit.status} />
-      )}
+          {/* Info del audit: status, branch, validación, contenido generado */}
+          <AuditDetail audit={auditResponse} translations={buildDetailTranslations(t)} />
 
-      {/* Visor de diff detallado con sidebar y panel de issues */}
-      {hasFiles && (
-        <Suspense fallback={<LoadingFallback label="Cargando visor de diff..." />}>
-          <AuditDetailClient auditId={id} changedFiles={changedFiles} issues={issues} commits={commits} />
-        </Suspense>
-      )}
+          {!hasFiles && <PendingAuditNotice status={audit.status} />}
+        </TabsContent>
 
-      {/* Panel de chat con IA (solo auditorías completadas) */}
-      {audit.status === 'completed' && (
-        <AuditChatPanel
-          auditId={id}
-          changedFiles={changedFiles}
-          issues={issues}
-          translations={buildChatTranslations(t)}
-        />
-      )}
+        <TabsContent value="diff" className="flex-1 focus-visible:outline-none focus-visible:ring-0">
+          {hasFiles && (
+            <Suspense fallback={<LoadingFallback label="Cargando visor de diff..." />}>
+              <AuditDetailClient auditId={id} changedFiles={changedFiles} issues={issues} commits={commits} />
+            </Suspense>
+          )}
+        </TabsContent>
+
+        {audit.status === 'completed' && (
+          <TabsContent value="chat" className="flex-1 focus-visible:outline-none focus-visible:ring-0">
+            <AuditChatPanel
+              auditId={id}
+              changedFiles={changedFiles}
+              issues={issues}
+              translations={buildChatTranslations(t)}
+            />
+          </TabsContent>
+        )}
+      </Tabs>
     </section>
   )
 }

@@ -21,7 +21,6 @@ export const routesConfig = {
     root: '/dashboard',
     settings: '/dashboard/settings',
     apiKeys: '/dashboard/api-keys',
-    aiChat: '/dashboard/ai-chat',
     /** Instalación de la GitHub App */
     install: '/dashboard/install',
     audits: {

@@ -19,7 +19,7 @@ export function SignInForm() {
           <span className="w-full border-t border-border/50" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground font-mono font-bold tracking-widest bg-white dark:bg-zinc-950">
+          <span className="bg-background px-2 text-muted-foreground font-medium">
             {t('common.or')}
           </span>
         </div>
@@ -51,7 +51,7 @@ export function SignInForm() {
         <form.AppForm>
           <FormSubscribeButton
             label={t('signIn.submit')}
-            className="w-full h-12 rounded-xl font-mono uppercase tracking-widest bg-primary text-primary-foreground shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all duration-300"
+            className="w-full h-11 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
           />
         </form.AppForm>
       </form>

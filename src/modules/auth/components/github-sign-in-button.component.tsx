@@ -21,10 +21,10 @@ export function GitHubSignInButton({ label }: IGitHubSignInButtonProps) {
       type="button"
       variant="outline"
       onClick={handleSignIn}
-      className="w-full h-12 rounded-xl flex items-center justify-center gap-3 border-border/40 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
+      className="w-full h-11 rounded-lg flex items-center justify-center gap-2.5 bg-background border-border/40 text-[14px] font-medium shadow-sm hover:bg-muted/50 hover:border-border/60 transition-all duration-200"
     >
-      <Github className="size-5 transition-transform group-hover:scale-110" />
-      <span className="font-mono text-xs uppercase tracking-widest font-bold">{label}</span>
+      <Github className="size-[18px]" />
+      <span>{label}</span>
     </Button>
   )
 }

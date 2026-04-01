@@ -19,20 +19,20 @@ export function SignUpForm() {
           <span className="w-full border-t border-border/50" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground font-mono font-bold tracking-widest bg-white dark:bg-zinc-950">
+          <span className="bg-background px-2 text-muted-foreground font-medium">
             {t('common.or')}
           </span>
         </div>
       </div>
 
       <form
-      onSubmit={e => {
-        e.preventDefault()
-        e.stopPropagation()
-        form.handleSubmit()
-      }}
-      className="space-y-4"
-    >
+        onSubmit={async e => {
+          e.preventDefault()
+          e.stopPropagation()
+          await form.handleSubmit()
+        }}
+        className="space-y-4"
+      >
       <form.AppField name="name">
         {field => <field.TextField label={t('fields.name')} placeholder={t('fields.namePlaceholder')} required />}
       </form.AppField>
@@ -54,7 +54,7 @@ export function SignUpForm() {
       <form.AppForm>
         <FormSubscribeButton 
           label={t('signUp.submit')} 
-          className="w-full h-12 rounded-xl font-mono uppercase tracking-widest bg-primary text-primary-foreground shadow-[0_0_15px_rgba(var(--primary),0.3)] hover:shadow-[0_0_25px_rgba(var(--primary),0.5)] transition-all duration-300" 
+          className="w-full h-11 rounded-lg font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
         />
       </form.AppForm>
       </form>

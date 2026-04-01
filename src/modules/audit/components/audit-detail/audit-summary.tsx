@@ -35,13 +35,13 @@ function StatCard({
   }
 
   return (
-    <Card className="py-3">
+    <Card className="py-3 shadow-none bg-muted/10 border-border/30 rounded-xl">
       <CardContent className="flex items-center gap-3 px-4 py-0">
         <div className={cn('shrink-0', colorMap[variant])}>{icon}</div>
         <div className="min-w-0">
-          <p className="text-xs text-muted-foreground">{label}</p>
-          <p className={cn('text-lg font-semibold leading-tight', colorMap[variant])}>{value}</p>
-          {detail && <p className="text-xs text-muted-foreground truncate">{detail}</p>}
+          <p className="text-xs text-muted-foreground font-medium">{label}</p>
+          <p className={cn('text-[17px] font-semibold leading-tight mt-0.5', colorMap[variant])}>{value}</p>
+          {detail && <p className="text-xs text-muted-foreground/80 truncate mt-0.5">{detail}</p>}
         </div>
       </CardContent>
     </Card>
