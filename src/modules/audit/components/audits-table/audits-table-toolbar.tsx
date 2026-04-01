@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { CalendarIcon, XIcon } from 'lucide-react'
 import { type DateRange } from 'react-day-picker'
 
@@ -24,13 +25,7 @@ export interface IAuditsTableToolbarProps {
   hasActiveFilters: boolean
 }
 
-/** Opciones de status para el filtro, derivadas del enum del schema. */
-const STATUS_OPTIONS = [
-  { label: 'All statuses', value: 'all' },
-  ...auditStatusEnum.map(s => ({ label: s.charAt(0).toUpperCase() + s.slice(1), value: s })),
-]
-
-/** Formatea una fecha a string ISO corto (YYYY-MM-DD). */
+/** Formatea una fecha a string corto (mes día, año). */
 function formatDate(date: Date | undefined): string {
   if (!date) return ''
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -51,12 +46,21 @@ export const AuditsTableToolbar = ({
   onClearFilters,
   hasActiveFilters,
 }: IAuditsTableToolbarProps) => {
+  const tFilters = useTranslations('dashboard.audits.filters')
+  const tStatuses = useTranslations('dashboard.audits.statuses')
+
+  // Opciones de status para el filtro, derivadas del enum con traducciones
+  const statusOptions = [
+    { label: tFilters('allStatuses'), value: 'all' },
+    ...auditStatusEnum.map(s => ({ label: tStatuses(s), value: s })),
+  ]
+
   return (
     <>
       {/* Búsqueda por repo */}
       <Input
-        aria-label="Search by repository"
-        placeholder="Search by repository..."
+        aria-label={tFilters('searchAriaLabel')}
+        placeholder={tFilters('searchPlaceholder')}
         value={searchValue}
         onChange={e => onSearchChange(e.target.value)}
         className="h-8 w-[150px] lg:w-[250px]"
@@ -65,10 +69,10 @@ export const AuditsTableToolbar = ({
       {/* Filtro por status */}
       <Select value={statusValue} onValueChange={onStatusChange}>
         <SelectTrigger size="sm" className="h-8 w-[160px]">
-          <SelectValue placeholder="Status" />
+          <SelectValue placeholder={tFilters('statusPlaceholder')} />
         </SelectTrigger>
         <SelectContent>
-          {STATUS_OPTIONS.map(opt => (
+          {statusOptions.map(opt => (
             <SelectItem key={opt.value} value={opt.value}>
               {opt.label}
             </SelectItem>
@@ -94,7 +98,7 @@ export const AuditsTableToolbar = ({
                 formatDate(dateRange.from)
               )
             ) : (
-              'Date range'
+              tFilters('dateRange')
             )}
           </Button>
         </PopoverTrigger>
@@ -103,7 +107,7 @@ export const AuditsTableToolbar = ({
           {dateRange && (
             <div className="flex justify-end p-2">
               <Button variant="ghost" size="sm" onClick={() => onDateRangeChange(undefined)}>
-                Clear dates
+                {tFilters('clearDates')}
               </Button>
             </div>
           )}
@@ -113,7 +117,7 @@ export const AuditsTableToolbar = ({
       {/* Botón limpiar filtros */}
       {hasActiveFilters && (
         <Button variant="ghost" onClick={onClearFilters} className="h-8 px-2 lg:px-3">
-          Clear
+          {tFilters('clear')}
           <XIcon />
         </Button>
       )}

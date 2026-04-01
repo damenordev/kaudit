@@ -1,13 +1,14 @@
 'use client'
 
-import { startTransition, useMemo } from 'react'
+import { useMemo, startTransition } from 'react'
+import { useTranslations } from 'next-intl'
 import { type PaginationState, type Updater } from '@tanstack/react-table'
 import { type DateRange } from 'react-day-picker'
 import { parseAsInteger, parseAsString, useQueryState } from 'nuqs'
 
 import { DataTable, type IDataTableTranslations } from '@/core/ui/data-table'
 
-import { columns } from './columns'
+import { createColumns } from './columns'
 import { AuditsTableToolbar } from './audits-table-toolbar'
 import { type IAuditStatusResponse } from '../../types/api.types'
 
@@ -25,6 +26,9 @@ function parseDate(value: string | null): Date | undefined {
 }
 
 export const AuditsTable = ({ data, pageCount, translations }: IAuditsTableProps) => {
+  const tTable = useTranslations('dashboard.audits.table')
+  const columns = useMemo(() => createColumns(tTable), [tTable])
+
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1).withOptions({ shallow: false }))
   const [limit, setLimit] = useQueryState('limit', parseAsInteger.withDefault(10).withOptions({ shallow: false }))
   const [search, setSearch] = useQueryState(

@@ -25,6 +25,11 @@
   },
   "navigation": {
     "dashboard": "Panel",
+    "audits": "Auditorías",
+    "rules": "Reglas de IA",
+    "apiKeys": "API Keys",
+    "analytics": "Analíticas",
+    "installApp": "Instalar App",
     "settings": "Configuración",
     "signOut": "Cerrar sesión"
   },
@@ -352,9 +357,9 @@
         "daysAgo": "hace {count}d"
       },
       "quickAction": {
-        "title": "Auditoría Rápida",
-        "description": "Ejecuta este comando en tu repositorio local",
-        "command": "npx audit-ship",
+        "title": "Login al CLI",
+        "description": "Copia este comando y pega tu API key",
+        "command": "npx kaudit login",
         "copy": "Copiar",
         "copied": "¡Copiado!"
       },
@@ -363,13 +368,14 @@
         "description": "Distribución global por estado"
       },
       "onboarding": {
-        "title": "Bienvenido a KAudit",
-        "description": "Tu asistente de ingeniería AI-first está listo. Sigue estos pasos para comenzar:",
-        "step1": "Abre tu terminal en tu proyecto",
-        "step2": "Ejecuta el comando de auditoría",
-        "step3": "Refresca esta página para ver resultados",
-        "action": "Copiar Comando",
-        "command": "npx audit-ship"
+        "title": "🚀 Configura KAudit en 4 pasos",
+        "description": "Sigue esta guía rápida para empezar a auditar tus proyectos con IA.",
+        "step1": "Instala la GitHub App en tu cuenta u organización",
+        "step2": "Genera una nueva API Key en la sección de API Keys",
+        "step3": "Ejecuta `npx kaudit login` e introduce tu clave",
+        "step4": "Analiza tus Pull Requests con `npx kaudit audit`",
+        "action": "Como usar",
+        "command": "npx kaudit login"
       }
     },
     "audits": {
@@ -386,7 +392,23 @@
         "status": "Estado",
         "prUrl": "PR",
         "actions": "Acciones",
-        "viewDetails": "Ver"
+        "viewDetails": "Ver",
+        "viewPR": "Ver PR"
+      },
+      "statuses": {
+        "pending": "Pendiente",
+        "processing": "Procesando",
+        "validating": "Validando",
+        "generating": "Generando",
+        "completed": "Completada",
+        "failed": "Fallida",
+        "blocked": "Bloqueada"
+      },
+      "fixStale": {
+        "button": "Limpiar atascadas",
+        "cleaning": "Limpiando...",
+        "fixedCount": "{count} auditoría(s) corregida(s)",
+        "noStale": "No se encontraron auditorías atascadas"
       },
       "filters": {
         "searchPlaceholder": "Buscar por repositorio...",
@@ -489,6 +511,25 @@
     "apiKeys": {
       "metadataTitle": "API Keys",
       "metadataDescription": "Gestiona tus API keys para autenticación CLI"
+    },
+    "analytics": {
+      "title": "Analíticas de Seguridad",
+      "description": "Visualiza la salud de tus proyectos y la evolución de las vulnerabilidades detectadas en el tiempo.",
+      "charts": {
+        "history": {
+          "title": "Evolución de Salud",
+          "score": "Health Score",
+          "critical": "Críticos"
+        },
+        "languages": {
+          "title": "Distribución Técnica",
+          "description": "Análisis de impacto por lenguaje de programación"
+        },
+        "topRepos": {
+          "title": "Repositorios de Mayor Riesgo",
+          "description": "Proyectos que requieren atención inmediata"
+        }
+      }
     }
   },
   "auth": {

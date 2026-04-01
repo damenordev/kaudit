@@ -1,4 +1,4 @@
-import type { IIssuesBySeverity } from '@/modules/audit/types/stats.types'
+import type { IIssuesBySeverity } from '@/modules/audit/queries/stats.queries'
 import { cn } from '@/core/utils/cn.utils'
 import { AlertCircle, AlertTriangle, ShieldAlert, Info } from 'lucide-react'
 

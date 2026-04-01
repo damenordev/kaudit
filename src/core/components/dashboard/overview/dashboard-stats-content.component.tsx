@@ -1,7 +1,3 @@
-/**
- * Dashboard Stats Content — Streaming via Suspense.
- * Diseño Premium, Glassmorphism, y sutiles animaciones dinámicas.
- */
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
 import { FileCode, CheckCircle2, ShieldAlert, Loader, ArrowRight } from 'lucide-react'
@@ -11,7 +7,6 @@ import { getAuditStats } from '@/modules/audit/queries/stats.queries'
 import { StatCard, AuditRow } from './dashboard-overview.component'
 import { DashboardSeverityChart } from './dashboard-severity-chart.component'
 import { DashboardStatusRing } from './dashboard-status-ring.component'
-import { DashboardEmptyState } from './dashboard-empty-state.component'
 import { routesConfig } from '@/core/config/routes.config'
 
 function formatTimeAgo(date: Date): string {
@@ -50,21 +45,14 @@ export function DashboardStatsSkeleton() {
 async function DashboardStatsGrid() {
   const [t, stats] = await Promise.all([getTranslations('dashboard.overview'), getAuditStats()])
 
-  const onboardingT = t.raw('onboarding') as {
-    title: string; description: string; step1: string; step2: string; step3: string; action: string; command: string
-  }
   const severityT = t.raw('issuesBySeverity') as {
     title: string; description: string; critical: string; error: string; warning: string; info: string
   }
   const statusT = t.raw('statusDistribution') as { title: string; description: string }
 
-  if (stats.totalAudits === 0) {
-    return <DashboardEmptyState translations={onboardingT} />
-  }
-
-  const completedCount = stats.auditsByStatus.find(s => s.status === 'completed')?.count ?? 0
-  const processingCount = stats.auditsByStatus.find(s => s.status === 'processing')?.count ?? 0
-  const pendingCount = processingCount + (stats.auditsByStatus.find(s => s.status === 'pending')?.count ?? 0)
+  const completedCount = stats.auditsByStatus.find((s: { status: string; count: number }) => s.status === 'completed')?.count ?? 0
+  const processingCount = stats.auditsByStatus.find((s: { status: string; count: number }) => s.status === 'processing')?.count ?? 0
+  const pendingCount = processingCount + (stats.auditsByStatus.find((s: { status: string; count: number }) => s.status === 'pending')?.count ?? 0)
 
   // Calculemos una tendencia ficticia pero visual para darle vidilla
   const trendAudit = stats.totalAudits > 0 ? 'up' : 'neutral'
@@ -99,7 +87,7 @@ async function DashboardStatsGrid() {
             </Link>
           </div>
           <div className="flex-1 flex flex-col divide-y divide-border/20">
-            {stats.recentAudits.slice(0, 5).map(a => (
+            {stats.recentAudits.slice(0, 5).map((a: any) => (
               <AuditRow
                 key={a.id}
                 id={a.id}

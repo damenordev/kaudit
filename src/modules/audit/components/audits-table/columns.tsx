@@ -1,3 +1,6 @@
+'use client'
+
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { type ColumnDef } from '@tanstack/react-table'
 
@@ -19,7 +22,9 @@ const STATUS_VARIANT_MAP: Record<string, 'default' | 'secondary' | 'destructive'
 
 /** Badge de estado con tooltip para auditorías fallidas */
 function StatusBadge({ status, errorMessage }: { status: string; errorMessage?: string }) {
+  const t = useTranslations('dashboard.audits.statuses')
   const variant = STATUS_VARIANT_MAP[status] ?? 'outline'
+  const label = t(status) ?? status
 
   // Mostrar tooltip con mensaje de error cuando el status es "failed"
   if (status === 'failed' && errorMessage) {
@@ -27,8 +32,8 @@ function StatusBadge({ status, errorMessage }: { status: string; errorMessage?: 
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Badge variant={variant} className="capitalize cursor-help">
-              {status}
+            <Badge variant={variant} className="cursor-help">
+              {label}
             </Badge>
           </TooltipTrigger>
           <TooltipContent side="top" className="max-w-xs">
@@ -39,52 +44,54 @@ function StatusBadge({ status, errorMessage }: { status: string; errorMessage?: 
     )
   }
 
-  return (
-    <Badge variant={variant} className="capitalize">
-      {status}
-    </Badge>
-  )
+  return <Badge variant={variant}>{label}</Badge>
 }
 
-export const columns: ColumnDef<IAuditStatusResponse>[] = [
-  {
-    accessorKey: 'createdAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
-    cell: ({ row }) => {
-      const date = row.original.createdAt
-      return <span className="text-muted-foreground">{new Date(date).toLocaleDateString()}</span>
+/**
+ * Crea las columnas de la tabla de auditorías con traducciones.
+ * Recibe una función traductora para los encabezados de columna.
+ */
+export function createColumns(t: (key: string) => string): ColumnDef<IAuditStatusResponse>[] {
+  return [
+    {
+      accessorKey: 'createdAt',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('date')} />,
+      cell: ({ row }) => {
+        const date = row.original.createdAt
+        return <span className="text-muted-foreground">{new Date(date).toLocaleDateString()}</span>
+      },
     },
-  },
-  {
-    accessorKey: 'repoUrl',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Repository" />,
-    cell: ({ row }) => <span className="font-mono text-xs">{row.original.repoUrl}</span>,
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
-    cell: ({ row }) => <StatusBadge status={row.original.status} errorMessage={row.original.errorMessage} />,
-  },
-  {
-    accessorKey: 'prUrl',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="PR" />,
-    cell: ({ row }) => {
-      const prUrl = row.original.prUrl
-      if (!prUrl) return <span className="text-muted-foreground">-</span>
-      return (
-        <a href={prUrl} className="text-blue-500 hover:underline" rel="noopener noreferrer" target="_blank">
-          View PR
-        </a>
-      )
+    {
+      accessorKey: 'repoUrl',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('repository')} />,
+      cell: ({ row }) => <span className="font-mono text-xs">{row.original.repoUrl}</span>,
     },
-  },
-  {
-    id: 'actions',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Actions" />,
-    cell: ({ row }) => (
-      <Link className="text-blue-500 hover:underline" href={`/dashboard/audits/${row.original.id}`}>
-        Details
-      </Link>
-    ),
-  },
-]
+    {
+      accessorKey: 'status',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('status')} />,
+      cell: ({ row }) => <StatusBadge status={row.original.status} errorMessage={row.original.errorMessage} />,
+    },
+    {
+      accessorKey: 'prUrl',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('prUrl')} />,
+      cell: ({ row }) => {
+        const prUrl = row.original.prUrl
+        if (!prUrl) return <span className="text-muted-foreground">-</span>
+        return (
+          <a href={prUrl} className="text-blue-500 hover:underline" rel="noopener noreferrer" target="_blank">
+            {t('viewPR')}
+          </a>
+        )
+      },
+    },
+    {
+      id: 'actions',
+      header: ({ column }) => <DataTableColumnHeader column={column} title={t('actions')} />,
+      cell: ({ row }) => (
+        <Link className="text-blue-500 hover:underline" href={`/dashboard/audits/${row.original.id}`}>
+          {t('viewDetails')}
+        </Link>
+      ),
+    },
+  ]
+}

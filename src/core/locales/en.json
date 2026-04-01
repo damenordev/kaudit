@@ -386,7 +386,23 @@
         "status": "Status",
         "prUrl": "PR",
         "actions": "Actions",
-        "viewDetails": "View"
+        "viewDetails": "View",
+        "viewPR": "View PR"
+      },
+      "statuses": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "validating": "Validating",
+        "generating": "Generating",
+        "completed": "Completed",
+        "failed": "Failed",
+        "blocked": "Blocked"
+      },
+      "fixStale": {
+        "button": "Fix Stale",
+        "cleaning": "Cleaning...",
+        "fixedCount": "{count} audit(s) fixed",
+        "noStale": "No stale audits found"
       },
       "filters": {
         "searchPlaceholder": "Search by repository...",

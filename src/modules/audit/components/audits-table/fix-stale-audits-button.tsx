@@ -1,6 +1,7 @@
 'use client'
 
 import { useTransition } from 'react'
+import { useTranslations } from 'next-intl'
 import { RotateCcwIcon } from 'lucide-react'
 import { sileo } from 'sileo'
 
@@ -14,16 +15,14 @@ import { fixStaleAuditsAction } from '../../actions/fix-stale-audits.actions'
  */
 export const FixStaleAuditsButton = () => {
   const [isPending, startTransition] = useTransition()
+  const t = useTranslations('dashboard.audits.fixStale')
 
   const handleFixStale = () => {
     startTransition(async () => {
       const result = await fixStaleAuditsAction()
 
       if (result.success) {
-        const message =
-          result.fixedCount > 0
-            ? `${result.fixedCount} auditoría(s) corregida(s)`
-            : 'No se encontraron auditorías atascadas'
+        const message = result.fixedCount > 0 ? t('fixedCount', { count: result.fixedCount }) : t('noStale')
         sileo.success({ title: message })
 
         // Refrescar datos si hubo correcciones
@@ -39,7 +38,7 @@ export const FixStaleAuditsButton = () => {
   return (
     <Button variant="outline" size="sm" className="h-8" disabled={isPending} onClick={handleFixStale}>
       <RotateCcwIcon className={`mr-1 h-3.5 w-3.5 ${isPending ? 'animate-spin' : ''}`} />
-      {isPending ? 'Limpiando...' : 'Limpiar atascadas'}
+      {isPending ? t('cleaning') : t('button')}
     </Button>
   )
 }

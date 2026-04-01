@@ -4,33 +4,36 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { DashboardStatsContent } from '@/core/components/dashboard/overview/dashboard-stats-content.component'
-import { DashboardQuickAction } from '@/core/components/dashboard/overview/dashboard-quick-action.component'
+import { DashboardEmptyState } from '@/core/components/dashboard/overview/dashboard-empty-state.component'
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
+  title: 'Dashboard | KAudit',
   description: 'Monitorización de sistemas y métricas críticas en tiempo real.',
 }
 
-interface IQuickActionTranslations {
+interface IOnboardingTranslations {
   title: string
   description: string
+  step1: string
+  step2: string
+  step3: string
+  step4: string
+  action: string
   command: string
-  copy: string
-  copied: string
 }
 
 export default async function DashboardPage() {
   const t = await getTranslations('dashboard.overview')
-  const quickActionT = t.raw('quickAction') as IQuickActionTranslations
+  const onboardingT = t.raw('onboarding') as IOnboardingTranslations
 
   return (
-    <div className="flex flex-col gap-6 p-3 w-full">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-lg font-semibold tracking-tight">{t('title')}</h1>
-          <p className="text-xs text-muted-foreground/60">{t('description')}</p>
+    <div className="flex flex-col gap-6 p-3 w-full animate-in fade-in duration-500">
+      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-xl font-black tracking-tight uppercase italic text-white">{t('title')}</h1>
+          <p className="text-[11px] font-medium text-muted-foreground/60">{t('description')}</p>
         </div>
-        <DashboardQuickAction translations={quickActionT} />
+        <DashboardEmptyState translations={onboardingT} />
       </header>
 
       <DashboardStatsContent />
