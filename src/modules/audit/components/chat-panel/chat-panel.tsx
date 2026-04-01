@@ -133,7 +133,7 @@ export function AuditChatPanel({ auditId, changedFiles, issues, translations, cl
         </Badge>
       </div>
 
-      <Conversation className="flex-1 min-h-[400px]">
+      <Conversation className="flex-1 min-h-0">
         <ConversationContent className="p-4">
           {messages.length === 0 ? (
             <ChatEmptyState changedFiles={changedFiles} issues={issues} translations={translations} />

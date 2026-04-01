@@ -13,7 +13,7 @@ import {
 } from '@/modules/audit/components'
 import { Button } from '@/core/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/ui/tabs'
-import type { IAuditCommit, IChangedFile, IEnrichedIssue } from '@/modules/audit/types'
+
 import { getMetadata } from '@/core/config/metadata.config'
 import {
   PendingAuditNotice,
@@ -77,7 +77,7 @@ export default async function AuditDetailPage({ params }: IPageProps) {
 
   return (
     <section
-      className="flex flex-col gap-6 p-6 mx-auto w-full h-full min-h-(--container-height)"
+      className="flex flex-col gap-6 p-6 mx-auto w-full h-[calc(100vh-(--spacing(10)))] min-h-0 overflow-hidden"
       aria-labelledby="audit-detail-heading"
     >
       <h1 id="audit-detail-heading" className="sr-only">
@@ -113,21 +113,34 @@ export default async function AuditDetailPage({ params }: IPageProps) {
           {!hasFiles && <PendingAuditNotice status={audit.status} />}
         </TabsContent>
 
-        <TabsContent value="diff" className="flex-1 focus-visible:outline-none focus-visible:ring-0">
+        <TabsContent
+          value="diff"
+          className="flex-1 min-h-0 focus-visible:outline-none focus-visible:ring-0 data-[state=active]:flex flex-col"
+        >
           {hasFiles && (
             <Suspense fallback={<LoadingFallback label={t('detail.loadingDiff')} />}>
-              <AuditDetailClient auditId={id} changedFiles={changedFiles} issues={issues} commits={commits} />
+              <AuditDetailClient
+                auditId={id}
+                changedFiles={changedFiles}
+                issues={issues}
+                commits={commits}
+                className="flex-1 h-full min-h-0"
+              />
             </Suspense>
           )}
         </TabsContent>
 
         {audit.status === 'completed' && (
-          <TabsContent value="chat" className="flex-1 focus-visible:outline-none focus-visible:ring-0">
+          <TabsContent
+            value="chat"
+            className="flex-1 min-h-0 focus-visible:outline-none focus-visible:ring-0 data-[state=active]:flex flex-col"
+          >
             <AuditChatPanel
               auditId={id}
               changedFiles={changedFiles}
               issues={issues}
               translations={buildChatTranslations(t)}
+              className="flex-1 h-full min-h-0"
             />
           </TabsContent>
         )}
