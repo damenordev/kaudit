@@ -1,9 +1,8 @@
 import { pgTableCreator } from 'drizzle-orm/pg-core'
 
-import { env } from '@/env'
-
 import pkg from '../../../../package.json'
 
-const TABLE_PREFIX = env.NODE_ENV === 'production' ? '' : (pkg.config?.dbTablePrefix ?? '')
+/** Prefijo global para todas las tablas (ej: "kaudit_user", "kaudit_session") */
+const TABLE_PREFIX = pkg.config?.dbTablePrefix ?? ''
 
 export const createTable = pgTableCreator(name => `${TABLE_PREFIX}${name}`)
