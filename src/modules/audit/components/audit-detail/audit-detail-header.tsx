@@ -22,6 +22,7 @@ export interface IAuditDetailHeaderProps {
   createdAt: Date
   branchName?: string
   prUrl?: string
+  viewPRLabel: string
   backHref?: string
   className?: string
 }
@@ -33,6 +34,7 @@ export function AuditDetailHeader({
   createdAt,
   branchName,
   prUrl,
+  viewPRLabel,
   backHref = '/dashboard/audits',
   className,
 }: IAuditDetailHeaderProps) {
@@ -76,7 +78,7 @@ export function AuditDetailHeader({
         {prUrl && (
           <Button variant="outline" size="sm" asChild>
             <a href={prUrl} rel="noopener noreferrer" target="_blank">
-              Ver PR
+              {viewPRLabel}
             </a>
           </Button>
         )}

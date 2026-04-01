@@ -408,6 +408,25 @@
         "loadingDiff": "Cargando visor de diff...",
         "processing": "Procesando código de la auditoría...",
         "processingHint": "Este proceso puede tardar unos segundos.",
+        "chat": {
+          "title": "Asistente KAudit",
+          "badge": "IA Experimental",
+          "placeholder": "Pregunta cualquier cosa sobre los cambios...",
+          "contextInfo": "Contexto disponible:",
+          "filesCount": "archivos",
+          "issuesCount": "incidencias",
+          "thinking": "KAudit está analizando...",
+          "errorMessage": "Lo siento, hubo un error procesando tu mensaje.",
+          "connectionError": "Error de conexión con el servidor.",
+          "inputPlaceholder": "Escribe tu duda o pide una sugerencia...",
+          "suggestion": {
+            "title": "Sugerencia de Mejora",
+            "apply": "Aplicar sugerencia",
+            "copy": "Copiar código",
+            "applied": "¡Sugerencia aplicada!",
+            "applying": "Aplicando cambios en GitHub..."
+          }
+        },
         "repository": "Repositorio",
         "branch": "Rama",
         "targetBranch": "Destino",
@@ -437,18 +456,6 @@
           "files": "Archivos",
           "commitFlow": "Commits",
           "commitSequence": "Secuencia"
-        },
-        "chat": {
-          "title": "Chat con IA",
-          "badge": "Contextual",
-          "placeholder": "Pregunta sobre los issues o cambios del PR",
-          "contextInfo": "La IA tiene contexto completo de la auditoría",
-          "filesCount": "{count} archivos",
-          "issuesCount": "{count} issues",
-          "thinking": "Pensando...",
-          "errorMessage": "Error: no se pudo obtener respuesta.",
-          "connectionError": "Error: conexión fallida.",
-          "inputPlaceholder": "Pregunta sobre los issues o cambios..."
         }
       }
     },

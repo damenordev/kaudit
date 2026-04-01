@@ -439,16 +439,23 @@
           "commitSequence": "Sequence"
         },
         "chat": {
-          "title": "AI Chat",
-          "badge": "Contextual",
-          "placeholder": "Ask about the issues or PR changes",
-          "contextInfo": "AI has full audit context",
-          "filesCount": "{count} files",
-          "issuesCount": "{count} issues",
-          "thinking": "Thinking...",
-          "errorMessage": "Error: could not get a response.",
-          "connectionError": "Error: connection failed.",
-          "inputPlaceholder": "Ask about the issues or changes..."
+          "title": "KAudit Assistant",
+          "badge": "Experimental AI",
+          "placeholder": "Ask anything about the changes...",
+          "contextInfo": "Context available:",
+          "filesCount": "files",
+          "issuesCount": "issues",
+          "thinking": "KAudit is analyzing...",
+          "errorMessage": "Sorry, there was an error processing your message.",
+          "connectionError": "Connection error with the server.",
+          "inputPlaceholder": "Write your concern or ask for a suggestion...",
+          "suggestion": {
+            "title": "Improvement Suggestion",
+            "apply": "Apply suggestion",
+            "copy": "Copy code",
+            "applied": "Suggestion applied!",
+            "applying": "Applying changes to GitHub..."
+          }
         }
       }
     },

@@ -1,21 +1,21 @@
-import type { getTranslations } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
 
 import { Spinner } from '@/core/ui/spinner'
 
 /** Panel cuando la auditoría aún no tiene datos de archivos y sigue procesando */
-export function PendingAuditNotice({ status }: { status: string }) {
+export async function PendingAuditNotice({ status }: { status: string }) {
   if (status === 'failed' || status === 'completed') {
     return null
   }
+
+  const t = await getTranslations('dashboard.audits.detail')
 
   return (
     <div className="flex flex-col items-center justify-center py-12 gap-3 border border-border/40 border-dashed rounded-xl bg-muted/5">
       <Spinner className="size-5 text-muted-foreground" />
       <div className="text-center">
-        <p className="text-sm font-medium text-foreground">Procesando código de la auditoría...</p>
-        <p className="text-xs text-muted-foreground mt-0.5">
-          Este proceso puede tardar unos segundos.
-        </p>
+        <p className="text-sm font-medium text-foreground">{t('processing')}</p>
+        <p className="text-xs text-muted-foreground mt-0.5">{t('processingHint')}</p>
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import { getTranslations } from 'next-intl/server'
-import type { Metadata } from 'next'
 
 import { getSession } from '@/modules/auth/services/auth.service'
 import { listAllAudits } from '@/modules/audit/queries/audit.queries'
@@ -7,10 +6,15 @@ import { AuditsTable } from '@/modules/audit/components/audits-table'
 import { type IDataTableTranslations } from '@/core/ui/data-table'
 import type { IAuditStatusResponse } from '@/modules/audit/types/api.types'
 import type { TAuditStatus } from '@/modules/audit/models/audit.schema'
+import { getMetadata } from '@/core/config/metadata.config'
 
-export const metadata: Metadata = {
-  title: 'Auditorías',
-  description: 'Listado de auditorías con filtros y paginación',
+/** Metadatos dinámicos con traducciones para la página de auditorías */
+export async function generateMetadata() {
+  const t = await getTranslations('dashboard.audits')
+  return getMetadata({
+    title: t('metadataTitle'),
+    description: t('metadataDescription'),
+  })
 }
 
 interface IPageProps {
@@ -69,12 +73,13 @@ function transformToResponse(data: unknown[]): IAuditStatusResponse[] {
  */
 export default async function AuditsPage({ searchParams }: IPageProps) {
   const t = await getTranslations('dashboard.audits')
+  const tDataTable = await getTranslations('common.dataTable')
   const session = await getSession()
 
   if (!session?.user) {
     return (
       <div className="flex items-center justify-center p-8">
-        <p className="text-muted-foreground">Please sign in to view audits.</p>
+        <p className="text-muted-foreground">{t('signInRequired')}</p>
       </div>
     )
   }
@@ -92,14 +97,14 @@ export default async function AuditsPage({ searchParams }: IPageProps) {
   const translations: IDataTableTranslations = {
     noResultsTitle: t('noAudits'),
     noResultsDescription: t('noAuditsDescription'),
-    rowsPerPage: 'Rows per page',
-    reset: 'Reset',
-    tableView: 'Table',
-    gridView: 'Grid',
-    goToFirstPage: 'First',
-    goToPreviousPage: 'Previous',
-    goToNextPage: 'Next',
-    goToLastPage: 'Last',
+    rowsPerPage: tDataTable('rowsPerPage'),
+    reset: tDataTable('reset'),
+    tableView: tDataTable('tableView'),
+    gridView: tDataTable('gridView'),
+    goToFirstPage: tDataTable('goToFirstPage'),
+    goToPreviousPage: tDataTable('goToPreviousPage'),
+    goToNextPage: tDataTable('goToNextPage'),
+    goToLastPage: tDataTable('goToLastPage'),
   }
 
   return (

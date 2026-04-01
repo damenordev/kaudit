@@ -1,6 +1,5 @@
 import { Suspense } from 'react'
 import { getTranslations } from 'next-intl/server'
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
@@ -15,6 +14,7 @@ import {
 import { Button } from '@/core/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/core/ui/tabs'
 import type { IAuditCommit, IChangedFile, IEnrichedIssue } from '@/modules/audit/types'
+import { getMetadata } from '@/core/config/metadata.config'
 import {
   PendingAuditNotice,
   LoadingFallback,
@@ -22,9 +22,13 @@ import {
   buildChatTranslations,
 } from './audit-detail.helpers'
 
-export const metadata: Metadata = {
-  title: 'Detalle de Auditoría',
-  description: 'Detalle completo de una auditoría con diff, issues y chat',
+/** Metadatos dinámicos con traducciones para la página de detalle */
+export async function generateMetadata() {
+  const t = await getTranslations('dashboard.audits.detail')
+  return getMetadata({
+    title: t('metadataTitle'),
+    description: t('metadataDescription'),
+  })
 }
 
 interface IPageProps {
@@ -87,15 +91,16 @@ export default async function AuditDetailPage({ params }: IPageProps) {
         createdAt={audit.createdAt}
         branchName={audit.branchName}
         prUrl={audit.prUrl ?? undefined}
+        viewPRLabel={t('detail.viewPR')}
       />
 
       <Tabs defaultValue="overview" className="w-full flex-1 flex flex-col min-h-0">
         <TabsList className="w-fit mb-4">
-          <TabsTrigger value="overview">Resumen</TabsTrigger>
+          <TabsTrigger value="overview">{t('detail.tabs.overview')}</TabsTrigger>
           <TabsTrigger value="diff" disabled={!hasFiles}>
-            Archivos y Código
+            {t('detail.tabs.diff')}
           </TabsTrigger>
-          {audit.status === 'completed' && <TabsTrigger value="chat">Asistente IA</TabsTrigger>}
+          {audit.status === 'completed' && <TabsTrigger value="chat">{t('detail.tabs.chat')}</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="overview" className="flex-1 space-y-6 focus-visible:outline-none focus-visible:ring-0">
@@ -110,7 +115,7 @@ export default async function AuditDetailPage({ params }: IPageProps) {
 
         <TabsContent value="diff" className="flex-1 focus-visible:outline-none focus-visible:ring-0">
           {hasFiles && (
-            <Suspense fallback={<LoadingFallback label="Cargando visor de diff..." />}>
+            <Suspense fallback={<LoadingFallback label={t('detail.loadingDiff')} />}>
               <AuditDetailClient auditId={id} changedFiles={changedFiles} issues={issues} commits={commits} />
             </Suspense>
           )}

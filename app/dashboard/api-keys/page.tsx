@@ -1,13 +1,17 @@
-import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
 import { getSession } from '@/modules/auth/services/auth.service'
 import { listApiKeysByUserId } from '@/modules/auth/queries/api-key.queries'
 import { ApiKeysPageClient } from '@/modules/auth/components/api-keys'
+import { getMetadata } from '@/core/config/metadata.config'
 
-export const metadata: Metadata = {
-  title: 'API Keys',
-  description: 'Gestiona tus API keys para autenticación CLI',
+/** Metadatos dinámicos con traducciones para la página de API Keys */
+export async function generateMetadata() {
+  const t = await getTranslations('dashboard.apiKeys')
+  return getMetadata({
+    title: t('metadataTitle'),
+    description: t('metadataDescription'),
+  })
 }
 
 /**

@@ -1,16 +1,28 @@
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
-import { Send, Bot, Loader2 } from 'lucide-react'
-
-import { cn } from '@/core/utils/cn.utils'
-import { Button } from '@/core/ui/button'
-import { ScrollArea } from '@/core/ui/scroll-area'
+import { Bot, Loader2 } from 'lucide-react'
 import { Badge } from '@/core/ui/badge'
+import { cn } from '@/core/utils/cn.utils'
 
 import type { IChatMessage, IChangedFile, IEnrichedIssue } from '../../types'
-import { ChatMessageBubble } from './chat-message-bubble'
 import { ChatEmptyState } from './chat-empty-state'
+import { sileo } from 'sileo'
+import { applySuggestionAction } from '../../actions/suggestions.actions'
+
+import {
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from '@/modules/ai-assistant/components/primitives/conversation'
+import { Message, MessageContent } from '@/modules/ai-assistant/components/primitives/message'
+import {
+  PromptInput,
+  PromptInputBody,
+  PromptInputSubmit,
+  PromptInputTextarea,
+} from '@/modules/ai-assistant/components/primitives/prompt-input'
+import { ChatMarkdown } from './chat-markdown'
 
 export interface IAuditChatPanelProps {
   auditId: string
@@ -35,17 +47,7 @@ export function AuditChatPanel({ auditId, changedFiles, issues, translations, cl
   const [messages, setMessages] = useState<IChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-
-  const scrollToBottom = useCallback(() => {
-    const viewport = scrollRef.current?.querySelector('[data-slot="scroll-area-viewport"]')
-    if (viewport) {
-      requestAnimationFrame(() => {
-        viewport.scrollTop = viewport.scrollHeight
-      })
-    }
-  }, [])
 
   const handleSubmit = useCallback(
     async (e?: React.FormEvent) => {
@@ -87,72 +89,94 @@ export function AuditChatPanel({ auditId, changedFiles, issues, translations, cl
             next[next.length - 1] = { role: 'assistant', content: accumulated }
             return next
           })
-          scrollToBottom()
         }
       } catch {
         setMessages(prev => [...prev, { role: 'assistant', content: translations.connectionError }])
       } finally {
         setIsLoading(false)
-        scrollToBottom()
         inputRef.current?.focus()
       }
     },
-    [input, isLoading, messages, auditId, scrollToBottom, translations]
+    [input, isLoading, messages, auditId, translations]
+  )
+
+  const handleApplySuggestion = useCallback(
+    async (code: string) => {
+      sileo.info({ title: 'Applying suggestion...' })
+      const result = await applySuggestionAction(auditId, code)
+      if (result.success) {
+        sileo.success({ title: 'Suggestion applied successfully to GitHub!' })
+      } else {
+        sileo.error({ title: result.error ?? 'Failed to apply suggestion' })
+      }
+    },
+    [auditId]
   )
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault()
-        handleSubmit()
+        void handleSubmit()
       }
     },
     [handleSubmit]
   )
 
   return (
-    <div className={cn('flex flex-col border rounded-lg bg-background', className)}>
-      <div className="flex items-center gap-2 p-3 border-b">
+    <div className={cn('flex flex-col border rounded-xl bg-background shadow-sm overflow-hidden', className)}>
+      <div className="flex items-center gap-2 p-3.5 border-b bg-muted/30">
         <Bot className="size-4 text-primary" />
-        <h3 className="text-sm font-semibold">{translations.title}</h3>
-        <Badge variant="secondary" className="text-[10px]">
+        <h3 className="text-sm font-semibold tracking-tight">{translations.title}</h3>
+        <Badge variant="secondary" className="px-1.5 py-0 text-[10px] uppercase font-bold tracking-wider">
           {translations.badge}
         </Badge>
       </div>
 
-      <ScrollArea ref={scrollRef} className="flex-1 h-[400px] p-3">
-        {messages.length === 0 ? (
-          <ChatEmptyState changedFiles={changedFiles} issues={issues} translations={translations} />
-        ) : (
-          <div className="space-y-4">
-            {messages.map((msg, idx) => (
-              <ChatMessageBubble key={idx} message={msg} />
-            ))}
-            {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <Loader2 className="size-3 animate-spin" />
-                <span>{translations.thinking}</span>
-              </div>
-            )}
-          </div>
-        )}
-      </ScrollArea>
+      <Conversation className="flex-1 min-h-[400px]">
+        <ConversationContent className="p-4">
+          {messages.length === 0 ? (
+            <ChatEmptyState changedFiles={changedFiles} issues={issues} translations={translations} />
+          ) : (
+            <div className="space-y-6">
+              {messages.map((msg, idx) => (
+                <Message key={idx} from={msg.role}>
+                  <MessageContent>
+                    <ChatMarkdown onApplyCode={handleApplySuggestion}>{msg.content}</ChatMarkdown>
+                  </MessageContent>
+                </Message>
+              ))}
+              {isLoading && (
+                <div className="flex items-center gap-2 text-muted-foreground text-sm pl-2">
+                  <Loader2 className="size-3.5 animate-spin text-primary" />
+                  <span className="animate-pulse">{translations.thinking}</span>
+                </div>
+              )}
+            </div>
+          )}
+        </ConversationContent>
+        <ConversationScrollButton />
+      </Conversation>
 
-      <form onSubmit={handleSubmit} className="flex items-end gap-2 p-3 border-t">
-        <textarea
-          ref={inputRef}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder={translations.inputPlaceholder}
-          disabled={isLoading}
-          rows={1}
-          className="flex-1 resize-none rounded-md border bg-transparent px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50"
-        />
-        <Button type="submit" size="sm" disabled={!input.trim() || isLoading}>
-          <Send className="size-4" />
-        </Button>
-      </form>
+      <div className="p-3 border-t bg-muted/5">
+        <PromptInput onSubmit={() => void handleSubmit()}>
+          <PromptInputBody>
+            <PromptInputTextarea
+              ref={inputRef}
+              value={input}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={translations.inputPlaceholder}
+              disabled={isLoading}
+              rows={1}
+              className="min-h-[44px] max-h-32"
+            />
+          </PromptInputBody>
+          <div className="flex justify-end mt-2">
+            <PromptInputSubmit disabled={!input.trim() || isLoading} />
+          </div>
+        </PromptInput>
+      </div>
     </div>
   )
 }
