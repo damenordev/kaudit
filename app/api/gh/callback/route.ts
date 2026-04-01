@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
       }
 
       const baseUrl = env.BETTER_AUTH_URL ?? req.url
-      return NextResponse.redirect(new URL(`${routesConfig.dashboard.root}?installed=true`, baseUrl))
+      return NextResponse.redirect(new URL(`${routesConfig.dashboard.install}?installed=true`, baseUrl))
     }
 
     // Flujo de OAuth con code
@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
     })
 
     const baseUrl = env.BETTER_AUTH_URL ?? req.url
-    return NextResponse.redirect(new URL(`${routesConfig.dashboard.root}?installed=true`, baseUrl))
+    return NextResponse.redirect(new URL(`${routesConfig.dashboard.install}?installed=true`, baseUrl))
   } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.redirect(new URL('/sign-in', req.url))
