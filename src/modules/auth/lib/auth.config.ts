@@ -31,7 +31,13 @@ export const auth = betterAuth({
       trustedProviders: ['github'],
     },
   },
-  plugins: [apiKey()],
+  plugins: [
+    apiKey({
+      rateLimit: {
+        enabled: false,
+      },
+    }),
+  ],
 })
 
 export type Session = typeof auth.$Infer.Session
