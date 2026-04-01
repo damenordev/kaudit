@@ -1,5 +1,5 @@
 import React from 'react'
-import { Copy, Check, Terminal, ExternalLink } from 'lucide-react'
+import { Copy, Check, Terminal, ExternalLink, Loader2 } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import { useTranslations } from 'next-intl'
@@ -15,15 +15,15 @@ interface ISuggestionBlockProps {
   code: string
   language?: string
   onApply?: (code: string) => Promise<void>
-  isApplying?: boolean
 }
 
 /**
  * Bloque de sugerencia de código con acciones interactivas.
  */
-export function SuggestionBlock({ code, language = 'typescript', onApply, isApplying }: ISuggestionBlockProps) {
+export function SuggestionBlock({ code, language = 'typescript', onApply }: ISuggestionBlockProps) {
   const t = useTranslations('dashboard.audits.detail.chat.suggestion')
   const [copied, setCopied] = React.useState(false)
+  const [isApplying, setIsApplying] = React.useState(false)
 
   const handleCopy = async () => {
     try {
@@ -36,8 +36,18 @@ export function SuggestionBlock({ code, language = 'typescript', onApply, isAppl
     }
   }
 
+  const handleApply = async () => {
+    if (!onApply || isApplying) return
+    setIsApplying(true)
+    try {
+      await onApply(code)
+    } finally {
+      setIsApplying(false)
+    }
+  }
+
   return (
-    <div className="my-4 rounded-lg border border-border/50 bg-muted/30 overflow-hidden shadow-sm">
+    <div className="my-4 rounded-lg border border-border/50 bg-muted/30 overflow-hidden shadow-sm text-foreground">
       <div className="flex items-center justify-between px-3 py-2 bg-muted/50 border-b border-border/50">
         <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
           <Terminal className="size-3.5" />
@@ -52,17 +62,15 @@ export function SuggestionBlock({ code, language = 'typescript', onApply, isAppl
               variant="secondary"
               size="sm"
               className="h-7 px-2 text-[10px] gap-1.5"
-              onClick={() => {
-                void onApply(code)
-              }}
+              onClick={handleApply}
               disabled={isApplying}
             >
               {isApplying ? (
-                <span className="size-3 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+                <Loader2 className="size-3 animate-spin" />
               ) : (
                 <ExternalLink className="size-3" />
               )}
-              {t('apply')}
+              {isApplying ? t('applying') : t('apply')}
             </Button>
           )}
         </div>
